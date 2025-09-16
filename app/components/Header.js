@@ -16,13 +16,13 @@ export default function Header() {
                 <h1>CineFlick</h1>
             </div>
             <nav className="flex items-center justify-center gap-4">
-                <Link href='/'>Inicio</Link>
-                <Link href='/api/movies'>Cartelera</Link>
-                <Link href='/candy'>Candy</Link>
+                <Link href='/' className="hover:text-[var(--green)] transition-colors">Inicio</Link>
+                <Link href='/api/movies' className="hover:text-[var(--green)] transition-colors">Cartelera</Link>
+                <Link href='/candy' className="hover:text-[var(--green)] transition-colors">Candy</Link>
                 <Link href='/login'>
                     <FontAwesomeIcon icon={faArrowRightToBracket} 
-                        width={20} 
-                        className="hover:text-yellow-400"
+                        width={20}
+                        className="hover:text-[var(--green)] transition-colors"
                     />
                 </Link>
             </nav>
