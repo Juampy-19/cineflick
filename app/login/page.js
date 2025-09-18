@@ -1,4 +1,5 @@
 import '../globals.css';
+import Link from 'next/link';
 
 export default function LoginPage() {
     return (
@@ -13,6 +14,7 @@ export default function LoginPage() {
                             type="email"
                             name="email"
                             placeholder="Ingrese su email"
+                            className='w-sm'
                         />
                     </div>
                 </div>
@@ -25,11 +27,16 @@ export default function LoginPage() {
                             type="password"
                             name="password"
                             placeholder="Ingrese su contraseña"
+                            className='w-sm'
                         />
                     </div>
                 </div>
-                <div>
+                <div className='flex flex-col gap-10'>
                     <button>Ingresar</button>
+
+                    <Link href='/register'>
+                        <button>Crear cuenta</button>
+                    </Link>
                 </div>
             </div>
         </form>

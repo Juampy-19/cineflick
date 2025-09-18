@@ -31,17 +31,22 @@ body {
 }
 
 input {
-  background: var(--mint);
-  color: var(--teal);
+  background: var(--navy);
+  color: var(--mint);
   border: none;
-  border-bottom: solid 1px var(--navy);
-  border-radius: 8px;
+  border-bottom: solid 2px var(--green);
+  outline: none;
   padding: 5px;
+}
+
+input:focus {
+  outline: none;
 }
 
 button {
   background: var(--mint);
-  color: var(--teal);
+  color: var(--navy);
+  font-weight: bold;
   padding: 5px;
   border-radius: 8px;
   width: 10rem;
