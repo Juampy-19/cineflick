@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import { registerSchema } from '@/utils/schema';
 
 export default function RegisterPage() {
+    const router = useRouter();
+
     const [formData, setFormData] = useState({
         name: '',
         lastname: '',
@@ -46,7 +48,7 @@ export default function RegisterPage() {
         const data = await res.json();
 
         if (res.ok) {
-            routerServerGlobal.push('/login');
+            router.push('/login');
         } else {
             alert(data.message || data.error);
         }
