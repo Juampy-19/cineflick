@@ -1,9 +1,60 @@
+'use client';
+
 import '../globals.css';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { loginSchema } from '@/utils/schema';
 
 export default function LoginPage() {
+    const router = useRouter();
+
+    const [formData, setFormData] = useState({
+        email: '',
+        password: ''
+    });
+
+    const [errors, setErrors] = useState({});
+
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        // Validación con zod.
+        const result = loginSchema.safeParse(formData);
+
+        if (!result.success) {
+            const formattedErrors = result.error.flatten().fieldErrors;
+            setErrors(formattedErrors);
+            return
+        };
+
+        setErrors({});
+
+        // Enviar al backend.
+        const res = await fetch('/api/login', {
+            method: 'POST',
+            headers: { "Content-type": "application/json" },
+            body: JSON.stringify(formData)
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+            router.push('/');
+        } else {
+            alert(data.message || data.error);
+        };
+    };
+
     return (
-        <form>
+        <form onSubmit={handleSubmit}>
             <div className="flex flex-col items-center gap-15 m-20">
                 <div>
                     <div className="text-center p-3">
@@ -14,8 +65,12 @@ export default function LoginPage() {
                             type="email"
                             name="email"
                             placeholder="Ingrese su email"
+                            onChange={handleChange}
                             className='w-sm'
                         />
+                    </div>
+                    <div className='flex items-center justify-center mt-2'>
+                        {errors.email && <span className='text-red-500'>{errors.email[0]}</span>}
                     </div>
                 </div>
                 <div>
@@ -27,15 +82,19 @@ export default function LoginPage() {
                             type="password"
                             name="password"
                             placeholder="Ingrese su contraseña"
+                            onChange={handleChange}
                             className='w-sm'
                         />
+                    </div>
+                    <div className='flex items-center justify-center mt-2'>
+                        {errors.password && <span className='text-red-500'>{errors.password[0]}</span>}
                     </div>
                 </div>
                 <div className='flex flex-col gap-10'>
                     <button>Ingresar</button>
 
                     <Link href='/register'>
-                        <button>Crear cuenta</button>
+                        <button type='submit'>Crear cuenta</button>
                     </Link>
                 </div>
             </div>
