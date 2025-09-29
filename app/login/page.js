@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { loginSchema } from '@/utils/schema';
+import toast from 'react-hot-toast';
 
 export default function LoginPage() {
     const router = useRouter();
@@ -48,6 +49,7 @@ export default function LoginPage() {
 
         if (res.ok) {
             router.push('/');
+            toast.success('Login exitoso')
         } else {
             alert(data.message || data.error);
         };
