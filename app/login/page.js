@@ -91,10 +91,10 @@ export default function LoginPage() {
                     </div>
                 </div>
                 <div className='flex flex-col gap-10'>
-                    <button>Ingresar</button>
+                    <button type='submit'>Ingresar</button>
 
                     <Link href='/register'>
-                        <button type='submit'>Crear cuenta</button>
+                        <button>Crear cuenta</button>
                     </Link>
                 </div>
             </div>
