@@ -5,6 +5,7 @@
   --foreground: #171717;
   --mint: rgb(221, 244, 231);
   --green: rgb(103, 192, 144);
+  --transparent-green: rgba(103, 192, 144, 0.5);
   --teal: rgb(38, 102, 127);
   --navy: rgb(18, 65, 112);
 }

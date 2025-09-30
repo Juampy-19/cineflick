@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { loginSchema } from '@/utils/schema';
 import toast from 'react-hot-toast';
+import Modal from '../components/Modal';
 
 export default function LoginPage() {
     const router = useRouter();
@@ -16,6 +17,7 @@ export default function LoginPage() {
     });
 
     const [errors, setErrors] = useState({});
+    const [serverError, setServerError] = useState(null);
 
     const handleChange = (e) => {
         setFormData({
@@ -49,57 +51,63 @@ export default function LoginPage() {
 
         if (res.ok) {
             router.push('/');
-            toast.success('Login exitoso')
+            toast.success('Inicio de sesión exitoso')
         } else {
-            alert(data.message || data.error);
+            setServerError(data.error || 'Error al iniciar sesión');
         };
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <div className="flex flex-col items-center gap-15 m-20">
-                <div>
-                    <div className="text-center p-3">
-                        <label htmlFor="email">Email</label>
+        <>
+            <form onSubmit={handleSubmit}>
+                <div className="flex flex-col items-center gap-15 m-20">
+                    <div>
+                        <div className="text-center p-3">
+                            <label htmlFor="email">Email</label>
+                        </div>
+                        <div>
+                            <input 
+                                type="email"
+                                name="email"
+                                placeholder="Ingrese su email"
+                                onChange={handleChange}
+                                className='w-sm'
+                            />
+                        </div>
+                        <div className='flex items-center justify-center mt-2'>
+                            {errors.email && <span className='text-red-500'>{errors.email[0]}</span>}
+                        </div>
                     </div>
                     <div>
-                        <input 
-                            type="email"
-                            name="email"
-                            placeholder="Ingrese su email"
-                            onChange={handleChange}
-                            className='w-sm'
-                        />
+                        <div className="text-center p-3">
+                            <label htmlFor="password">Contraseña</label>
+                        </div>
+                        <div>
+                            <input 
+                                type="password"
+                                name="password"
+                                placeholder="Ingrese su contraseña"
+                                onChange={handleChange}
+                                className='w-sm'
+                            />
+                        </div>
+                        <div className='flex items-center justify-center mt-2'>
+                            {errors.password && <span className='text-red-500'>{errors.password[0]}</span>}
+                        </div>
                     </div>
-                    <div className='flex items-center justify-center mt-2'>
-                        {errors.email && <span className='text-red-500'>{errors.email[0]}</span>}
-                    </div>
-                </div>
-                <div>
-                    <div className="text-center p-3">
-                        <label htmlFor="password">Contraseña</label>
-                    </div>
-                    <div>
-                        <input 
-                            type="password"
-                            name="password"
-                            placeholder="Ingrese su contraseña"
-                            onChange={handleChange}
-                            className='w-sm'
-                        />
-                    </div>
-                    <div className='flex items-center justify-center mt-2'>
-                        {errors.password && <span className='text-red-500'>{errors.password[0]}</span>}
-                    </div>
-                </div>
-                <div className='flex flex-col gap-10'>
-                    <button type='submit'>Ingresar</button>
+                    <div className='flex flex-col gap-10'>
+                        <button type='submit'>Ingresar</button>
 
-                    <Link href='/register'>
-                        <button>Crear cuenta</button>
-                    </Link>
+                        <Link href='/register'>
+                            <button>Crear cuenta</button>
+                        </Link>
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+
+            <Modal isOpen={!!serverError} onClose={() => setServerError(null)} title='Error al iniciar sesión'>
+                <p>{serverError}</p>
+            </Modal>
+        </>
     )
 }
