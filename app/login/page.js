@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { loginSchema } from '@/utils/schema';
 import toast from 'react-hot-toast';
 import Modal from '../components/Modal';
+import { signIn } from 'next-auth/react';
 
 export default function LoginPage() {
     const router = useRouter();
@@ -41,19 +42,25 @@ export default function LoginPage() {
         setErrors({});
 
         // Enviar al backend.
-        const res = await fetch('/api/login', {
-            method: 'POST',
-            headers: { "Content-type": "application/json" },
-            body: JSON.stringify(formData)
-        });
+        // const res = await fetch('/api/login', {
+        //     method: 'POST',
+        //     headers: { "Content-type": "application/json" },
+        //     body: JSON.stringify(formData)
+        // });
+        
+        // const data = await res.json();
 
-        const data = await res.json();
+        const res = await signIn('credentials', {
+            redirect: false,
+            email: formData.email,
+            password: formData.password
+        });
 
         if (res.ok) {
             router.push('/');
             toast.success('Inicio de sesión exitoso')
         } else {
-            setServerError(data.error || 'Error al iniciar sesión');
+            setServerError(res.error || 'Error al iniciar sesión');
         };
     };
 

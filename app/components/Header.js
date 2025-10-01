@@ -1,13 +1,15 @@
 'use client';
 
+import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRightToBracket } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRightToBracket, faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { usePathname } from "next/navigation";
 
 export default function Header() {
     const pathname = usePathname();
+    const { data: session } = useSession();
 
     const linkClass = (path) => `hover:text-[var(--green)]  transition-colors ${pathname === path ? 'border-b-2 border-[var(--green)]' : '' }`;
 
@@ -24,12 +26,24 @@ export default function Header() {
                     <Link href='/' className={linkClass('/')}>Inicio</Link>
                     <Link href='/api/movies' className={linkClass('api/movies')}>Cartelera</Link>
                     <Link href='/candy' className={linkClass('/candy')}>Candy</Link>
+
+                    {session?.user? (
+                        <>
+                            <span>Hola, {session.user.name}</span>
+                            <span className="cursor-pointer hover:text-[var(--green)] transition-colors" onClick={() => signOut()}>
+                                <FontAwesomeIcon icon={faArrowRightFromBracket}/>
+                            </span>
+                        </>
+                    ) : (
                     <Link href='/login' className={linkClass('/login')}>
                         <FontAwesomeIcon icon={faArrowRightToBracket}
                             width={20}
                             className="hover:text-[var(--green)] transition-colors"
                         />
                     </Link>
+
+                    )}
+
                 </nav>
                 <h1 className="p-6 text-2xl">CineFlick</h1>
             </div>
