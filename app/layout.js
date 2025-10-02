@@ -1,5 +1,6 @@
 import Header from "./components/Header";
 import "./globals.css";
+import { roboto } from "@/utils/fonts";
 import { Toaster } from "react-hot-toast";
 import Providers from "./components/Providers";
 
@@ -14,7 +15,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>
+      <body className={`${roboto.className}`}>
         <Providers>
           <Header />
           {children}
