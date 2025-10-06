@@ -1,7 +1,6 @@
 'use client';
 
 import { useSession, signOut } from "next-auth/react";
-import { bitcount } from "@/utils/fonts";
 import Link from "next/link";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -36,7 +35,7 @@ export default function Header() {
                     </nav>
                 </div>
                 
-                <div className={`flex items-center justify-end mr-10 text-2xl ${bitcount.className}`}>
+                <div className='flex items-center justify-end mr-10 text-2xl'>
                     {session?.user? (
                             <>
                                 <span className="mr-10 text-[var(--green)]">Hola {session.user.name}</span>
