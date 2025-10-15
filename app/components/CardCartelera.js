@@ -24,23 +24,37 @@ export default function Card() {
         return <p>No hay películas disponibles</p>
     }
 
+    const classificationColor = (classification) => {
+        switch(classification) {
+            case 1:
+                return 'bg-green-500';
+            case 2:
+                return 'bg-blue-500';
+            case 3:
+                return 'bg-yellow-500';
+            default:
+                return 'bg-gray-500';
+        }
+    };
+
     return (
-        <div className='grid grid-cols-4 gap-6 p-6'>
+        <div className='w-2/3 grid grid-cols-4 gap-6 p-6'>
             {cartelera.map((movie) => (
-                <div key={movie.id} className='relative flex flex-col items-center border-2 border-[var(--green)] rounded-xl'>
-                    <h2 className='mt-5'>{movie.title}</h2>
-                    <div className='w-full h-full items-center justify-center overflow-hidden p-4'>
+                <div key={movie.id} className='relative flex flex-col items-center border-2 border-[var(--green)] rounded-xl shadow-lg'>
+                    <div className='w-full h-full items-center justify-center overflow-hidden'>
                         <img
                             src={movie.poster_url}
                             alt='Poster de la película'
                             className='w-full h-full rounded-xl'
                         />
                     </div>
-                    <p className='mb-5'>{movie.classification}</p>
+                    <h2 className='mt-3 mb-3 text-sm text-center p-2 h-10'>{movie.title}</h2>
+                    <p className={`mt-3 mb-3 text-black px-2 py-1 rounded-full text-xs font-bold ${classificationColor(movie.classification_id)}`}>{movie.classification}</p>
 
                     {movie.status_id === 1 && (
-                        <p className='absolute top-5 left-[-15px] bg-red-600 text-white text-xs font-bold px-5 py-1 rotate-[-45deg] shadow-md'>Estreno</p>
+                        <p className='absolute top-5 left-[-15px] bg-red-600 text-white text-xs font-bold px-5 py-1 rotate-[-45deg] shadow-lg rounded-lg'>Estreno</p>
                     )}
+                    <p className='absolute right-[0px] bg-black/50 p-1 text-sm rounded-tr-lg rounded-bl-lg'>{movie.duration}</p>
                 </div>
             ))}
         </div>
