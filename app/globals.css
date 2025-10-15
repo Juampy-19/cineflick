@@ -25,7 +25,8 @@
 } */
 
 body {
-  background: var(--navy);
+  background: url('/1760553720431.png');
+  background-size: cover;
   color: var(--mint);
 }
 

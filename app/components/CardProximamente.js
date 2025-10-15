@@ -66,7 +66,7 @@ export default function Card() {
         <div className="relative w-2/3 px-10">
             <div ref={carrouselRef} id="carrousel" className="flex overflow-hidden space-x-6 pb-4">
                 {proximamente.map((movie) => (
-                    <div key={movie.id} className="relative flex-shrink-0 w-56 flex flex-col items-center border-2 border-[var(--green)] rounded-xl shadow-lg">
+                    <div key={movie.id} className="relative flex-shrink-0 w-56 flex flex-col items-center border-2 border-[var(--green)] rounded-xl shadow-lg bg-[var(--teal)]">
                         <div className="w-full h-full items-center justify-center overflow-hidden">
                             <img
                                 src={movie.poster_url}
