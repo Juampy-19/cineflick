@@ -1,6 +1,8 @@
 'use client';
 
+import Link from "next/link";
 import { useEffect, useState, useRef } from "react";
+import { classificationColor } from "@/utils/helpers";
 
 export default function Card() {
     const [proximamente, setProximamente] = useState([]);
@@ -49,24 +51,11 @@ export default function Card() {
         return <p>No hay películas disponibles</p>
     }
 
-    const classificationColor = (classification) => {
-        switch(classification) {
-            case 1:
-                return 'bg-green-500';
-            case 2:
-                return 'bg-blue-500';
-            case 3:
-                return 'bg-yellow-500';
-            default:
-                return 'bg-gray-500';
-        }
-    };
-
     return (
         <div className="relative w-2/3 px-10">
             <div ref={carrouselRef} id="carrousel" className="flex overflow-hidden space-x-6 pb-4">
                 {proximamente.map((movie) => (
-                    <div key={movie.id} className="relative flex-shrink-0 w-56 flex flex-col items-center border-2 border-[var(--green)] rounded-xl shadow-lg bg-[var(--teal)]">
+                    <Link key={movie.id} href={`/pelicula/${movie.id}`} className="relative flex-shrink-0 w-56 flex flex-col items-center border-2 border-[var(--green)] rounded-xl shadow-lg bg-[var(--teal)]">
                         <div className="w-full h-full items-center justify-center overflow-hidden">
                             <img
                                 src={movie.poster_url}
@@ -80,7 +69,7 @@ export default function Card() {
                             <p>{movie.release_date}</p>                            
                         </div>
                         <p className="absolute right-[0px] bg-black/50 p-1 text-sm rounded-tr-lg rounded-bl-lg">{movie.duration}</p>
-                    </div>
+                    </Link>
                 ))}
             </div>
         </div>

@@ -1,6 +1,8 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { classificationColor } from '@/utils/helpers';
 
 export default function Card() {
     const [cartelera, setCartelera] = useState([]);
@@ -24,23 +26,10 @@ export default function Card() {
         return <p>No hay películas disponibles</p>
     }
 
-    const classificationColor = (classification) => {
-        switch(classification) {
-            case 1:
-                return 'bg-green-500';
-            case 2:
-                return 'bg-blue-500';
-            case 3:
-                return 'bg-yellow-500';
-            default:
-                return 'bg-gray-500';
-        }
-    };
-
     return (
         <div className='w-2/3 grid grid-cols-4 gap-6 p-6'>
             {cartelera.map((movie) => (
-                <div key={movie.id} className='relative flex flex-col items-center border-2 border-[var(--green)] rounded-xl shadow-lg bg-[var(--teal)]'>
+                <Link key={movie.id} href={`/pelicula/${movie.id}`} className='relative flex flex-col items-center border-2 border-[var(--green)] rounded-xl shadow-lg bg-[var(--teal)]'>
                     <div className='w-full h-full items-center justify-center overflow-hidden'>
                         <img
                             src={movie.poster_url}
@@ -55,7 +44,7 @@ export default function Card() {
                         <p className='absolute top-5 left-[-15px] bg-red-600 text-white text-xs font-bold px-5 py-1 rotate-[-45deg] shadow-lg rounded-lg'>Estreno</p>
                     )}
                     <p className='absolute right-[0px] bg-black/50 p-1 text-sm rounded-tr-lg rounded-bl-lg'>{movie.duration}</p>
-                </div>
+                </Link>
             ))}
         </div>
     )
