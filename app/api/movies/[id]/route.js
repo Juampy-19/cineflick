@@ -10,11 +10,15 @@ export async function GET(req, context) {
             SELECT
                 m.*,
                 c.classification AS classification,
-                s.name AS status
+                s.name AS status,
+                GROUP_CONCAT(g.genre_name SEPARATOR ', ') AS genres
             FROM movies m
             JOIN classifications c ON m.classification_id = c.id
             JOIN status s ON m.status_id = s.id
+            LEFT JOIN movie_genres mg ON mg.movie_id = m.id
+            LEFT JOIN genres g ON mg.genre_id = g.id
             WHERE m.id = ?
+            GROUP BY m.id
         `, [id]);
 
         if (rows.length === 0) {

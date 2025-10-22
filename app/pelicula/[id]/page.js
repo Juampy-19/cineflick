@@ -27,13 +27,32 @@ export default function PeliculaPage({ params }) {
     if (!movie) return <p>Película no encontrada</p>;
 
     return (
-        <div>
-            <img src={movie.poster_url}/>
-            <h1>{movie.title}</h1>
-            <p>{movie.synopsis}</p>
-            <p>{movie.duration}</p>
-            <p>{movie.release_date}</p>
-            <p className={`mt-3 mb-3 text-black px-2 py-1 rounded-full text-xs font-bold ${classificationColor(movie.classification_id)}`}>{movie.classification}</p>
+        <div className="flex mx-15 border-2 border-[var(--green)] rounded-xl shadow-lg bg-[var(--teal)]">
+            <div className="w-100 h-130 overflow-hidden">
+                <img src={movie.poster_url}
+                    alt="Poster de la película"
+                    className="w-full h-full rounded-xl"
+                />
+            </div>
+            <div className="flex p-4 flex-col w-full h-130 justify-between">
+                <h1 className="text-2xl font-bold mb-5 text-center">{movie.title}</h1>
+                <p className="text-xl p-2">{movie.synopsis}</p>
+                <p>{movie.duration}</p>
+                <div className="flex gap-10 items-center">
+                    <p>{movie.release_date}</p>
+                    <div className="flex flex-wrap gap-2">
+                        {movie.genres.split(', ').map((genre, index) => (
+                            <span 
+                            key={index}
+                            className="bg-[var(--navy)] px-3 py-1 rounded-full text-xs font-semibold"
+                            >
+                                {genre}
+                            </span>
+                        ))}
+                    </div>
+                </div>
+                <p className={`mt-3 mb-3 text-black px-2 py-1 w-10 rounded-full text-xs font-bold ${classificationColor(movie.classification_id)}`}>{movie.classification}</p>
+            </div>
         </div>
     )
 }
