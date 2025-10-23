@@ -6,7 +6,7 @@ export async function GET(req, context) {
     // title = decodeURIComponent(title);
 
     try {
-        const [rows] = await pool.query(`
+        const [movieRows] = await pool.query(`
             SELECT
                 m.*,
                 c.classification AS classification,
@@ -21,11 +21,22 @@ export async function GET(req, context) {
             GROUP BY m.id
         `, [id]);
 
-        if (rows.length === 0) {
+        if (movieRows.length === 0) {
             return new Response(JSON.stringify({ error: 'Película no encontrada' }), { status: 404 });
         }
 
-        return new Response(JSON.stringify(rows[0]), {
+        const movie = movieRows[0];
+
+        const [sowtimesRows] = await pool.query(`
+            SELECT sh.id, r.number AS room, sh.hour, sh.price
+            FROM showtimes sh
+            JOIN rooms r ON sh.room_id = r.id
+            WHERE sh.movie_id = ?    
+        `, [id]);
+
+        movie.showtimes = sowtimesRows;
+
+        return new Response(JSON.stringify(movie), {
             status: 200,
             headers: { 'Content-Type': 'application/json'}
         });
