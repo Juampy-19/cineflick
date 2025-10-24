@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useEffect, useState, use } from "react";
+import { useRouter, useParams } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { classificationColor } from "@/utils/helpers";
 
 export default function PeliculaPage({ params }) {
@@ -8,6 +10,8 @@ export default function PeliculaPage({ params }) {
     const [movie, setMovie] = useState(null);
     const [loading, setLoading] = useState(true);
     const [selectedShowtime, setSelectedShowtime] = useState('');
+    const router = useRouter();
+    const { data: session, status } = useSession();
 
     useEffect(() => {
         async function fetchMovies() {
@@ -22,7 +26,7 @@ export default function PeliculaPage({ params }) {
             }
         }
         fetchMovies();
-    }, [id])
+    }, [id]);
 
     if (loading) return <p>Cargando...</p>;
     if (!movie) return <p>Película no encontrada</p>;
@@ -35,7 +39,20 @@ export default function PeliculaPage({ params }) {
         const hours = date.getHours().toString().padStart(2, '0');
         const minutes = date.getMinutes().toString().padStart(2, '0');
         return `${day}/${month} - ${hours}:${minutes}`;
-    }
+    };
+
+    const handleBuy = () => {
+        if (!selectedShowtime) {
+            alert('Seleccione una función');
+            return;
+        }
+
+        if (!session) {
+            router.push('/login');
+        } else {
+            router.push(`/compra/${selectedShowtime}`);
+        }
+    };
 
     return (
         <div className="flex mx-15 border-2 border-[var(--green)] rounded-xl shadow-lg bg-[var(--teal)]">
@@ -51,7 +68,7 @@ export default function PeliculaPage({ params }) {
                 <div className="flex justify-between">
                     <p>{movie.duration}</p>
                     {movie.showtimes?.length > 0 && (
-                        <div className="p-4 mr-10">
+                        <div className="flex flex-col gap-5 items-center p-4 mr-10">
                             <h3>Funciónes disponibles:</h3>
                             <select
                                 value={selectedShowtime}
@@ -62,6 +79,9 @@ export default function PeliculaPage({ params }) {
                                     <option key={show.id} value={show.id}>{formatDate(show.hour)}</option>
                                 ))}
                             </select>
+                            <button onClick={handleBuy}>
+                                Comprar entrada
+                            </button>
                         </div>
                     )}
                     {movie.showtimes.length === 0 && (
