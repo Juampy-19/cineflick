@@ -10,6 +10,8 @@ export async function GET(req, context) {
                 sh.hour,
                 sh.price,
                 r.number AS room,
+                r.rows_num,
+                r.cols_num,
                 m.title AS movie_title,
                 m.poster_url AS porter_url
             FROM showtimes sh
