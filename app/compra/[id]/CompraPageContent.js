@@ -28,25 +28,10 @@ export default function CompraPageContent({ id, user }) {
         })
     };
 
-    const handleConfirm = async () => {
-        const res = await fetch('/api/tickets', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                user_email: user.id,
-                showtime_id: id
-            })
-        });
-
-        if (res.ok) {
-            alert('Compra confirmada');
-        } else {
-            alert('Error al procesar la compra');
-        }
-    };
-
     if (loading) return <p>Cargando...</p>;
     if (!showtime) return <p>Función no encontrada</p>;
+
+    console.log('Usuario en contentpage:',user)
 
     const handleContinue = () => {
         if (quantity < 1) return alert('Selecione al menos una entrada');
@@ -82,6 +67,7 @@ export default function CompraPageContent({ id, user }) {
                     showtime={showtime}
                     quantity={quantity}
                     onClose={() => setShowModal(false)}
+                    user={user}
                 />
             )}
         </div>
