@@ -21,7 +21,7 @@ export async function GET(req, context) {
         `, [id]);
 
         if (rows.length === 0) {
-            return new Response(JSON.stringify({ error: 'Función noencontrada' }), { status: 404 });
+            return new Response(JSON.stringify({ error: 'Función no encontrada' }), { status: 404 });
         }
 
         return new Response(JSON.stringify(rows[0]), {
