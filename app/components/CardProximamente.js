@@ -6,6 +6,7 @@ import { classificationColor } from "@/utils/helpers";
 
 export default function Card() {
     const [proximamente, setProximamente] = useState([]);
+    const [loading, setLoading] = useState(true);
     const carrouselRef = useRef(null);
 
     useEffect(() => {
@@ -18,6 +19,8 @@ export default function Card() {
             } catch (error) {
                 console.error(error);
                 return <p>Error al cargar las películas</p>
+            } finally {
+                setLoading(false);
             }
         }
         fetchMovies();
@@ -46,6 +49,23 @@ export default function Card() {
 
         return () => cancelAnimationFrame(scrollLoop);
     }, [proximamente]);
+
+    // Skeleton.
+    if (loading) {
+        return (
+            <div className="relative w-2/3 px-10">
+                <div className="flex overflow-hidden space-x-6 p-4 mb-4">
+                    {Array.from({ length: 6 }).map((_, i) => (
+                        <div key={i} className="relative flex-shrink-0 w-56 flex flex-col items-center border-2 border-gray-300 rounded-xl shadow-lg bg-gray-200 animate-pulse">
+                            <div className="w-full h-72 bg-gray-300 rounded-t-xl"></div>
+                            <div className="mt-5 w-3/4 h-4 bg-gray-300 rounded"></div>
+                            <div className="mt-2 w-1/4 h-4 bg-gray-300 rounded"></div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        )
+    }
 
     if (proximamente.length === 0) {
         return <p>No hay películas disponibles</p>

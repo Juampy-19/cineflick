@@ -6,6 +6,7 @@ import { classificationColor } from '@/utils/helpers';
 
 export default function Card() {
     const [cartelera, setCartelera] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         async function fetchMovies() {
@@ -17,10 +18,27 @@ export default function Card() {
             } catch (error) {
                 console.error(error);
                 return <p>Error al cargar las películas</p>
+            } finally {
+                setLoading(false);
             }
         }
         fetchMovies();
     }, []);
+
+    // Skeleton.
+    if (loading) {
+        return (
+            <div className='w-2/3 grid grid-cols-4 gap-6 p-6'>
+                {Array.from({ length: 8 }).map((_, i) => (
+                    <div key={i} className='flex flex-col items-center border-2 border-gray-300 rounded-xl shadow-lg bg-gray-200 animate-pulse'>
+                        <div className='w-full h-64 bg-gray-300 rounded-t-xl'></div>
+                        <div className='mt-3 mb-3 w-3/4 h-4 bg-gray-300 rounded'></div>
+                        <div className='mt-2 mb-4 w-1/3 h-4 bg-gray-300 rounded'></div>
+                    </div>
+                ))}
+            </div>
+        )
+    }
 
     if (cartelera.length === 0) {
         return <p>No hay películas disponibles</p>
@@ -38,7 +56,7 @@ export default function Card() {
                         />
                     </div>
                     <h2 className='mt-3 mb-3 text-sm text-center p-2 h-10'>{movie.title}</h2>
-                    <p className={`mt-3 mb-3 text-black px-2 py-1 rounded-full text-xs font-bold ${classificationColor(movie.classification_id)}`}>{movie.classification}</p>
+                    <p className={`mt-3 mb-4 text-black px-2 py-1 rounded-full text-xs font-bold ${classificationColor(movie.classification_id)}`}>{movie.classification}</p>
 
                     {movie.status_id === 1 && (
                         <p className='absolute top-5 left-[-15px] bg-red-600 text-white text-xs font-bold px-5 py-1 rotate-[-45deg] shadow-lg rounded-lg'>Estreno</p>
