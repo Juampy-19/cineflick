@@ -29,7 +29,7 @@ export default function Card() {
     return (
         <div className='w-2/3 grid grid-cols-4 gap-6 p-6'>
             {cartelera.map((movie) => (
-                <Link key={movie.id} href={`/pelicula/${movie.id}`} className='relative flex flex-col items-center border-2 border-[var(--green)] rounded-xl shadow-lg bg-[var(--teal)]'>
+                <Link key={movie.id} href={`/pelicula/${movie.id}`} className='relative flex flex-col items-center border-2 border-[var(--green)] rounded-xl shadow-lg bg-[var(--teal)] hover:scale-105 transition-transform duration-300'>
                     <div className='w-full h-full items-center justify-center overflow-hidden'>
                         <img
                             src={movie.poster_url}
