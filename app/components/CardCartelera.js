@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { classificationColor } from '@/utils/helpers';
+import { SkeletonCardCartelera } from './Skeletons';
 
 export default function Card() {
     const [cartelera, setCartelera] = useState([]);
@@ -28,15 +29,7 @@ export default function Card() {
     // Skeleton.
     if (loading) {
         return (
-            <div className='w-2/3 grid grid-cols-4 gap-6 p-6'>
-                {Array.from({ length: 8 }).map((_, i) => (
-                    <div key={i} className='flex flex-col items-center border-2 border-gray-300 rounded-xl shadow-lg bg-gray-200 animate-pulse'>
-                        <div className='w-full h-64 bg-gray-300 rounded-t-xl'></div>
-                        <div className='mt-3 mb-3 w-3/4 h-4 bg-gray-300 rounded'></div>
-                        <div className='mt-2 mb-4 w-1/3 h-4 bg-gray-300 rounded'></div>
-                    </div>
-                ))}
-            </div>
+            <SkeletonCardCartelera />
         )
     }
 
