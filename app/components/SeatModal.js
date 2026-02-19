@@ -14,7 +14,7 @@ export default function SeatModal({ showtime, quantity, onClose, user }) {
             try {
                 const res = await fetch(`/api/showtimes/${showtime.id}/seats`);
                 const data = await res.json();
-                setOccupiedSeats(data);
+                setOccupiedSeats(data.map(ticket => ticket.seat_number));
             } catch (error) {
                 console.error('Error al cargar las butacas ocupadas:', error);
             } finally {

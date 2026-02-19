@@ -31,7 +31,7 @@ export default function CompraPageContent({ id, user }) {
     if (loading) return <p>Cargando...</p>;
     if (!showtime) return <p>Función no encontrada</p>;
 
-    console.log('Usuario en contentpage:',user)
+    // console.log('Usuario en contentpage:',user)
 
     const handleContinue = () => {
         if (quantity < 1) return alert('Selecione al menos una entrada');
