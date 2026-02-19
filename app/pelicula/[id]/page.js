@@ -4,6 +4,7 @@ import React, { useEffect, useState, use } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { classificationColor } from "@/utils/helpers";
+import { SkeletonPeliculaPage } from "@/app/components/Skeletons";
 
 export default function PeliculaPage({ params }) {
     const { id } = use(params);
@@ -28,7 +29,12 @@ export default function PeliculaPage({ params }) {
         fetchMovies();
     }, [id]);
 
-    if (loading) return <p>Cargando...</p>;
+    if (loading) {
+        return (
+            <SkeletonPeliculaPage />
+        );
+    };
+
     if (!movie) return <p>Película no encontrada</p>;
 
     // Función para formatear la fecha.
