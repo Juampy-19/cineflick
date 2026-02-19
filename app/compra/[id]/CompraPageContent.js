@@ -6,7 +6,7 @@ import SeatModal from "@/app/components/SeatModal";
 
 export default function CompraPageContent({ id, user }) {
     const [showtime, setShowtime] = useState(null);
-    const [quantity, setQuantity] = useState(1);
+    const [quantity, setQuantity] = useState(0);
     const [showModal, setShowModal] = useState(false);
     const [loading, setLoading] = useState(true);
     const router = useRouter();
@@ -31,36 +31,39 @@ export default function CompraPageContent({ id, user }) {
     if (loading) return <p>Cargando...</p>;
     if (!showtime) return <p>Función no encontrada</p>;
 
-    // console.log('Usuario en contentpage:',user)
-
     const handleContinue = () => {
-        if (quantity < 1) return alert('Selecione al menos una entrada');
+        if (quantity < 1) {
+            alert('Seleccióne la cantidad de entradas.');
+            return;
+        }
         setShowModal(true);
     }
 
     return (
         <div>
-            <h1>{showtime.movie_title}</h1>
-            <p>{showtime.room}</p>
-            <p>{formatDate(showtime.hour)}</p>
-            <p>{showtime.price}</p>
+            <div className="flex flex-col text-center gap-2">
+                <h1 className="text-2xl">{showtime.movie_title}</h1>
+                <p className="text-lg">{showtime.room}</p>
+                <p className="text-lg">{formatDate(showtime.hour)}</p>
+                <p className="text-lg">${showtime.price}</p>
 
-            <div>
-                <label htmlFor="quantity">
-                    Cantidad de entradas
-                </label>
-                <input
-                    id="quantity"
-                    type="number"
-                    min='1'
-                    max='10'
-                    onChange={(e) => setQuantity(Number(e.target.value))}
-                />
+                <div>
+                    <label htmlFor="quantity">
+                        Cantidad de entradas
+                    </label>
+                    <input
+                        id="quantity"
+                        type="number"
+                        min='1'
+                        max='10'
+                        onChange={(e) => setQuantity(Number(e.target.value))}
+                    />
+                </div>
+
+                <button onClick={handleContinue} className="m-auto mt-8">
+                    Continuar
+                </button>
             </div>
-
-            <button onClick={handleContinue}>
-                Continuar
-            </button>
 
             {showModal && (
                 <SeatModal

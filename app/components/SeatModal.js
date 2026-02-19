@@ -51,7 +51,7 @@ export default function SeatModal({ showtime, quantity, onClose, user }) {
         try {
             const res = await fetch('/api/tickets', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json'},
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     user_id: user.id,
                     showtime_id: showtime.id,
@@ -84,13 +84,12 @@ export default function SeatModal({ showtime, quantity, onClose, user }) {
                         key={seatId}
                         onClick={() => toggleSeat(seatId)}
                         disabled={isOccupied}
-                        className={`w-8 h-8 m-1 rounded-md text-ms ${
-                            isOccupied
+                        className={`w-8 h-8 m-1 rounded-md text-ms ${isOccupied
                                 ? 'bg-red-600 cursor-not-allowed'
                                 : isSelected
-                                ? 'bg-green-500'
-                                : 'bg-gray-400 hover:bg-gray-500'
-                        }`}
+                                    ? 'bg-green-500'
+                                    : 'bg-gray-400 hover:bg-gray-500'
+                            }`}
                     >
                         {seatId}
                     </a>
@@ -101,19 +100,21 @@ export default function SeatModal({ showtime, quantity, onClose, user }) {
         return seats;
     };
 
-    if (loading) return <p>Cargando butacas...</p>
+    if (loading) return <p className="text-center">Cargando butacas...</p>
 
     return (
-        <div>
-            <h2>Seleccione sus butacas</h2>
-            <div>{generateSeats()}</div>
-            <div>
-                <button onClick={onClose} className="px-4 py-2 bg-gray-400 rounded-lg hover:bg-gray-500">
-                    Cancelar
-                </button>
-                <button onClick={handleConfirm} className="px-4 py-2 bg-green-500 rounded-lg">
-                    Confirmar ({selectedSeats.length}/{quantity})
-                </button>
+        <div className="w-full flex justify-center p-4">
+            <div className="bg-[var(--transparent-green)] w-1/2 rounded-lg">
+                <h2 className="text-center mt-5 mb-5 text-xl">Seleccione sus butacas</h2>
+                <div>{generateSeats()}</div>
+                <div className="mt-5 mb-5 flex justify-center gap-10">
+                    <button onClick={onClose} className="px-4 py-2 bg-gray-400 rounded-lg hover:bg-gray-500">
+                        Cancelar
+                    </button>
+                    <button onClick={handleConfirm} className="px-4 py-2 bg-green-500 rounded-lg">
+                        Confirmar ({selectedSeats.length}/{quantity})
+                    </button>
+                </div>
             </div>
         </div>
     )

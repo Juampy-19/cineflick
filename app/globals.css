@@ -11,7 +11,8 @@
 }
 
 body {
-  background: url('/1760553720431.png');
+  /* background: url('/1760553720431.png'); */
+  background-color: var(--navy);
   background-size: cover;
   color: var(--mint);
   margin-top: 10em;
