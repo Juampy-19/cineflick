@@ -63,7 +63,7 @@ export default function Card() {
     }
 
     return (
-        <div className="relative w-2/3 px-10">
+        <div className="relative w-full md:w-2/3 px-10">
             <div ref={carrouselRef} id="carrousel" className="flex overflow-hidden space-x-6 p-4 mb-4">
                 {proximamente.map((movie) => (
                     <Link key={movie.id} href={`/pelicula/${movie.id}`} className="relative flex-shrink-0 w-56 flex flex-col items-center border-2 border-[var(--green)] rounded-xl shadow-lg bg-[var(--teal)] hover:scale-105 transition-transform duration-300">
