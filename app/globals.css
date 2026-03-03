@@ -15,16 +15,16 @@ body {
   background-color: var(--navy);
   background-size: cover;
   color: var(--mint);
-  margin-top: 10em;
 }
 
 header {
   background: linear-gradient(to bottom, var(--navy) 50%, transparent 100%);
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
   z-index: 10;
   width: 100%;
+  margin-bottom: 1rem;
 }
 
 input {
