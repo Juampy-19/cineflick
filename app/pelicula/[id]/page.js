@@ -61,18 +61,17 @@ export default function PeliculaPage({ params }) {
     };
 
     return (
-        <div className="flex mx-15 border-2 border-[var(--green)] rounded-xl shadow-lg bg-[var(--teal)]">
-            <div className="w-100 h-130 overflow-hidden">
+        <div className="flex flex-col mb-10 md:flex-row mx-15 border-2 border-[var(--green)] rounded-xl shadow-lg bg-[var(--teal)]">
+            <div className="md:w-100 md:h-130 overflow-hidden">
                 <img src={movie.poster_url}
                     alt="Poster de la película"
                     className="w-full h-full rounded-xl"
                 />
             </div>
-            <div className="flex p-4 flex-col w-full h-130 justify-between">
-                <h1 className="text-2xl font-bold mb-5 text-center">{movie.title}</h1>
-                <p className="text-xl p-2">{movie.synopsis}</p>
-                <div className="flex justify-between">
-                    <p>{movie.duration}</p>
+            <div className="flex p-4 flex-col w-full lg:h-130 justify-between">
+                <h1 className="text-xl lg:text-2xl font-bold mb-5 text-center">{movie.title}</h1>
+                <p className="text-md lg:text-xl p-2">{movie.synopsis}</p>
+                <div className="flex justify-center">
                     {movie.showtimes?.length > 0 && (
                         <div className="flex flex-col gap-5 items-center p-4 mr-10">
                             <h3>Funciónes disponibles:</h3>
@@ -91,10 +90,10 @@ export default function PeliculaPage({ params }) {
                         </div>
                     )}
                     {movie.showtimes.length === 0 && (
-                        <p className="p-4 mr-10 bg-red-800 rounded-full font-bold">Proximamente</p>
+                        <p className="p-2 mt-5 mb-5 bg-red-800 rounded-full font-bold">Proximamente</p>
                     )}
                 </div>
-                <div className="flex gap-10 items-center">
+                <div className="flex flex-col w-full gap-5 lg:gap-10 items-center md:justify-between lg:flex-row">
                     <p>{movie.release_date}</p>
                     <div className="flex flex-wrap gap-2">
                         {movie.genres.split(', ').map((genre, index) => (
@@ -107,7 +106,7 @@ export default function PeliculaPage({ params }) {
                         ))}
                     </div>
                     <p className={`mt-3 mb-3 text-black px-2 py-1 w-10 rounded-full text-xs font-bold ${classificationColor(movie.classification_id)}`}>{movie.classification}</p>
-
+                    <p className="w-full lg:w-1/4 text-center bg-black/50 rounded-full">Duración: {movie.duration}</p>
                 </div>
             </div>
         </div>
