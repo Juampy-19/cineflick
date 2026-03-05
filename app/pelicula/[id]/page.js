@@ -73,7 +73,7 @@ export default function PeliculaPage({ params }) {
                 <p className="text-md lg:text-xl p-2">{movie.synopsis}</p>
                 <div className="flex justify-center">
                     {movie.showtimes?.length > 0 && (
-                        <div className="flex flex-col gap-5 items-center p-4 mr-10">
+                        <div className="flex flex-col gap-5 items-center p-4">
                             <h3>Funciónes disponibles:</h3>
                             <select
                                 value={selectedShowtime}

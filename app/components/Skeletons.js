@@ -42,12 +42,22 @@ export const SkeletonCardProximamente = () => (
 );
 
 export const SkeletonPeliculaPage = () => (
-    <div className="flex mx-15 border-2 border-gray-400 rounded-xl">
+    <div className="flex flex-col md:flex-row mx-15 border-2 border-gray-400 rounded-xl">
         <div className="w-100 h-130">
             <Skeleton className="w-full h-full rounded-xl" />
         </div>
-        <div className="flex p-4 flex-col w-full h-130 justify-between">
+        <div className="flex gap-5 p-4 flex-col w-full h-130 items-center justify-between">
             <Skeleton className="mb-5 w-1/3 h-8 mx-auto"/>
+            <Skeleton className="w-full h-50 text-md lg:text-lg p-2"/>
+            <div className="flex justify-center w-full">
+                <Skeleton className="w-1/2 h-30"/>
+            </div>
+            <div className="flex flex-col w-full gap-5 lg:gap-10 md:justify-between lg:flex-row">
+                <Skeleton />
+                <Skeleton />
+                <Skeleton />
+                <Skeleton />
+            </div>
         </div>
     </div>
 );
