@@ -67,42 +67,42 @@ export default function LoginPage() {
     return (
         <>
             <form onSubmit={handleSubmit}>
-                <div className="flex flex-col items-center gap-15 m-20">
-                    <div>
+                <div className="flex flex-col items-center gap-10 mt-20">
+                    <div className='flex flex-col gap-5 w-full items-center'>
                         <div className="text-center p-3">
                             <label htmlFor="email">Email</label>
                         </div>
-                        <div>
+                        <div className='w-full text-center'>
                             <input 
                                 type="email"
                                 name="email"
                                 placeholder="Ingrese su email"
                                 onChange={handleChange}
-                                className='w-sm'
+                                className='w-3/4 md:w-1/2'
                             />
                         </div>
                         <div className='flex items-center justify-center mt-2'>
                             {errors.email && <span className='text-red-500'>{errors.email[0]}</span>}
                         </div>
                     </div>
-                    <div>
+                    <div className='flex flex-col gap-5 w-full items-center'>
                         <div className="text-center p-3">
                             <label htmlFor="password">Contraseña</label>
                         </div>
-                        <div>
+                        <div className='w-full text-center'>
                             <input 
                                 type="password"
                                 name="password"
                                 placeholder="Ingrese su contraseña"
                                 onChange={handleChange}
-                                className='w-sm'
+                                className='w-3/4 md:w-1/2'
                             />
                         </div>
                         <div className='flex items-center justify-center mt-2'>
                             {errors.password && <span className='text-red-500'>{errors.password[0]}</span>}
                         </div>
                     </div>
-                    <div className='flex flex-col gap-10'>
+                    <div className='flex flex-col gap-10 mb-10'>
                         <button type='submit'>Ingresar</button>
 
                         <Link href='/register'>
