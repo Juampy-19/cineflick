@@ -43,7 +43,7 @@ export const SkeletonCardProximamente = () => (
 
 export const SkeletonPeliculaPage = () => (
     <div className="flex flex-col md:flex-row mx-15 border-2 border-gray-400 rounded-xl">
-        <div className="w-100 h-130">
+        <div className="w-full md:w-100 h-110 md:h-130">
             <Skeleton className="w-full h-full rounded-xl" />
         </div>
         <div className="flex gap-5 p-4 flex-col w-full h-130 items-center justify-between">
