@@ -100,11 +100,11 @@ export default function SeatModal({ showtime, quantity, onClose, user }) {
         return seats;
     };
 
-    if (loading) return <p className="text-center">Cargando butacas...</p>
+    if (loading) return <p className="mt-10 text-center">Cargando butacas...</p>
 
     return (
         <div className="w-full flex justify-center p-4">
-            <div className="bg-[var(--transparent-green)] w-1/2 rounded-lg">
+            <div className="bg-[var(--transparent-green)] w-full md:w-1/2 rounded-lg">
                 <h2 className="text-center mt-5 mb-5 text-xl">Seleccione sus butacas</h2>
                 <div>{generateSeats()}</div>
                 <div className="mt-5 mb-5 flex justify-center gap-10">

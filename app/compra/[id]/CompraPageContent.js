@@ -41,7 +41,7 @@ export default function CompraPageContent({ id, user }) {
 
     return (
         <div>
-            <div className="flex flex-col text-center gap-2">
+            <div className="flex flex-col text-center gap-2 mt-10">
                 <h1 className="text-2xl">{showtime.movie_title}</h1>
                 <p className="text-lg">{showtime.room}</p>
                 <p className="text-lg">{formatDate(showtime.hour)}</p>
