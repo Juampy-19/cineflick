@@ -61,78 +61,88 @@ export default function RegisterPage() {
     return (
         <>
             <form onSubmit={handleSubmit}>
-                <div className="flex flex-col items-center gap-15 p-6 m-20">
-                    <div className="flex flex-col items-center">
-                        <div className='w-lg flex items-center  justify-between'>
+                <div className="flex flex-col items-center gap-10 mt-10">
+                    <div className="flex flex-col w-full items-center">
+                        <div className='flex flex-col w-full gap-2 items-center'>
                             <label>Nombre</label>
-                            <input
-                                type="name"
-                                name="name"
-                                placeholder="Nombre"
-                                onChange={handleChange}
-                                className="w-xs"
-                            />
+                            <div className='w-full text-center'>
+                                <input
+                                    type="name"
+                                    name="name"
+                                    placeholder="Nombre"
+                                    onChange={handleChange}
+                                    className="w-3/4 md:w-1/3"
+                                />
+                            </div>
                         </div>
                         {errors.name && <span className='text-red-500 mt-2'>{errors.name[0]}</span>}
                     </div>
 
-                    <div className='flex flex-col items-center'>
-                        <div className="w-lg flex items-center justify-between">
+                    <div className='flex flex-col w-full items-center'>
+                        <div className="flex flex-col w-full gap-2 items-center">
                             <label>Apellido</label>
-                            <input
-                                type="lastname"
-                                name="lastname"
-                                placeholder="Apellido"
-                                onChange={handleChange}
-                                className="w-xs"
-                            />
+                            <div className='w-full text-center'>
+                                <input
+                                    type="lastname"
+                                    name="lastname"
+                                    placeholder="Apellido"
+                                    onChange={handleChange}
+                                    className="w-3/4 md:w-1/3"
+                                />
+                            </div>
                         </div>
                         {errors.lastname && <span className='text-red-500 mt-2'>{errors.lastname[0]}</span>}
                     </div>
 
-                    <div className='flex flex-col items-center'>
-                        <div className="w-lg flex items-center justify-between">
+                    <div className='flex flex-col w-full items-center'>
+                        <div className="flex flex-col w-full gap-2 items-center">
                             <label>Email</label>
-                            <input
-                                type="email"
-                                name="email"
-                                placeholder="Email"
-                                onChange={handleChange}
-                                className="w-xs"
-                            />
+                            <div className='w-full text-center'>
+                                <input
+                                    type="email"
+                                    name="email"
+                                    placeholder="Email"
+                                    onChange={handleChange}
+                                    className="w-3/4 md:w-1/3"
+                                />
+                            </div>
                         </div>
                         {errors.email && <span className='text-red-500 mt-2'>{errors.email[0]}</span>}
                     </div>
 
-                    <div className='flex flex-col items-center'>
-                        <div className="w-lg flex items-center justify-between">
+                    <div className='flex flex-col w-full items-center'>
+                        <div className="flex flex-col w-full gap-2 items-center">
                             <label>Contraseña</label>
-                            <input
-                                type="password"
-                                name="password"
-                                placeholder="Contraseña"
-                                onChange={handleChange}
-                                className="w-xs"
-                            />
+                            <div className='w-full text-center'>
+                                <input
+                                    type="password"
+                                    name="password"
+                                    placeholder="Contraseña"
+                                    onChange={handleChange}
+                                    className="w-3/4 md:w-1/3"
+                                />
+                            </div>
                         </div>
                         {errors.password && <span className='text-red-500 mt-2'>{errors.password[0]}</span>}
                     </div>
 
-                    <div className='flex flex-col items-center'>
-                        <div className="w-lg flex items-center justify-between">
+                    <div className='flex flex-col w-full items-center'>
+                        <div className="flex flex-col w-full gap-2 items-center">
                             <label>Confirmar contraseña</label>
-                            <input
-                                type="password"
-                                name="confirmPassword"
-                                placeholder="Confirmar contraseña"
-                                onChange={handleChange}
-                                className="w-xs"
-                            />
+                            <div className='w-full text-center'>
+                                <input
+                                    type="password"
+                                    name="confirmPassword"
+                                    placeholder="Confirmar contraseña"
+                                    onChange={handleChange}
+                                    className="w-3/4 md:w-1/3"
+                                />
+                            </div>
                         </div>
                         {errors.confirmPassword && <span className='text-red-500 mt-2'>{errors.confirmPassword[0]}</span>}
                     </div>
 
-                    <div>
+                    <div className='mt-5 mb-10'>
                         <button type='submit'>Crear cuenta</button>
                     </div>
                 </div>
