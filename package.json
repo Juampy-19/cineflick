@@ -12,6 +12,7 @@
     "@fortawesome/fontawesome-svg-core": "^7.0.1",
     "@fortawesome/free-solid-svg-icons": "^7.0.1",
     "@fortawesome/react-fontawesome": "^3.0.2",
+    "@tailwindcss/line-clamp": "^0.4.4",
     "bcrypt": "^6.0.0",
     "mysql2": "^3.15.0",
     "next": "15.5.2",
@@ -26,6 +27,6 @@
     "@tailwindcss/postcss": "^4",
     "eslint": "^9",
     "eslint-config-next": "15.5.2",
-    "tailwindcss": "^4"
+    "tailwindcss": "^4.2.2"
   }
 }
