@@ -10,7 +10,7 @@ export default function CardCandy({ items }) {
                         src={item.img}
                         alt="Imagen del producto."
                     />
-                    <span>{items.description}</span>
+                    <span>{item.description}</span>
                     <p>{item.price}</p>
                 </div>
             ))}
