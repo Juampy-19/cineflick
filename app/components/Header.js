@@ -26,16 +26,16 @@ export default function Header() {
                     <Image
                         src="/img/cineflick-logo.svg"
                         alt="Logo de CineFlick"
-                        width={150}
-                        height={150}
+                        width={100}
+                        height={100}
                     />
 
                     <h1 className="p-6 text-2xl md:text-4xl">CineFlick</h1>
                 </div>
 
-                <div className="flex items-center justify-center mb-5 md:mb-0">
+                <div className="flex items-center justify-center">
                     {session?.user ? (
-                        <span className="text-[var(--green)] text-xl">Hola {session.user.name}</span>
+                        <span className="text-[var(--green)] text-xl mb-2 md:mb-0">Hola {session.user.name}</span>
                     ) : ''}
                 </div>
 
@@ -65,47 +65,49 @@ export default function Header() {
                     </nav>
 
                     {/* Burger menu */}
-                    <div className="md:hidden relative w-full flex justify-center">
-                        <button 
+                    <div className="md:hidden relative w-full mb-2 flex justify-center">
+                        <button
                             onClick={() => setOpen(!open)}
                             className={`
-                              !bg-[var(--mint)]
-                              !flex items-center justify-center
-                              !transition-all duration-500 ease-in-out
-                              ${open ? '!w-40 !h-12 !ronded-t-md' : '!w-12 !h-12 !rounded-md'}
+                                btn
+                                bg-[var(--mint)]
+                                flex items-center justify-center
+                                transition-all duration-500 ease-in-out
+                                ${open ? '!w-40 !h-12 !ronded-t-md' : '!w-12 !h-12 !rounded-md'}
                             `}
                         >
                             {open ? <FontAwesomeIcon icon={faArrowDown} /> : <FontAwesomeIcon icon={faBars} />}
                         </button>
-                    </div>
 
-                    <ul className={`md:hidden absolute top-full left-1/2 -translate-x-1/2 origin-top w-40 bg-[var(--mint)] text-[var(--teal)] flex flex-col items-center gap-6 py-6 text-xl rounded transform transition-all duration-500 ease-in-out ${open
-                        ? 'opacity-100 scale-100 translate-y-0 pointer-events-auto'
-                        : 'opacity-0 scale-95 -translate-y-2 pointer-events-none'
-                        }
+                        <ul className={`md:hidden absolute top-full left-1/2 -translate-x-1/2 origin-top w-40 bg-[var(--mint)] text-[var(--teal)] flex flex-col items-center gap-6 py-6 text-xl rounded transform transition-all duration-500 ease-in-out ${open
+                            ? 'opacity-100 scale-100 translate-y-0 pointer-events-auto'
+                            : 'opacity-0 scale-95 -translate-y-2 pointer-events-none'
+                            }
                         `}
-                    >
-                        <li><Link href='/' className={linkClass('/')}>Inicio</Link></li>
-                        <li><Link href='/api/movies' className={linkClass('api/movies')}>Cartelera</Link></li>
-                        <li><Link href='/candy' className={linkClass('/candy')}>Candy</Link></li>
+                        >
+                            <li><Link href='/' className={linkClass('/')}>Inicio</Link></li>
+                            <li><Link href='/api/movies' className={linkClass('api/movies')}>Cartelera</Link></li>
+                            <li><Link href='/candy' className={linkClass('/candy')}>Candy</Link></li>
 
-                        <div className='text-2xl'>
-                            {session?.user ? (
-                                <div>
-                                    <span className="cursor-pointer hover:text-[var(--green)] transition-colors duration-500" onClick={() => signOut()}>
-                                        <FontAwesomeIcon icon={faArrowRightFromBracket} />
-                                    </span>
-                                </div>
-                            ) : (
-                                <Link href='/login' className={linkClass('/login')}>
-                                    <FontAwesomeIcon icon={faArrowRightToBracket}
-                                        width={20}
-                                        className="hover:text-[var(--green)] transition-colors"
-                                    />
-                                </Link>
-                            )}
-                        </div>
-                    </ul>
+                            <div className='text-2xl'>
+                                {session?.user ? (
+                                    <div>
+                                        <span className="cursor-pointer hover:text-[var(--green)] transition-colors duration-500" onClick={() => signOut()}>
+                                            <FontAwesomeIcon icon={faArrowRightFromBracket} />
+                                        </span>
+                                    </div>
+                                ) : (
+                                    <Link href='/login' className={linkClass('/login')}>
+                                        <FontAwesomeIcon icon={faArrowRightToBracket}
+                                            width={20}
+                                            className="hover:text-[var(--green)] transition-colors"
+                                        />
+                                    </Link>
+                                )}
+                            </div>
+                        </ul>
+
+                    </div>
                 </div>
             </div>
         </header>
