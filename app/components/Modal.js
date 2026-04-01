@@ -24,7 +24,7 @@ export default function Modal({ isOpen, onClose, title, children }) {
             <div className={`relative p-6 rounded-lg shadow-lg md:w-md text-center transform transition-all duration-500 ${animate ? 'opacity-100 scale-100' : 'opacity-0 scale-75'}`} style={{ backgroundColor: 'var(--navy)'}}>
                 {title && <h2 className="text-lg font-bold mb-4">{title}</h2>}
                 <div className="mb-4">{children}</div>
-                <button onClick={onClose} className="mt-4">
+                <button onClick={onClose} className="btn">
                     Cerrar
                 </button>
             </div>

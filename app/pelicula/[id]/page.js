@@ -84,7 +84,7 @@ export default function PeliculaPage({ params }) {
                                     <option key={show.id} value={show.id}>{formatDate(show.hour)}</option>
                                 ))}
                             </select>
-                            <button onClick={handleBuy}>
+                            <button onClick={handleBuy} className="btn">
                                 Comprar entrada
                             </button>
                         </div>

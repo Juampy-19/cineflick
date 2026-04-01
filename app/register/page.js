@@ -143,7 +143,7 @@ export default function RegisterPage() {
                     </div>
 
                     <div className='mt-5 mb-10'>
-                        <button type='submit'>Crear cuenta</button>
+                        <button type='submit' className='btn'>Crear cuenta</button>
                     </div>
                 </div>
             </form>

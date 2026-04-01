@@ -103,10 +103,10 @@ export default function LoginPage() {
                         </div>
                     </div>
                     <div className='flex flex-col gap-10 mb-10'>
-                        <button type='submit'>Ingresar</button>
+                        <button type='submit' className='btn'>Ingresar</button>
 
                         <Link href='/register'>
-                            <button>Crear cuenta</button>
+                            <button className='btn'>Crear cuenta</button>
                         </Link>
                     </div>
                 </div>

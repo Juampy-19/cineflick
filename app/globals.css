@@ -40,7 +40,7 @@ input:focus {
   outline: none;
 }
 
-button {
+.btn {
   background: var(--mint);
   color: var(--navy);
   font-weight: bold;
@@ -51,6 +51,6 @@ button {
   transition: 0.3s ease-in-out;
 }
 
-button:hover {
+.btn:hover {
   background: var(--green);
 }

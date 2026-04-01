@@ -60,7 +60,7 @@ export default function CompraPageContent({ id, user }) {
                     />
                 </div>
 
-                <button onClick={handleContinue} className="m-auto mt-8">
+                <button onClick={handleContinue} className="m-auto mt-8 btn">
                     Continuar
                 </button>
             </div>

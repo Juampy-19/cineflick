@@ -108,10 +108,10 @@ export default function SeatModal({ showtime, quantity, onClose, user }) {
                 <h2 className="text-center mt-5 mb-5 text-xl">Seleccione sus butacas</h2>
                 <div>{generateSeats()}</div>
                 <div className="mt-5 mb-5 flex justify-center gap-10">
-                    <button onClick={onClose} className="px-4 py-2 bg-gray-400 rounded-lg hover:bg-gray-500">
+                    <button onClick={onClose} className="btn">
                         Cancelar
                     </button>
-                    <button onClick={handleConfirm} className="px-4 py-2 bg-green-500 rounded-lg">
+                    <button onClick={handleConfirm} className="btn">
                         Confirmar ({selectedSeats.length}/{quantity})
                     </button>
                 </div>
