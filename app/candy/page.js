@@ -1,12 +1,15 @@
 'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import CardCandy from "../components/CardCandy";
 
 export default function CandyPage() {
     const [loading, setLoading] = useState(true);
     const [candy, setCandy] = useState([]);
     const [activeSection, setActiveSection] = useState('');
+    const navRef = useRef(null);
+    const linksRef = useRef({});
+    const [underlineStyle, setUnderlineStyle] = useState({});
 
     useEffect(() => {
         async function fetchCandy() {
@@ -45,6 +48,17 @@ export default function CandyPage() {
         return () => observer.disconnect();
     }, [candy]);
 
+    useEffect(() => {
+        const activeLink = linksRef.current[activeSection];
+
+        if (activeLink) {
+            setUnderlineStyle({
+                left: activeLink.offsetLeft,
+                width: activeLink.offsetWidth
+            });
+        }
+    }, [activeSection]);
+
     if (loading) return <p>Cargando...</p>;
 
     const combos = candy.filter(c => c.type_id === 1);
@@ -55,43 +69,58 @@ export default function CandyPage() {
     const coffeeIceCream = candy.filter(c => c.type_id === 6);
 
     return (
-        <main>
-            <nav className="sticky top-30 z-10 flex bg-[var(--navy)]">
-                <a href="#combos" className={activeSection === 'combos' ? 'border-b-2 border-[var(--green)]' :  ''}>Combos</a>
-                <a href="#popCorn" className={activeSection === 'popCorn' ? 'border-b-2 border-[var(--green)]' : ''}>Pochoclos</a>
-                <a href="#drinks" className={activeSection === 'drinks' ? 'border-b-2 border-[var(--green)]' : ''}>Bebidas</a>
-                <a href="#snacks" className={activeSection === 'snacks' ? 'border-b-2 border-[var(--green)]' : ''}>Snacks</a>
-                <a href="#candies" className={activeSection === 'candies' ? 'border-b-2 border-[var(--green)]' : ''}>Golosinas</a>
-                <a href="#coffeeIceCream" className={activeSection ===  'coffeeIceCream' ? 'border-b-2 border-[var(--green)]' : ''}>Café y helado</a>
+        <main className="mb-5 p-2">
+            <nav ref={navRef} className="relative sticky top-25 mb-2 gap-2 p-2 z-10 flex bg-[var(--navy)]">
+                <span className="absolute bottom-0 h-[3px] bg-[var(--green)] tansition-all duration-300" style={underlineStyle}></span>
+                {[
+                    { id: 'combos', label: 'Combos' },
+                    { id: 'popCorn', label: 'Pochoclos' },
+                    { id: 'drinks', label: 'Bebidas' },
+                    { id: 'snacks', label: 'Snacks' },
+                    { id: 'candies', label: 'Golosinas' },
+                    { id: 'coffeeIceCream', label: 'Café y helado' }
+                ].map((item) => (
+                    <a
+                        key={item.id}
+                        href={`#${item.id}`}
+                        ref={(el) => (linksRef.current[item.id] =el)}
+                        className={`pb-2 transition ${activeSection === item.id
+                                ? 'text-[var(--green)]'
+                                : 'hover:text-[var(--green)]'
+                            }`}
+                    >
+                        {item.label}
+                    </a>
+                ))}
             </nav>
 
-            <section id="combos">
-                <h3>Combos</h3>
+            <section id="combos" className="scroll-mt-36">
+                <h3 className="text-xl text-center">Combos</h3>
                 <CardCandy items={combos} />
             </section>
 
-            <section id="popCorn">
-                <h3>Pochoclos</h3>
+            <section id="popCorn" className="scroll-mt-36">
+                <h3 className="text-xl text-center">Pochoclos</h3>
                 <CardCandy items={popCorn} />
             </section>
 
-            <section id="drinks">
-                <h3>Bebidas</h3>
+            <section id="drinks" className="scroll-mt-36">
+                <h3 className="text-xl text-center">Bebidas</h3>
                 <CardCandy items={drinks} />
             </section>
 
-            <section  id="snacks">
-                <h3>Snacks</h3>
+            <section  id="snacks" className="scroll-mt-36">
+                <h3 className="text-xl text-center">Snacks</h3>
                 <CardCandy items={snacks} />
             </section>
 
-            <section id="candies">
-                <h3>Golosinas</h3>
+            <section id="candies" className="scroll-mt-36">
+                <h3 className="text-xl text-center">Golosinas</h3>
                 <CardCandy items={candies} />
             </section>
 
-            <section id="coffeeIceCream">
-                <h3>Café y helado</h3>
+            <section id="coffeeIceCream" className="scroll-mt-36">
+                <h3 className="text-xl text-center">Café y helado</h3>
                 <CardCandy items={coffeeIceCream} />
             </section>
         </main>
