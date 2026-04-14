@@ -31,6 +31,60 @@ export default function Header() {
                     />
 
                     <h1 className="p-6 text-2xl md:text-4xl">CineFlick</h1>
+
+                    {/* Burger menu */}
+                    <div className="md:hidden relative w-full mb-2 flex justify-center">
+                        <button
+                            onClick={() => setOpen(!open)}
+                            className="bg-[var(--mint)] text-[var(--navy)] flex items-center justify-center rounded-xl p-2"
+                        >
+                            <FontAwesomeIcon icon={faBars} />
+                        </button>
+
+                        {/* Overlay */}
+                        {open && (
+                            <div
+                                onClick={() => setOpen(false)}
+                                className="fixed inset-0 bg-black/50 z-40"
+                            />
+                        )}
+
+                        {/* Menu deslizable */}
+                        <ul className={`
+                            fixed top-0 right-0 h-full w-40 bg-[var(--navy)] p-4
+                            flex flex-col items-center gap-2
+                            transform transition-transform duration-300 z-50
+                            ${open ? 'translate-x-0' : 'translate-x-full'}
+                        `}
+                        >
+                            <button
+                                onClick={() => setOpen(false)}
+                                className="bg-[var(--mint)] text-[var(--navy)] flex items-center justify-center rounded-xl p-2 mb-2"
+                            >
+                                <FontAwesomeIcon icon={faBars} />
+                            </button>
+                            <li><Link href='/' className={linkClass('/')}>Inicio</Link></li>
+                            <li><Link href='/api/movies' className={linkClass('api/movies')}>Cartelera</Link></li>
+                            <li><Link href='/candy' className={linkClass('/candy')}>Candy</Link></li>
+
+                            <div className='text-2xl'>
+                                {session?.user ? (
+                                    <div>
+                                        <span className="cursor-pointer hover:text-[var(--green)] transition-colors duration-500" onClick={() => signOut()}>
+                                            <FontAwesomeIcon icon={faArrowRightFromBracket} />
+                                        </span>
+                                    </div>
+                                ) : (
+                                    <Link href='/login' className={linkClass('/login')}>
+                                        <FontAwesomeIcon icon={faArrowRightToBracket}
+                                            width={20}
+                                            className="hover:text-[var(--green)] transition-colors"
+                                        />
+                                    </Link>
+                                )}
+                            </div>
+                        </ul>
+                    </div>
                 </div>
 
                 <div className="flex items-center justify-center">
@@ -63,51 +117,6 @@ export default function Header() {
                             )}
                         </div>
                     </nav>
-
-                    {/* Burger menu */}
-                    <div className="md:hidden relative w-full mb-2 flex justify-center">
-                        <button
-                            onClick={() => setOpen(!open)}
-                            className={`
-                                btn
-                                bg-[var(--mint)]
-                                flex items-center justify-center
-                                transition-all duration-500 ease-in-out
-                                ${open ? '!w-40 !h-12 !ronded-t-md' : '!w-12 !h-12 !rounded-md'}
-                            `}
-                        >
-                            {open ? <FontAwesomeIcon icon={faArrowDown} /> : <FontAwesomeIcon icon={faBars} />}
-                        </button>
-
-                        <ul className={`md:hidden absolute top-full left-1/2 -translate-x-1/2 origin-top w-40 bg-[var(--mint)] text-[var(--teal)] flex flex-col items-center gap-6 py-6 text-xl rounded transform transition-all duration-500 ease-in-out ${open
-                            ? 'opacity-100 scale-100 translate-y-0 pointer-events-auto'
-                            : 'opacity-0 scale-95 -translate-y-2 pointer-events-none'
-                            }
-                        `}
-                        >
-                            <li><Link href='/' className={linkClass('/')}>Inicio</Link></li>
-                            <li><Link href='/api/movies' className={linkClass('api/movies')}>Cartelera</Link></li>
-                            <li><Link href='/candy' className={linkClass('/candy')}>Candy</Link></li>
-
-                            <div className='text-2xl'>
-                                {session?.user ? (
-                                    <div>
-                                        <span className="cursor-pointer hover:text-[var(--green)] transition-colors duration-500" onClick={() => signOut()}>
-                                            <FontAwesomeIcon icon={faArrowRightFromBracket} />
-                                        </span>
-                                    </div>
-                                ) : (
-                                    <Link href='/login' className={linkClass('/login')}>
-                                        <FontAwesomeIcon icon={faArrowRightToBracket}
-                                            width={20}
-                                            className="hover:text-[var(--green)] transition-colors"
-                                        />
-                                    </Link>
-                                )}
-                            </div>
-                        </ul>
-
-                    </div>
                 </div>
             </div>
         </header>
