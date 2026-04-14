@@ -2,6 +2,8 @@
 
 import { useEffect, useState, useRef } from "react";
 import CardCandy from "../components/CardCandy";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleRight, faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 
 export default function CandyPage() {
     const [loading, setLoading] = useState(true);
@@ -10,6 +12,7 @@ export default function CandyPage() {
     const navRef = useRef(null);
     const linksRef = useRef({});
     const [underlineStyle, setUnderlineStyle] = useState({});
+    const [open, setOpen] = useState(false);
 
     useEffect(() => {
         async function fetchCandy() {
@@ -68,18 +71,21 @@ export default function CandyPage() {
     const candies = candy.filter(c => c.type_id === 5);
     const coffeeIceCream = candy.filter(c => c.type_id === 6);
 
+    const navItems = [
+        { id: 'combos', label: 'Combos' },
+        { id: 'popCorn', label: 'Pochoclos' },
+        { id: 'drinks', label: 'Bebidas' },
+        { id: 'snacks', label: 'Snacks' },
+        { id: 'candies', label: 'Golosinas' },
+        { id: 'coffeeIceCream', label: 'Café y helado' }
+    ]
+
     return (
         <main className="mb-5 p-2">
-            <nav ref={navRef} className="relative sticky top-25 mb-2 gap-2 p-2 z-10 flex bg-[var(--navy)]">
+            {/* Desktop nav */}
+            <nav ref={navRef} className="hidden relative sticky top-25 mb-2 gap-2 p-2 z-10 md:flex bg-[var(--navy)]">
                 <span className="absolute bottom-0 h-[3px] bg-[var(--green)] tansition-all duration-300" style={underlineStyle}></span>
-                {[
-                    { id: 'combos', label: 'Combos' },
-                    { id: 'popCorn', label: 'Pochoclos' },
-                    { id: 'drinks', label: 'Bebidas' },
-                    { id: 'snacks', label: 'Snacks' },
-                    { id: 'candies', label: 'Golosinas' },
-                    { id: 'coffeeIceCream', label: 'Café y helado' }
-                ].map((item) => (
+                {navItems.map((item) => (
                     <a
                         key={item.id}
                         href={`#${item.id}`}
@@ -92,6 +98,58 @@ export default function CandyPage() {
                         {item.label}
                     </a>
                 ))}
+            </nav>
+
+            {/* Mobile nav */}
+            <nav className="relative sticky top-30 z-50 mb-2 md:hidden">
+                <button
+                    onClick={() => setOpen(!open)}
+                    className="flex items-center gap-2 p-2"
+                >
+                    Menu
+                    {open
+                         ? <FontAwesomeIcon icon={faAngleLeft} />
+                         : <FontAwesomeIcon icon={faAngleRight} /> 
+                    }
+                </button>
+
+                {/* Overlay */}
+                {open && (
+                    <div
+                        onClick={() => setOpen(false)}
+                        className="fixed inset-0 bg-black/50 z-40"
+                    />
+                )}
+                
+                {/* Menu deslizable */}
+                <div
+                    className={`
+                        fixed top-0 left-0 h-full w-40 bg-[var(--navy)] p-4
+                        transform transition-transform duration-300 z-50
+                        ${open ? 'translate-x-0' : '-translate-x-full'}
+                    `}
+                >
+                    <button
+                        onClick={() => setOpen(false)}
+                        className="mb-10 flex gap-2 items-center m-auto"
+                    >
+                        Menu <FontAwesomeIcon icon={faAngleLeft} />
+                    </button>
+                    {navItems.map((item) => (
+                        <a
+                            key={item.id}
+                            href={`#${item.id}`}
+                            onClick={() => setOpen(false)}
+                            className={`block transition ${activeSection === item.id
+                                ? 'text-[var(--green)]'
+                                : ''
+                                }`}
+                        >
+                            {item.label}
+                        </a>
+                    ))
+                    }
+                </div>
             </nav>
 
             <section id="combos" className="scroll-mt-36">
