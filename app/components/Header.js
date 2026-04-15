@@ -57,6 +57,12 @@ export default function Header() {
                             ${open ? 'translate-x-0' : 'translate-x-full'}
                         `}
                         >
+                            <div className="p-4">
+                                {session?.user ? (
+                                    <span className="text-[var(--green)]">Hola {session.user.name}</span>
+                                ) : ''}
+                            </div>
+                            
                             <button
                                 onClick={() => setOpen(false)}
                                 className="bg-[var(--mint)] text-[var(--navy)] flex items-center justify-center rounded-xl p-2 mb-2"
@@ -87,7 +93,7 @@ export default function Header() {
                     </div>
                 </div>
 
-                <div className="flex items-center justify-center">
+                <div className="hidden md:flex items-center justify-center">
                     {session?.user ? (
                         <span className="text-[var(--green)] text-xl mb-2 md:mb-0">Hola {session.user.name}</span>
                     ) : ''}
