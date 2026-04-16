@@ -62,8 +62,6 @@ export default function CandyPage() {
         }
     }, [activeSection]);
 
-    if (loading) return <p>Cargando...</p>;
-
     const combos = candy.filter(c => c.type_id === 1);
     const popCorn = candy.filter(c => c.type_id === 2);
     const drinks = candy.filter(c => c.type_id === 3);
@@ -156,32 +154,32 @@ export default function CandyPage() {
 
             <section id="combos" className="scroll-mt-36">
                 <h3 className="text-xl text-center">Combos</h3>
-                <CardCandy items={combos} />
+                <CardCandy items={combos} loading={loading} />
             </section>
 
             <section id="popCorn" className="scroll-mt-36">
                 <h3 className="text-xl text-center">Pochoclos</h3>
-                <CardCandy items={popCorn} />
+                <CardCandy items={popCorn} loading={loading}/>
             </section>
 
             <section id="drinks" className="scroll-mt-36">
                 <h3 className="text-xl text-center">Bebidas</h3>
-                <CardCandy items={drinks} />
+                <CardCandy items={drinks} loading={loading}/>
             </section>
 
             <section  id="snacks" className="scroll-mt-36">
                 <h3 className="text-xl text-center">Snacks</h3>
-                <CardCandy items={snacks} />
+                <CardCandy items={snacks} loading={loading}/>
             </section>
 
             <section id="candies" className="scroll-mt-36">
                 <h3 className="text-xl text-center">Golosinas</h3>
-                <CardCandy items={candies} />
+                <CardCandy items={candies} loading={loading}/>
             </section>
 
             <section id="coffeeIceCream" className="scroll-mt-36">
                 <h3 className="text-xl text-center">Café y helado</h3>
-                <CardCandy items={coffeeIceCream} />
+                <CardCandy items={coffeeIceCream} loading={loading}/>
             </section>
         </main>
     )

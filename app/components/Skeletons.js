@@ -61,3 +61,16 @@ export const SkeletonPeliculaPage = () => (
         </div>
     </div>
 );
+
+export const SkeletonCardCandy = () => (
+    <div className="flex flex-col border-2 bg-[var(--teal)] border-gray-400 rounded-xl">
+        <div className="w-full h-50 p-4 overflow-hidden">
+            <Skeleton className="w-full h-full" />
+        </div>
+
+        <Skeleton className="p-2 h-[48px] mb-5" />
+        <Skeleton className="h-[40px] mb-2" />
+        <Skeleton className="h-[20px] w-20 mb-4 ml-1" />
+        <Skeleton className="h-[20px] w-16 mb-2 mt-auto mx-auto" />
+    </div>
+);

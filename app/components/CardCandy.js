@@ -2,9 +2,20 @@
 
 import { useState } from 'react';
 import Modal from '../components/Modal';
+import { SkeletonCardCandy } from './Skeletons';
 
-export default function CardCandy({ items }) {
+export default function CardCandy({ items, loading }) {
     const [selectedItem, setSelectedItem] = useState(null);
+
+    if (loading) {
+        return (
+            <div className="grid grid-cols-2 md:grid-cols-6 p-4 gap-5">
+                {Array.from({ length: 10 }).map((_, i) => (
+                    <SkeletonCardCandy key={i} />
+                ))}
+            </div>
+        )
+    };
 
     return (
         <div className="grid grid-cols-2 md:grid-cols-6 p-4 gap-5">
