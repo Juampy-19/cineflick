@@ -7,7 +7,7 @@ export default function CardCandy({ items }) {
     const [selectedItem, setSelectedItem] = useState(null);
 
     return (
-        <div className="grid grid-cols-6 p-4 gap-5">
+        <div className="grid grid-cols-2 md:grid-cols-6 p-4 gap-5">
             {items.map((item) => (
                 <div key={item.id} className="flex flex-col border-2 border-[var(--green)] bg-[var(--teal)] rounded-xl hover:scale-105 transition-transform duration-300">
                     <div className="w-full h-50 p-4 overflow-hidden">
