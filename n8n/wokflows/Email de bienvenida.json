@@ -1,0 +1,70 @@
+{
+  "name": "Email de bienvenida",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "bienvenida",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "4a7ef304-a890-4b92-91c8-019cdf6687f6",
+      "name": "Webhook",
+      "webhookId": "0f1f9ee4-606f-47f4-b1f5-9ca943ae522f"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.body.email }}",
+        "subject": "Bienvenido a Cineflick 🎬",
+        "message": "=<div style=\" font-family: Arial, sans-serif; background-color: #124170; color: #ffffff; padding: 10px; border-radius: 10px\">\n<h2>🎬 Bienvenido a Cineflick</h2> <p>Hola {{$json.body.name}},</p> <p>Tu cuenta fue creada con éxito.</p> <p>🍿 Disfrutá las mejores películas</p>\n</div>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "3bcf0e83-e67d-4c12-be63-06c8247c67c2",
+      "name": "Send a message",
+      "webhookId": "73eed16c-cb0e-4588-9f88-031ab8293d06",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "KMvebWQC72B0AVZn",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "f2b8c9b6-59c8-4527-8b61-f55b89e50b16",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b60414a82b6e9f6220caa913fcd11e3e972d20975aca1c1181e571d1be5b92e9"
+  },
+  "id": "cRTgPpaRk5u83ELd",
+  "tags": []
+}
