@@ -46,6 +46,18 @@ export async function POST(req) {
             [name, lastname, email, hashedPassword]
         );
 
+        // Llamado a n8n para email automatico de bienvenida.
+        await fetch('http://localhost:5678/webhook-test/bienvenida', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                email: email,
+                name: name
+            })
+        }).catch(err => console.error('Error n8n:', err));
+
         connection.end();
 
         return NextResponse.json({ message: 'Usuario registrado con éxito'}, { status: 200 });
