@@ -16,10 +16,12 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${roboto.className}`}>
+      <body className={`${roboto.className} min-h-screen flex flex-col`}>
         <Providers>
           <Header />
-          {children}
+          <main className="flex-1">
+            {children}
+          </main>
           < Toaster position="top-right" reverseOrder={false} />
           <Footer />
         </Providers>
