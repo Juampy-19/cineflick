@@ -39,7 +39,12 @@ export default function Card() {
 
     // Error en el servidor.
     if (error) {
-        return <p>Error al conectar con el servidor</p>
+        return (
+            <div className='flex flex-col justify-center items-center p-4 m-5 border-2 border-[var(--green)] rounded-xl bg-[var(--teal)]'>
+                <p>Error al conectar con el servidor</p>
+                <img src='/img/error500.png' className='w-1/3' />
+            </div>
+        )
     }
 
     // Error db vacía.

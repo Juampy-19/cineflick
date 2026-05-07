@@ -8,18 +8,22 @@ import { SkeletonCardProximamente } from "./Skeletons";
 export default function Card() {
     const [proximamente, setProximamente] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
     const carrouselRef = useRef(null);
 
     useEffect(() => {
         async function fetchMovies() {
             try {
                 const res = await fetch('/api/movies');
+                if (!res.ok) {
+                    throw new Error('Error del servidor');
+                }
                 const movies = await res.json();
                 const filtered = movies.filter((m) => m.status_id === 3);
                 setProximamente(filtered);
             } catch (error) {
                 console.error(error);
-                return <p>Error al cargar las películas</p>
+                setError(true);
             } finally {
                 setLoading(false);
             }
@@ -58,6 +62,17 @@ export default function Card() {
         )
     }
 
+    // Error en el servidor.
+    if (error) {
+        return (
+            <div className="flex flex-col justify-center items-center p-4 m-5 border-2 border-[var(--green)] rounded-xl bg-[var(--teal)]">
+                <p>Error al conectar con el servidor</p>
+                <img src="/img/error500.png" className="w-1/3" />
+            </div>
+        )
+    }
+
+    // Error db vacia.
     if (proximamente.length === 0) {
         return <p>No hay películas disponibles</p>
     }
