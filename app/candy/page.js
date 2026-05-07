@@ -13,15 +13,20 @@ export default function CandyPage() {
     const linksRef = useRef({});
     const [underlineStyle, setUnderlineStyle] = useState({});
     const [open, setOpen] = useState(false);
+    const [error, setError] = useState(false);
 
     useEffect(() => {
         async function fetchCandy() {
             try {
                 const res = await fetch('/api/candy');
+                if (!res.ok) {
+                    throw new Error('Error en el servidor');
+                }
                 const data = await res.json();
                 setCandy(data);
             } catch (error) {
                 console.error(error);
+                setError(true);
             } finally {
                 setLoading(false);
             }
@@ -77,6 +82,16 @@ export default function CandyPage() {
         { id: 'candies', label: 'Golosinas' },
         { id: 'coffeeIceCream', label: 'Café y helado' }
     ]
+
+    // Error en el servidor.
+    if (error) {
+        return (
+            <div className="w-1/2 flex flex-col justify-center items-center p-4 m-auto mb-6 mt-6 border-2 border-[var(--green)] rounded-xl bg-[var(--teal)]">
+                <p>Error en el servidor</p>
+                <img src="/img/error500.png" />
+            </div>
+        )
+    }
 
     return (
         <main className="mb-5 p-2">
