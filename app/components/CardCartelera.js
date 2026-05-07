@@ -8,17 +8,21 @@ import { SkeletonCardCartelera } from './Skeletons';
 export default function Card() {
     const [cartelera, setCartelera] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
 
     useEffect(() => {
         async function fetchMovies() {
             try {
                 const res = await fetch('/api/movies');
+                if (!res.ok) {
+                    throw new Error('Error del servidor');
+                }
                 const movies = await res.json();
                 const filtered = movies.filter((m) => m.status_id === 1 || m.status_id === 2);
                 setCartelera(filtered);
             } catch (error) {
                 console.error(error);
-                return <p>Error al cargar las películas</p>
+                setError(true);
             } finally {
                 setLoading(false);
             }
@@ -33,6 +37,12 @@ export default function Card() {
         )
     }
 
+    // Error en el servidor.
+    if (error) {
+        return <p>Error al conectar con el servidor</p>
+    }
+
+    // Error db vacía.
     if (cartelera.length === 0) {
         return <p>No hay películas disponibles</p>
     }
