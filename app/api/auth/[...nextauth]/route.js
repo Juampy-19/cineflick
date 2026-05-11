@@ -12,28 +12,41 @@ export const authOptions = {
                 password: { label: 'password', type: 'password' }
             },
             async authorize(credentials) {
-                const connection = await mysql.createConnection({
-                    host: 'localhost',
-                    user: 'root',
-                    database: 'cine_db'
-                });
 
-                const [rows] = await connection.execute('SELECT * FROM users WHERE email = ?', [credentials.email]);
-                connection.end();
+                try {
+                    const connection = await mysql.createConnection({
+                        host: 'localhost',
+                        user: 'root',
+                        database: 'cine_db'
+                    });
+    
+                    const [rows] = await connection.execute('SELECT * FROM users WHERE email = ?', [credentials.email]);
+                    connection.end();
+    
+                    if (rows.length === 0) {
+                        throw new Error('USER_NOT_FOUND');
+                    }
+    
+                    const user = rows[0];
+                    const passwordMatch = await bcrypt.compare(credentials.password, user.password);
+    
+                    if (!passwordMatch) {
+                        throw new Error('INVALID_PASSWORD');
+                    }
+    
+                    // Guardar en la sesión
+                    return { id: user.id, name: user.name, email: user.email };
+                } catch (error) {
+                    if (
+                        error.message === 'USER_NOT_FOUND' ||
+                        error.message === 'INVALID_PASSWORD'
+                    ) {
+                        throw error;
+                    }
 
-                if (rows.length === 0) {
-                    throw new Error('El email no está registrado');
+                    console.error(error);
+                    throw new Error('SERVER_ERROR');
                 }
-
-                const user = rows[0];
-                const passwordMatch = await bcrypt.compare(credentials.password, user.password);
-
-                if (!passwordMatch) {
-                    throw new Error('La contraseña es incorrecta');
-                }
-
-                // Guardar en la sesión
-                return { id: user.id, name: user.name, email: user.email };
             }
         })
     ],

@@ -60,7 +60,23 @@ export default function LoginPage() {
             router.push('/');
             toast.success('Inicio de sesión exitoso')
         } else {
-            setServerError(res.error || 'Error al iniciar sesión');
+            // setServerError(res.error || 'Error al iniciar sesión');
+            switch (res.error) {
+                case 'USER_NOT_FOUND':
+                    setServerError('El email no está registrado');
+                    break;
+                
+                case 'INVALID_PASSWORD':
+                    setServerError('La contraseña es incorrecta');
+                    break;
+
+                case 'SERVER_ERROR':
+                    setServerError('Error en el servidor');
+                    break;
+
+                default:
+                    setServerError('Error al iniciar sesión');
+            }
         };
     };
 
