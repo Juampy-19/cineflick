@@ -70,7 +70,7 @@ export default function Header() {
                                 <FontAwesomeIcon icon={faBars} />
                             </button>
                             <li><Link href='/' className={linkClass('/')}>Inicio</Link></li>
-                            <li><Link href='/api/movies' className={linkClass('api/movies')}>Cartelera</Link></li>
+                            <li><Link href='/store' className={linkClass('/store')}>Store</Link></li>
                             <li><Link href='/candy' className={linkClass('/candy')}>Candy</Link></li>
 
                             <div className='text-2xl'>
@@ -103,7 +103,7 @@ export default function Header() {
                     {/* Desktop menu */}
                     <nav className="hidden md:flex md:text-xl flex-row items-center gap-8 mr-10">
                         <Link href='/' className={linkClass('/')}>Inicio</Link>
-                        <Link href='/api/movies' className={linkClass('api/movies')}>Cartelera</Link>
+                        <Link href='/store' className={linkClass('/store')}>Store</Link>
                         <Link href='/candy' className={linkClass('/candy')}>Candy</Link>
 
                         <div className='text-2xl'>
