@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from "react";
+import CardStore from "../components/CardStore";
 
 export default function StorePage() {
     const [loading, setLoading] = useState(true);
@@ -42,8 +43,26 @@ export default function StorePage() {
     const pochocleras = store.filter(s => s.type_id === 4);
 
     return (
-        <div>
-            <p>Vista store</p>
-        </div>
+        <main className="mb-5 p-2">
+            <section id="nuevo" className="scroll-mt-36">
+                <h3 className="text-xl text-center">Nuevo</h3>
+                <CardStore products={nuevo} />
+            </section>
+
+            <section id="tazas" className="scroll-mt-36">
+                <h3 className="text-xl text-center">Tazas</h3>
+                <CardStore products={tazas} />
+            </section>
+
+            <section id="disney" className="scroll-mt-36">
+                <h3 className="text-xl text-center">Disney</h3>
+                <CardStore products={disney} />
+            </section>
+
+            <section id="pochocleras" className="scroll-mt-36">
+                <h3 className="text-xl text-center">Pochocleras</h3>
+                <CardStore products={pochocleras} />
+            </section>
+        </main>
     )
 }
