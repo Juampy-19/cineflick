@@ -1,6 +1,18 @@
 'use client';
 
-export default function CardStore({ products }) {
+import { SkeletonCardStore } from "./Skeletons";
+
+export default function CardStore({ products, loading }) {
+    if (loading) {
+        return (
+            <div className="grid grid-cols-2 md:grid-cols-4 p-4 gap-8">
+                {Array.from({ length: 10 }).map((_, i) => (
+                    <SkeletonCardStore key={i} />
+                ))}
+            </div>
+        )
+    }
+
     return (
         <div className="grid grid-cols-2 md:grid-cols-4 p-4 gap-8">
             {products.map((product) => (

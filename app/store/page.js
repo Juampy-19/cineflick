@@ -46,22 +46,22 @@ export default function StorePage() {
         <main className="mb-5 p-2">
             <section id="nuevo" className="scroll-mt-36">
                 <h3 className="text-xl text-center">Nuevo</h3>
-                <CardStore products={nuevo} />
+                <CardStore products={nuevo} loading={loading} />
             </section>
 
             <section id="tazas" className="scroll-mt-36">
                 <h3 className="text-xl text-center">Tazas</h3>
-                <CardStore products={tazas} />
+                <CardStore products={tazas} loading={loading} />
             </section>
 
             <section id="disney" className="scroll-mt-36">
                 <h3 className="text-xl text-center">Disney</h3>
-                <CardStore products={disney} />
+                <CardStore products={disney} loading={loading} />
             </section>
 
             <section id="pochocleras" className="scroll-mt-36">
                 <h3 className="text-xl text-center">Pochocleras</h3>
-                <CardStore products={pochocleras} />
+                <CardStore products={pochocleras} loading={loading} />
             </section>
         </main>
     )

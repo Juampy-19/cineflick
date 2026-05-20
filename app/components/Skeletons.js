@@ -74,3 +74,15 @@ export const SkeletonCardCandy = () => (
         <Skeleton className="h-[20px] w-16 mb-2 mt-auto mx-auto" />
     </div>
 );
+
+export const SkeletonCardStore = () => (
+    <div className="flex flex-col border-2 border-gray-400 rounded-xl">
+        <div className="w-full h-50 p-4">
+            <Skeleton className="w-full h-full" />
+        </div>
+
+        <Skeleton className="p-2 h-[48px] mx-2 mb-5" />
+        <Skeleton className="h-[30px] mx-2 mb-2" />
+        <Skeleton className="h-[20px] w-16 mb-2 mx-auto mt-auto" />
+    </div>
+);
