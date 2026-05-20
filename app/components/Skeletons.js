@@ -42,7 +42,7 @@ export const SkeletonCardProximamente = () => (
 );
 
 export const SkeletonPeliculaPage = () => (
-    <div className="flex flex-col md:flex-row mx-15 border-2 border-gray-400 rounded-xl">
+    <div className="flex flex-col md:flex-row mx-15 border-2 border-gray-400 bg-gray-200 animate-pulse rounded-xl">
         <div className="w-full md:w-100 h-110 md:h-130">
             <Skeleton className="w-full h-full rounded-xl" />
         </div>
@@ -63,20 +63,19 @@ export const SkeletonPeliculaPage = () => (
 );
 
 export const SkeletonCardCandy = () => (
-    <div className="flex flex-col border-2 bg-[var(--teal)] border-gray-400 rounded-xl">
+    <div className="flex flex-col border-2 bg-[var(--teal)] border-gray-400 bg-gray-200 animate-pulse rounded-xl">
         <div className="w-full h-50 p-4 overflow-hidden">
             <Skeleton className="w-full h-full" />
         </div>
 
-        <Skeleton className="p-2 h-[48px] mb-5" />
-        <Skeleton className="h-[40px] mb-2" />
-        <Skeleton className="h-[20px] w-20 mb-4 ml-1" />
+        <Skeleton className="p-2 h-[48px] mb-5 mx-2" />
+        <Skeleton className="h-[40px] mb-2 mx-2" />
         <Skeleton className="h-[20px] w-16 mb-2 mt-auto mx-auto" />
     </div>
 );
 
 export const SkeletonCardStore = () => (
-    <div className="flex flex-col border-2 border-gray-400 rounded-xl">
+    <div className="flex flex-col border-2 border-gray-400 bg-gray-200 animate-pulse rounded-xl">
         <div className="w-full h-50 p-4">
             <Skeleton className="w-full h-full" />
         </div>
