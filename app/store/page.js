@@ -1,16 +1,13 @@
 'use client';
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import CardStore from "../components/CardStore";
+import Navbar from "../components/Navbar";
 
 export default function StorePage() {
     const [loading, setLoading] = useState(true);
     const [store, setStore] = useState([]);
     const [error, setError] = useState(false);
-    const [activeSection, setActiveSection] = useState('');
-    const linksRef = useRef({});
-    const [underlineStyle, setUnderlineStyle] = useState({});
-    const navRef = useRef(null);
 
     useEffect(() => {
         async function fetchStore() {
@@ -30,39 +27,6 @@ export default function StorePage() {
         }
         fetchStore();
     }, []);
-
-    useEffect(() => {
-        const sections = document.querySelectorAll('section');
-
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        setActiveSection(entry.target.id);
-                    }
-                });
-            },
-            {
-                threshold: 0.1,
-                rootMargin: '-50px 0px -50px 0px'
-            }
-        );
-
-        sections.forEach((section) => observer.observe(section));
-
-        return () => observer.disconnect();
-    }, [store]);
-
-    useEffect(() => {
-        const activeLink = linksRef.current[activeSection];
-
-        if (activeLink) {
-            setUnderlineStyle({
-                left: activeLink.offsetLeft,
-                width: activeLink.offsetWidth
-            });
-        }
-    }, [activeSection]);
 
     // Error en el servidor.
     if (error) {
@@ -88,23 +52,7 @@ export default function StorePage() {
 
     return (
         <main className="mb-5 p-2">
-            {/* Desktop nav */}
-            <nav ref={navRef} className="hidden relative sticky top-25 mb-2 gap-4 p-2 z-10 md:flex bg-[var(--navy)]">
-                <span className="absolute bottom-0 h-[3px] bg-[var(--green)] tansition-all duration-300" style={underlineStyle}></span>
-                {navItems.map((item) => (
-                    <a
-                        key={item.id}
-                        href={`#${item.id}`}
-                        ref={(el) => (linksRef.current[item.id] =el)}
-                        className={`pb-2 transition ${activeSection === item.id
-                                ? 'text-[var(--green)]'
-                                : 'hover:text-[var(--green)]'
-                            }`}
-                    >
-                        {item.label}
-                    </a>
-                ))}
-            </nav>
+            <Navbar navItems={navItems} observeDependency={store} />
 
             <section id="nuevo" className="scroll-mt-36">
                 <h3 className="text-xl text-center">Nuevo</h3>
