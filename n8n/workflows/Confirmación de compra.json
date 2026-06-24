@@ -1,0 +1,65 @@
+{
+  "name": "Confirmación de compra",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "compra",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "670bde80-e778-484b-b382-dc56bb87ca48",
+      "name": "Webhook",
+      "webhookId": ""
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.body.email }}",
+        "subject": "Cineflick - Detalle de tu compra 🎬",
+        "message": "=<div style=\" font-family: Roboto; background-color: #124170; color: #ffffff; padding: 10px; border-radius: 10px\"> <h2>🎬Cineflick</h2> <p>Hola {{ $json.body.name }},</p> <p>Te enviamos el detalle de tu compra:</p> <p>{{ $json.body.movie }}</p> <p>{{ $json.body.room }}</p> <p>{{ $json.body.hour }}</p> <p>{{ $json.body.seats }}</p> <p>Total: ${{ $json.body.price }}</p> <p>🍿 Disfrutá las mejores películas</p> </div>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        224,
+        0
+      ],
+      "id": "d8025d42-c1dd-44fa-941f-53b7d533a3a4",
+      "name": "Send a message",
+      "webhookId": "01303464-a175-4f28-a340-3026f021cd52",
+      "credentials": {}
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "53aa6bd7-3a47-463d-91d1-fcb159f7d93d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": ""
+  },
+  "id": "FeoON4yLkrn1Pqh8",
+  "tags": []
+}

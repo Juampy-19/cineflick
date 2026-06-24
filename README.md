@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🎬 Cineflick
 
-## Getting Started
+Aplicación web para gestión de usuarios y catálogo de películas.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Tecnologías
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Next.js
+- MySQL
+- n8n (automatización)
+- Gmail API
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🔄 Automatización con n8n
 
-## Learn More
+Se implementó un workflow para enviar emails de bienvenida automáticamente.
 
-To learn more about Next.js, take a look at the following resources:
+### 🔧 Flujo
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Usuario se registra
+2. API guarda en DB
+3. Se envía webhook a n8n
+4. n8n envía email
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 📦 Workflow
 
-## Deploy on Vercel
+Ubicación:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+/n8n/workflows/Email de bienvenida.json
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### ⚙️ Configuración
+
+1. Importar en n8n
+2. Configurar credenciales Gmail
+3. Activar workflow
+
+### 🔐 Seguridad
+
+Las credenciales no están incluidas.
+
+---
+
+## 🔄 Automatización con n8n
+
+Se implementó un workflow para enviar emails con el detalle de la compra automáticamente.
+
+### 🔧 Flujo
+
+1. Usuario realiza la compra
+2. API guarda la compra en DB
+3. Se envía webhook a n8n
+4. n8n envía email
+
+### 📦 Workflow
+
+/n8n/workflows/Confirmación de compra.json
+
+### ⚙️ Configuración
+
+1. Importar en n8n
+2. Configurar credenciales Gmail
+3. Activar workflow
+
+### 🔐 Seguridad
+
+Las credenciales no están incluidas.
