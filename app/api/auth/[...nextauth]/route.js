@@ -35,7 +35,13 @@ export const authOptions = {
                     }
     
                     // Guardar en la sesión
-                    return { id: user.id, name: user.name, email: user.email };
+                    // return { id: user.id, name: user.name, email: user.email };
+                    return {
+                        id: user.id,
+                        name: user.name,
+                        email: user.email,
+                        rol: user.rol
+                    }
                 } catch (error) {
                     if (
                         error.message === 'USER_NOT_FOUND' ||
@@ -64,12 +70,14 @@ export const authOptions = {
         async jwt({ token, user }) {
             if (user) {
                 token.id = user.id;
+                token.rol = user.rol;
             }
             return token;
         },
         async session({ session, token }) {
             if (session.user && token.id) {
-                session.user.id = token.id
+                session.user.id = token.id;
+                session.user.rol = token.rol;
             }
             return session;
         }
