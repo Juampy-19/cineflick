@@ -12,12 +12,25 @@ export default function Header() {
     const pathname = usePathname();
     const { data: session } = useSession();
     const [open, setOpen] = useState(false);
+    const isAdmin = session?.user?.rol === 'admin';
 
     const linkClass = (path) => `md:hover:text-[var(--green)] transition-colors duration-300 ${pathname === path ? 'border-b-2 border-[var(--green)]' : ''}`;
 
     useEffect(() => {
         setOpen(false);
     }, [pathname]);
+
+    const userLinks = [
+        { href: '/', label: 'Inicio' },
+        { href:'/store', label: 'Store' },
+        { href: '/candy', label: 'Candy' }
+    ];
+
+    const adminLinks = [
+        { href: '/admin', label: 'Dashboard' },
+        { href: '/admin/movies', label: 'Películas' },
+        { href: '/admin/showtimes', label: 'Funciónes' }
+    ];
 
     return (
         <header>
@@ -69,9 +82,15 @@ export default function Header() {
                             >
                                 <FontAwesomeIcon icon={faBars} />
                             </button>
-                            <li><Link href='/' className={linkClass('/')}>Inicio</Link></li>
-                            <li><Link href='/store' className={linkClass('/store')}>Store</Link></li>
-                            <li><Link href='/candy' className={linkClass('/candy')}>Candy</Link></li>
+                            {(isAdmin ? adminLinks : userLinks).map(link => (
+                                <Link
+                                    key={link.href}
+                                    href={link.href}
+                                    className={linkClass(link.href)}
+                                >
+                                    {link.label}
+                                </Link>
+                            ))}
 
                             <div className='text-2xl'>
                                 {session?.user ? (
@@ -102,9 +121,15 @@ export default function Header() {
                 <div className="flex items-center w-full md:justify-end">
                     {/* Desktop menu */}
                     <nav className="hidden md:flex md:text-xl flex-row items-center gap-8 mr-10">
-                        <Link href='/' className={linkClass('/')}>Inicio</Link>
-                        <Link href='/store' className={linkClass('/store')}>Store</Link>
-                        <Link href='/candy' className={linkClass('/candy')}>Candy</Link>
+                        {(isAdmin ? adminLinks : userLinks).map(link => (
+                            <Link
+                                key={link.href}
+                                href={link.href}
+                                className={linkClass(link.href)}
+                            >
+                                {link.label}
+                            </Link>
+                        ))}
 
                         <div className='text-2xl'>
                             {session?.user ? (
