@@ -25,7 +25,13 @@ export default async function AdminPage() {
 
     return (
         <div>
-            <h1>Panel de Administración</h1>
+            <h1 className="text-center m-5 text-xl">Panel de Administración</h1>
+
+            <section>
+                <Link href={'/admin/movies'}>
+                    <button className="btn">Películas</button>
+                </Link>
+            </section>
         </div>
     )
 }
