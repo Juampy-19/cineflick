@@ -35,10 +35,6 @@ export default function CreateMoviePage() {
 
         const response = await fetch('/api/movies', {
             method: 'POST',
-            // headers: {
-            //     'Content-Type': 'application/json'
-            // },
-            // body: JSON.stringify(movie)
             body: formData
         });
 

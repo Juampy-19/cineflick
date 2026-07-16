@@ -29,19 +29,7 @@ export async function POST(request) {
     const connection = await pool.getConnection();
 
     try {
-        // const body = await request.json();
         const data = await request.formData();
-
-        // const {
-        //     title,
-        //     synopsis,
-        //     duration,
-        //     poster_url,
-        //     release_date,
-        //     classification_id,
-        //     status_id,
-        //     genres
-        // } = body;
 
         const title = data.get('title');
         const synopsis = data.get('synopsis');
