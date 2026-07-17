@@ -3,10 +3,14 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSort, faSortDown, faSortUp } from "@fortawesome/free-solid-svg-icons";
 
 export default function AdminMoviePage() {
 
     const [movies, setMovies] = useState([]);
+    const [sortBy, setSortBy] = useState('id');
+    const [sortOrder, setSortOrder] = useState('desc');
 
     useEffect(() => {
         loadMovies();
@@ -19,9 +23,38 @@ export default function AdminMoviePage() {
         setMovies(data);
     };
 
+    function handleSort(column) {
+        if (sortBy === column) {
+            setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+        } else {
+            setSortBy(column);
+            setSortOrder('asc');
+        }
+    };
+
+    function getSortIcon(column) {
+        if (sortBy !== column) return faSort;
+        return sortOrder === 'asc' ? faSortUp : faSortDown;
+    };
+
+    function getHeaderClass(column) {
+        return `cursor-pointer text-xl p-3 transition-colors ${
+            sortBy === column
+                ? 'text-[var(--green)]'
+                : 'hover:text-[var(--green)]'
+        }`
+    };
+
+    const sortedMovies = [...movies].sort((a, b) => {
+        let comparison = 0;
+        if (a[sortBy] < b[sortBy]) comparison = -1;
+        if (a[sortBy] > b[sortBy]) comparison = 1;
+        return sortOrder === 'desc' ? comparison : -comparison;
+    });
+
     return (
         <div>
-            <h1>Administrar películas</h1>
+            <h1 className="text-center text-3xl font-bold my-2">Administrar películas</h1>
 
             <div>
                 <Link href={'/admin/movies/create'}>
@@ -29,34 +62,47 @@ export default function AdminMoviePage() {
                 </Link>
             </div>
 
-            <table className="w-full border_collapse">
+            <table className="w-full my-6">
                 <thead>
                     <tr className="border-b">
-                        <th className="text-center p-3">
+                        <th className="text-center text-xl p-3">
                             Poster
                         </th>
 
-                        <th className="text-center p-3">
-                            Título
+                        <th onClick={() => handleSort('id')} 
+                            className={getHeaderClass('id')}
+                        >
+                            Id {' '}
+                            <FontAwesomeIcon icon={getSortIcon('id')} />
                         </th>
 
-                        <th className="text-center p-3">
-                            Estado
+                        <th onClick={() => handleSort('title')} 
+                            className={getHeaderClass('title')}
+                        >
+                            Título {' '}
+                            <FontAwesomeIcon icon={getSortIcon('title')} />
                         </th>
 
-                        <th className="text-center p-3">
+                        <th onClick={() => handleSort('status')} 
+                            className={getHeaderClass('status')}
+                        >
+                            Estado {' '}
+                            <FontAwesomeIcon icon={getSortIcon('status')} />
+                        </th>
+
+                        <th className="text-center text-xl p-3">
                             Acciones
                         </th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    {movies.map((movie) => (
+                    {sortedMovies.map((movie) => (
                         <tr
                             key={movie.id}
                             className="border-b"
                         >
-                            <td className="p-3">
+                            <td className="p-3 flex justify-center">
                                 <Image
                                     src={movie.poster_url}
                                     alt='Sin imagen'
@@ -65,11 +111,15 @@ export default function AdminMoviePage() {
                                 />
                             </td>
 
-                            <td className="p-3">
+                            <td className="p-3 text-center text-lg">
+                                {movie.id}
+                            </td>
+
+                            <td className="p-3 text-lg">
                                 {movie.title}
                             </td>
 
-                            <td className="p-3">
+                            <td className="p-3 text-center text-lg">
                                 {movie.status}
                             </td>
 
@@ -77,9 +127,8 @@ export default function AdminMoviePage() {
                                 <div className="flex gap-2 justify-center">
                                     <Link
                                         href={`/admin/movies/${movie.id}`}
-                                        className="btn"
                                     >
-                                        Editar
+                                        <button className="btn">Editar</button>
                                     </Link>
                                 </div>
                             </td>
