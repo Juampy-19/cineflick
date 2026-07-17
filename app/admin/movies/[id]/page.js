@@ -91,7 +91,7 @@ export default function EditMoviePage() {
 
     return (
         <div className="p-4 flex flex-col gap-4">
-            <h1 className="text-center text-2xl">Editar película</h1>
+            <h1 className="text-center text-3xl font-bold">Editar película</h1>
 
             <MoviesForm
                 movie={movie}
