@@ -38,11 +38,10 @@ export default function AdminCandyPage() {
     };
 
     function getHeaderClass(column) {
-        return `cursor-pointer text-xl p-3 transition-colors ${
-            sortBy === column
+        return `cursor-pointer text-xl p-3 transition-colors ${sortBy === column
                 ? 'text-[var(--green)]'
                 : 'hover:text-[var(--green)]'
-        }`
+            }`
     };
 
     const sortedCandy = [...candy].sort((a, b) => {
@@ -69,14 +68,14 @@ export default function AdminCandyPage() {
                             Imagen
                         </th>
 
-                        <th onClick={() => handleSort('id')} 
+                        <th onClick={() => handleSort('id')}
                             className={getHeaderClass('id')}
                         >
                             Id {' '}
                             <FontAwesomeIcon icon={getSortIcon('id')} />
                         </th>
 
-                        <th onClick={() => handleSort('name')} 
+                        <th onClick={() => handleSort('name')}
                             className={getHeaderClass('name')}
                         >
                             Producto {' '}
@@ -95,15 +94,26 @@ export default function AdminCandyPage() {
                         </th>
                     </tr>
                 </thead>
+
+                <tbody>
                     {sortedCandy.map((candy) => (
                         <tr key={candy.id} className="border-b">
                             <td className="p-3 flex justify-center">
-                                <Image
-                                    src={candy.img}
-                                    alt='Sin imagen'
-                                    width={60}
-                                    height={90}
-                                />
+                                {candy.img ? (
+                                    <Image
+                                        src={candy.img}
+                                        alt='Sin imagen'
+                                        width={60}
+                                        height={90}
+                                    />
+                                ) : (
+                                    <Image
+                                        src='/img/Placeholder_view_vector.svg (1).png'
+                                        alt="Sin imagen"
+                                        width={60}
+                                        height={90}
+                                    />
+                                )}
                             </td>
 
                             <td className="p-3 text-center text-lg">
@@ -129,8 +139,6 @@ export default function AdminCandyPage() {
                             </td>
                         </tr>
                     ))}
-                <tbody>
-                    
                 </tbody>
             </table>
         </div>

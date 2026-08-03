@@ -57,7 +57,7 @@ export default function CandyForm ({candy, setCandy, onSubmit, buttonText = 'Gua
                         onChange={(e) =>
                             setCandy({
                                 ...candy,
-                                img: e.target.files[0]
+                                image: e.target.files[0]
                             })
                         }
                     />

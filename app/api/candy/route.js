@@ -31,17 +31,17 @@ export async function POST(request) {
 
         const title = data.get('title');
         const description = data.get('description');
-        const image = data.get('img');
+        const image = data.get('image');
         const type_id = data.get('type_id');
         const price = data.get('price');
 
         let img = null;
 
         if (image && image.size > 0) {
-            const bytes = await img.arrayBuffer();
+            const bytes = await image.arrayBuffer();
             const buffer = Buffer.from(bytes);
 
-            const fileName = `${Date.now()}-${img.name.replace(/\s+/g, '-').toLowerCase()}`;
+            const fileName = `${Date.now()}-${image.name.replace(/\s+/g, '-').toLowerCase()}`;
 
             const filePath = path.join(
                 process.cwd(),

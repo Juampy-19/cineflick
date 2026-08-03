@@ -9,7 +9,7 @@ export default function CreateCandyPage() {
     const [candy, setCandy] = useState({
         title: '',
         description: '',
-        img: null,
+        image: null,
         type_id: '',
         price: ''
     });
@@ -23,8 +23,8 @@ export default function CreateCandyPage() {
         formData.append('description', candy.description);
         formData.append('type_id', candy.type_id);
         formData.append('price', candy.price);
-        if (candy.img) {
-            formData.append('img', candy.img);
+        if (candy.image) {
+            formData.append('image', candy.image);
         }
 
         const response = await fetch('/api/candy', {
