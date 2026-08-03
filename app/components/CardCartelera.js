@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { classificationColor } from '@/utils/helpers';
 import { SkeletonCardCartelera } from './Skeletons';
+import Image from 'next/image';
 
 export default function Card() {
     const [cartelera, setCartelera] = useState([]);
@@ -42,7 +43,11 @@ export default function Card() {
         return (
             <div className='flex flex-col justify-center items-center p-4 m-5 border-2 border-[var(--green)] rounded-xl bg-[var(--teal)]'>
                 <p>Error al conectar con el servidor</p>
-                <img src='/img/error500.png' className='w-1/3' />
+                <Image
+                    src='/img/error500.png'
+                    alt='Imagen de aviso de error'
+                    className='w-1/3'
+                />
             </div>
         )
     }
@@ -57,7 +62,7 @@ export default function Card() {
             {cartelera.map((movie) => (
                 <Link key={movie.id} href={`/pelicula/${movie.id}`} className='relative flex flex-col items-center border-2 border-[var(--green)] rounded-xl shadow-lg bg-[var(--teal)] hover:scale-105 transition-transform duration-300'>
                     <div className='w-full h-full items-center justify-center overflow-hidden'>
-                        <img
+                        <Image
                             src={movie.poster_url}
                             alt='Poster de la película'
                             className='w-full h-full rounded-xl'

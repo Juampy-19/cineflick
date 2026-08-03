@@ -1,6 +1,7 @@
 'use client';
 
 import { SkeletonCardStore } from "./Skeletons";
+import Image from "next/image";
 
 export default function CardStore({ products, loading }) {
     if (loading) {
@@ -18,7 +19,7 @@ export default function CardStore({ products, loading }) {
             {products.map((product) => (
                 <div key={product.id} className="flex flex-col border-2 border-[var(--green)] bg-[var(--teal)] rounded-xl hover:scale-105 transition-transform duration-300">
                     <div className="w-full h-50 p-4 overflow-hidden">
-                        <img 
+                        <Image 
                             src={product.img}
                             alt="Imagen del producto"
                             className="w-full h-full object-contain"
