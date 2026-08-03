@@ -88,11 +88,23 @@ export default function Card() {
                 {proximamente.map((movie) => (
                     <Link key={movie.id} href={`/pelicula/${movie.id}`} className="relative flex-shrink-0 w-56 flex flex-col items-center border-2 border-[var(--green)] rounded-xl shadow-lg bg-[var(--teal)] hover:scale-105 transition-transform duration-300">
                         <div className="w-full h-full items-center justify-center overflow-hidden">
-                            <Image
-                                src={movie.poster_url}
-                                alt="Poster de la película"
-                                className="w-full h-full rounded-xl"
-                            />
+                            {movie.poster_url ? (
+                                <Image
+                                    src={movie.poster_url}
+                                    alt="Poster de la película"
+                                    width={300}
+                                    height={450}
+                                    className="w-full h-full rounded-xl"
+                                />
+                            ) : (
+                                <Image
+                                    src='/img/Placeholder_view_vector.svg (1).png'
+                                    alt="Imagen alternativa"
+                                    width={300}
+                                    height={450}
+                                    className="w-full h-full rounded-xl"
+                                />
+                            )}
                         </div>
                         <h2 className="mt-5 text-sm text-center p-2 h-10 flex items-center justify-center">{movie.title}</h2>
                         <div className="flex items-center justify-center gap-5">

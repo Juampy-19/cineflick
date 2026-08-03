@@ -62,11 +62,23 @@ export default function Card() {
             {cartelera.map((movie) => (
                 <Link key={movie.id} href={`/pelicula/${movie.id}`} className='relative flex flex-col items-center border-2 border-[var(--green)] rounded-xl shadow-lg bg-[var(--teal)] hover:scale-105 transition-transform duration-300'>
                     <div className='w-full h-full items-center justify-center overflow-hidden'>
-                        <Image
-                            src={movie.poster_url}
-                            alt='Poster de la película'
-                            className='w-full h-full rounded-xl'
-                        />
+                        {movie.poster_url ? (
+                            <Image
+                                src={movie.poster_url}
+                                alt='Poster de la película'
+                                width={300}
+                                height={450}
+                                className='w-full h-full rounded-xl'
+                            />
+                        ) : (
+                            <Image
+                                src='/img/Placeholder_view_vector.svg (1).png'
+                                alt='Imagen alternativa'
+                                width={300}
+                                height={450}
+                                className='w-full h-full rounded-xl'
+                            />
+                        )}
                     </div>
                     <h2 className='mt-3 mb-3 text-sm text-center p-2 h-10'>{movie.title}</h2>
                     <p className={`mt-3 mb-4 text-black px-2 py-1 rounded-full text-xs font-bold ${classificationColor(movie.classification_id)}`}>{movie.classification}</p>
