@@ -103,12 +103,21 @@ export default function AdminMoviePage() {
                             className="border-b"
                         >
                             <td className="p-3 flex justify-center">
-                                <Image
-                                    src={movie.poster_url}
-                                    alt='Sin imagen'
-                                    width={60}
-                                    height={90}
-                                />
+                                {movie.poster_url ? (
+                                    <Image
+                                        src={movie.poster_url}
+                                        alt='Sin imagen'
+                                        width={60}
+                                        height={90}
+                                    />
+                                ) : (
+                                    <Image
+                                        src='/img/Placeholder_view_vector.svg (1).png'
+                                        alt="Sin imagen"
+                                        width={60}
+                                        height={90}
+                                    />
+                                )}
                             </td>
 
                             <td className="p-3 text-center text-lg">
