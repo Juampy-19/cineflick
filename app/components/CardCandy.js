@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Modal from '../components/Modal';
 import { SkeletonCardCandy } from './Skeletons';
+import Image from 'next/image';
 
 export default function CardCandy({ items, loading }) {
     const [selectedItem, setSelectedItem] = useState(null);
@@ -22,11 +23,23 @@ export default function CardCandy({ items, loading }) {
             {items.map((item) => (
                 <div key={item.id} className="flex flex-col border-2 border-[var(--green)] bg-[var(--teal)] rounded-xl hover:scale-105 transition-transform duration-300">
                     <div className="w-full h-50 p-4 overflow-hidden">
-                        <img
-                            src={item.img}
-                            alt="Imagen del producto."
-                            className='w-full h-full object-contain'
-                        />
+                        {item.img ? (
+                            <Image
+                                src={item.img}
+                                alt="Imagen del producto."
+                                width={250}
+                                height={300}
+                                className='w-full h-full object-contain'
+                            />
+                        ) : (
+                            <Image
+                                src='/img/Placeholder_view_vector.svg (1).png'
+                                alt='Imagen alternativa'
+                                width={250}
+                                height={300}
+                                className='w-full h-full object-contain rounded-xl'
+                            />
+                        )}
                     </div>
 
                     <h3 className="text-center p-2 h-[48px] mb-5">{item.title}</h3>
