@@ -3,14 +3,14 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSort, faSortDown, faSortUp } from "@fortawesome/free-solid-svg-icons";
+import { useSort } from "@/app/hooks/useSort";
+import SortableHeader from "@/app/components/SortableHeader";
 
 export default function AdminCandyPage() {
 
     const [candy, setCandy] = useState([]);
-    const [sortBy, setSortBy] = useState('id');
-    const [sortOrder, setSortOrder] = useState('desc');
+    const { sortedData: sortedCandy, handleSort, getSortIcon, getHeaderClass } = useSort(candy, 'id', 'desc');
+
 
     useEffect(() => {
         loadCandy();
@@ -21,35 +21,7 @@ export default function AdminCandyPage() {
         const data = await res.json();
 
         setCandy(data);
-    }
-
-    function handleSort(column) {
-        if (sortBy === column) {
-            setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-        } else {
-            setSortBy(column);
-            setSortOrder('asc');
-        }
-    };
-
-    function getSortIcon(column) {
-        if (sortBy !== column) return faSort;
-        return sortOrder === 'asc' ? faSortUp : faSortDown;
-    };
-
-    function getHeaderClass(column) {
-        return `cursor-pointer text-xl p-3 transition-colors ${sortBy === column
-                ? 'text-[var(--green)]'
-                : 'hover:text-[var(--green)]'
-            }`
-    };
-
-    const sortedCandy = [...candy].sort((a, b) => {
-        let comparison = 0;
-        if (a[sortBy] < b[sortBy]) comparison = -1;
-        if (a[sortBy] > b[sortBy]) comparison = 1;
-        return sortOrder === 'desc' ? comparison : -comparison;
-    });
+    };    
 
     return (
         <div>
@@ -68,26 +40,29 @@ export default function AdminCandyPage() {
                             Imagen
                         </th>
 
-                        <th onClick={() => handleSort('id')}
-                            className={getHeaderClass('id')}
-                        >
-                            Id {' '}
-                            <FontAwesomeIcon icon={getSortIcon('id')} />
-                        </th>
+                        <SortableHeader
+                            column='id'
+                            label='Id'
+                            handleSort={handleSort}
+                            getSortIcon={getSortIcon}
+                            getHeaderClass={getHeaderClass}
+                        />
 
-                        <th onClick={() => handleSort('name')}
-                            className={getHeaderClass('name')}
-                        >
-                            Producto {' '}
-                            <FontAwesomeIcon icon={getSortIcon('name')} />
-                        </th>
+                        <SortableHeader
+                            column='name'
+                            label='Producto'
+                            handleSort={handleSort}
+                            getSortIcon={getSortIcon}
+                            getHeaderClass={getHeaderClass}
+                        />
 
-                        <th onClick={() => handleSort('type_id')}
-                            className={getHeaderClass('type_id')}
-                        >
-                            Tipo {' '}
-                            <FontAwesomeIcon icon={getSortIcon('type_id')} />
-                        </th>
+                        <SortableHeader
+                            column='type_id'
+                            label='Tipo'
+                            handleSort={handleSort}
+                            getSortIcon={getSortIcon}
+                            getHeaderClass={getHeaderClass}
+                        />
 
                         <th className="text-center text-xl p-3">
                             Acciones

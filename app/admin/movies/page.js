@@ -3,14 +3,13 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSort, faSortDown, faSortUp } from "@fortawesome/free-solid-svg-icons";
+import { useSort } from "@/app/hooks/useSort";
+import SortableHeader from "@/app/components/SortableHeader";
 
 export default function AdminMoviePage() {
 
     const [movies, setMovies] = useState([]);
-    const [sortBy, setSortBy] = useState('id');
-    const [sortOrder, setSortOrder] = useState('desc');
+    const { sortedData: sortedMovies, handleSort, getSortIcon, getHeaderClass } = useSort(movies, 'id', 'desc');
 
     useEffect(() => {
         loadMovies();
@@ -22,35 +21,7 @@ export default function AdminMoviePage() {
 
         setMovies(data);
     };
-
-    function handleSort(column) {
-        if (sortBy === column) {
-            setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-        } else {
-            setSortBy(column);
-            setSortOrder('asc');
-        }
-    };
-
-    function getSortIcon(column) {
-        if (sortBy !== column) return faSort;
-        return sortOrder === 'asc' ? faSortUp : faSortDown;
-    };
-
-    function getHeaderClass(column) {
-        return `cursor-pointer text-xl p-3 transition-colors ${
-            sortBy === column
-                ? 'text-[var(--green)]'
-                : 'hover:text-[var(--green)]'
-        }`
-    };
-
-    const sortedMovies = [...movies].sort((a, b) => {
-        let comparison = 0;
-        if (a[sortBy] < b[sortBy]) comparison = -1;
-        if (a[sortBy] > b[sortBy]) comparison = 1;
-        return sortOrder === 'desc' ? comparison : -comparison;
-    });
+    
 
     return (
         <div>
@@ -69,27 +40,30 @@ export default function AdminMoviePage() {
                             Poster
                         </th>
 
-                        <th onClick={() => handleSort('id')} 
-                            className={getHeaderClass('id')}
-                        >
-                            Id {' '}
-                            <FontAwesomeIcon icon={getSortIcon('id')} />
-                        </th>
+                        <SortableHeader
+                            column='id'
+                            label='Id'
+                            handleSort={handleSort}
+                            getSortIcon={getSortIcon}
+                            getHeaderClass={getHeaderClass}
+                        />
 
-                        <th onClick={() => handleSort('title')} 
-                            className={getHeaderClass('title')}
-                        >
-                            Título {' '}
-                            <FontAwesomeIcon icon={getSortIcon('title')} />
-                        </th>
+                        <SortableHeader
+                            column='title'
+                            label='Titulo'
+                            handleSort={handleSort}
+                            getSortIcon={getSortIcon}
+                            getHeaderClass={getHeaderClass}
+                        />
 
-                        <th onClick={() => handleSort('status')} 
-                            className={getHeaderClass('status')}
-                        >
-                            Estado {' '}
-                            <FontAwesomeIcon icon={getSortIcon('status')} />
-                        </th>
-
+                        <SortableHeader
+                            column='status'
+                            label='Estado'
+                            handleSort={handleSort}
+                            getSortIcon={getSortIcon}
+                            getHeaderClass={getHeaderClass}
+                        />
+                        
                         <th className="text-center text-xl p-3">
                             Acciones
                         </th>
