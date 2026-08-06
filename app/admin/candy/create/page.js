@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import CandyForm from "@/app/components/ProductForm";
+import ProductForm from "@/app/components/ProductForm";
+import Link from "next/link";
 
 export default function CreateCandyPage() {
     const router = useRouter();
@@ -38,15 +39,19 @@ export default function CreateCandyPage() {
     }
 
     return (
-        <div>
-            <h1>Nuevo producto</h1>
+        <div className="p-4 flex flex-col gap-4">
+            <h1 className="text-center text-3xl font-bold">Nuevo producto</h1>
 
-            <CandyForm
-                candy={candy}
-                setCandy={setCandy}
+            <ProductForm
+                product={candy}
+                setProduct={setCandy}
                 onSubmit={handleSubmit}
                 buttonText="Crear producto"
             />
+
+            <Link href={'/admin/candy'} className="m-auto">
+                <button className="btn">Volver</button>
+            </Link>
         </div>
     )
 }
