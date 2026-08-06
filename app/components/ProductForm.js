@@ -2,12 +2,12 @@
 
 import { useState, useEffect } from "react";
 
-export default function CandyForm ({candy, setCandy, onSubmit, buttonText = 'Guardar'}) {
+export default function ProductForm ({product, setProduct, onSubmit, buttonText = 'Guardar', typesApiUrl = '/api/candyTypes'}) {
     const [types, setTypes] = useState([]);
 
     useEffect(() => {
         async function loadData() {
-            const typesRes = await fetch('/api/candyTypes');
+            const typesRes = await fetch(typesApiUrl);
 
             const typesData = await typesRes.json();
 
@@ -15,7 +15,7 @@ export default function CandyForm ({candy, setCandy, onSubmit, buttonText = 'Gua
         }
 
         loadData();
-    }, []);
+    }, [typesApiUrl]);
 
     return (
         <div className="flex justify-center">
@@ -25,10 +25,10 @@ export default function CandyForm ({candy, setCandy, onSubmit, buttonText = 'Gua
                     <input
                         type="text"
                         placeholder="Producto"
-                        value={candy.title}
+                        value={product.title}
                         onChange={(e) =>
-                            setCandy({
-                                ...candy,
+                            setProduct({
+                                ...product,
                                 title: e.target.value
                             })
                         }
@@ -39,10 +39,10 @@ export default function CandyForm ({candy, setCandy, onSubmit, buttonText = 'Gua
                     <label className="text-center text-lg font-bold">Descripción</label>
                     <textarea
                         placeholder="Descripción"
-                        value={candy.description}
+                        value={product.description}
                         onChange={(e) =>
-                            setCandy({
-                                ...candy,
+                            setProduct({
+                                ...product,
                                 description: e.target.value
                             })
                         }
@@ -55,8 +55,8 @@ export default function CandyForm ({candy, setCandy, onSubmit, buttonText = 'Gua
                         type="file"
                         accept="image/*"
                         onChange={(e) =>
-                            setCandy({
-                                ...candy,
+                            setProduct({
+                                ...product,
                                 image: e.target.files[0]
                             })
                         }
@@ -66,10 +66,10 @@ export default function CandyForm ({candy, setCandy, onSubmit, buttonText = 'Gua
                 <div className="grid grid-cols-2 items-center">
                     <label className="text-center text-lg font-bold">Tipo</label>
                     <select
-                        value={candy.type_id}
+                        value={product.type_id}
                         onChange={(e) =>
-                            setCandy({
-                                ...candy,
+                            setProduct({
+                                ...product,
                                 type_id: e.target.value
                             })
                         }
@@ -92,10 +92,10 @@ export default function CandyForm ({candy, setCandy, onSubmit, buttonText = 'Gua
                         <input
                             type='number'
                             placeholder='Precio'
-                            value={candy.price}
+                            value={product.price}
                             onChange={(e) =>
-                                setCandy({
-                                    ...candy,
+                                setProduct({
+                                    ...product,
                                     price: e.target.value
                                 })
                             }

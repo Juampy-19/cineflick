@@ -11,7 +11,7 @@ export default function EditCandyPage() {
     const router = useRouter();
 
     const [loading, setLoading] = useState(true);
-    const [candy, setCandy] = useState({
+    const [store, setStore] = useState({
         title: '',
         description: '',
         image: null,
@@ -22,12 +22,12 @@ export default function EditCandyPage() {
 
     useEffect(() => {
         if (params?.id) {
-            loadCandy();
+            loadStore();
         }
     }, [params]);
 
-    async function loadCandy() {
-        const res = await fetch(`/api/candy/${params.id}`);
+    async function loadStore() {
+        const res = await fetch(`/api/store/${params.id}`);
         if (!res.ok) {
             alert('No se pudo cargar el producto');
             return;
@@ -35,7 +35,7 @@ export default function EditCandyPage() {
 
         const data = await res.json();
 
-        setCandy({
+        setStore({
             title: data.title,
             description: data.description,
             image: null,
@@ -52,21 +52,21 @@ export default function EditCandyPage() {
 
         const formData = new FormData();
 
-        formData.append('title', candy.title);
-        formData.append('description', candy.description);
-        formData.append('type_id', candy.type_id);
-        formData.append('price', candy.price);
-        if (candy.image) {
-            formData.append('image', candy.image);
+        formData.append('title', store.title);
+        formData.append('description', store.description);
+        formData.append('type_id', store.type_id);
+        formData.append('price', store.price);
+        if (store.image) {
+            formData.append('image', store.image);
         }
 
-        const response = await fetch(`/api/candy/${params.id}`, {
+        const response = await fetch(`/api/store/${params.id}`, {
             method: 'PUT',
             body: formData
         });
 
         if (response.ok) {
-            router.push('/admin/candy');
+            router.push('/admin/store');
             toast.success('Producto modificado exitosamente');
         } else {
             alert('Error al actualizar el producto');
@@ -82,13 +82,14 @@ export default function EditCandyPage() {
             <h1 className="text-center text-3xl font-bold">Editar producto</h1>
 
             <ProductForm
-                product={candy}
-                setProduct={setCandy}
+                product={store}
+                setProduct={setStore}
                 onSubmit={handleSubmit}
                 buttonText="Guardar cambios"
+                typesApiUrl="/api/storeTypes"
             />
 
-            <Link href='/admin/candy' className="m-auto">
+            <Link href='/admin/store' className="m-auto">
                 <button className="btn">Volver</button>
             </Link>
         </div>

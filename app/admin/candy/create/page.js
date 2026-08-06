@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import CandyForm from "@/app/components/CandyForm";
+import CandyForm from "@/app/components/ProductForm";
 
 export default function CreateCandyPage() {
     const router = useRouter();
