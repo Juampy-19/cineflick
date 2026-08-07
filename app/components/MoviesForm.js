@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-export default function MoviesForm({ movie, setMovie, onSubmit, buttonText = 'Guardar' }) {
+export default function MoviesForm({ movie, setMovie, errors = {}, onSubmit, buttonText = 'Guardar' }) {
     const [classifications, setClassifications] = useState([]);
     const [status, setStatus] = useState([]);
     const [genres, setGenres] = useState([]);
@@ -42,6 +42,9 @@ export default function MoviesForm({ movie, setMovie, onSubmit, buttonText = 'Gu
                             })
                         }
                     />
+                    <div className="flex items-center justify-center mt-2 col-span-2">
+                        {errors.title && <span className="text-red-500">{errors.title[0]}</span>}
+                    </div>
                 </div>
 
                 <div className="grid grid-cols-2 items-center">
@@ -56,6 +59,9 @@ export default function MoviesForm({ movie, setMovie, onSubmit, buttonText = 'Gu
                             })
                         }
                     />
+                    <div className="flex items-center justify-center mt-2 col-span-2">
+                        {errors.synopsis && <span className="text-red-500">{errors.synopsis[0]}</span>}
+                    </div>
                 </div>
 
                 <div className="grid grid-cols-2 items-center">
@@ -71,6 +77,9 @@ export default function MoviesForm({ movie, setMovie, onSubmit, buttonText = 'Gu
                             })
                         }
                     />
+                    <div className="flex items-center justify-center mt-2 col-span-2">
+                        {errors.duration && <span className="text-red-500">{errors.duration[0]}</span>}
+                    </div>
                 </div>
 
                 <div className="grid grid-cols-2 items-center">
@@ -99,6 +108,9 @@ export default function MoviesForm({ movie, setMovie, onSubmit, buttonText = 'Gu
                             })
                         }
                     />
+                    <div className="flex items-center justify-center mt-2 col-span-2">
+                        {errors.release_date && <span className="text-red-500">{errors.release_date[0]}</span>}
+                    </div>
                 </div>
 
                 <div className="grid grid-cols-2 items-center">
@@ -123,6 +135,9 @@ export default function MoviesForm({ movie, setMovie, onSubmit, buttonText = 'Gu
                             </option>
                         ))}
                     </select>
+                    <div className="flex items-center justify-center mt-2 col-span-2">
+                        {errors.classification_id && <span className="text-red-500">{errors.classification_id[0]}</span>}
+                    </div>
                 </div>
 
                 <div className="grid grid-cols-2 items-center">
@@ -147,6 +162,9 @@ export default function MoviesForm({ movie, setMovie, onSubmit, buttonText = 'Gu
                             </option>
                         ))}
                     </select>
+                    <div className="flex items-center justify-center mt-2 col-span-2">
+                        {errors.status_id && <span className="text-red-500">{errors.status_id[0]}</span>}
+                    </div>
                 </div>
 
                 <div className="grid grid-cols-2 items-center">
@@ -179,6 +197,9 @@ export default function MoviesForm({ movie, setMovie, onSubmit, buttonText = 'Gu
                                 {genre.genre_name}
                             </label>
                         ))}
+                    </div>
+                    <div className="flex items-center justify-center mt-2 col-span-2">
+                        {errors.genres && <span className="text-red-500">{errors.genres[0]}</span>}
                     </div>
                 </div>
 

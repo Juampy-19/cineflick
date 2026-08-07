@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import MoviesForm from "@/app/components/MoviesForm";
+import toast from "react-hot-toast";
+import { movieSchema } from "@/utils/schema";
 
 export default function CreateMoviePage() {
     const router = useRouter();
@@ -16,9 +18,20 @@ export default function CreateMoviePage() {
         status_id: '',
         genres: []
     });
+    const  [errors,setErrors] = useState({});
     
     async function handleSubmit(e) {
         e.preventDefault();
+
+        const result = movieSchema.safeParse(movie);
+
+        if (!result.success) {
+            const formattedErrors = result.error.flatten().fieldErrors;
+            setErrors(formattedErrors);
+            return
+        };
+
+        setErrors({});
         
         const formData = new FormData();
     
@@ -40,19 +53,23 @@ export default function CreateMoviePage() {
 
         if (response.ok) {
             router.push('/admin/movies');
+            toast.success('Película creada exitosamente');
+        } else {
+            toast.error('Error al crear la película');
         }
     }
 
     return (
-        <>
-            <h1>Nueva película</h1>
+        <div className="p-4 flex flex-col gap-4">
+            <h1 className="text-center text-3xl font-bold">Nueva película</h1>
 
             <MoviesForm
                 movie={movie}
                 setMovie={setMovie}
+                errors={errors}
                 onSubmit={handleSubmit}
                 buttonText="Crear película"
             />
-        </>
+        </div>
     );
 }

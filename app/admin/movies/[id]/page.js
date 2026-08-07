@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import MoviesForm from "@/app/components/MoviesForm";
 import Link from "next/link";
 import toast from "react-hot-toast";
+import { movieSchema } from "@/utils/schema";
 
 export default function EditMoviePage() {
 
@@ -23,6 +24,7 @@ export default function EditMoviePage() {
         status_id: '',
         genres: []
     });
+    const [errors,  setErrors] = useState({});
 
     useEffect(() => {
         if (params?.id) {
@@ -58,6 +60,16 @@ export default function EditMoviePage() {
     async function handleSubmit(e) {
         e.preventDefault();
 
+        const result = movieSchema.safeParse(movie);
+
+        if (!result.success) {
+            const formattedErrors = result.error.flatten().fieldErrors;
+            setErrors(formattedErrors);
+            return
+        };
+
+        setErrors({});
+
         const formData = new FormData();
 
         formData.append('title', movie.title);
@@ -81,7 +93,7 @@ export default function EditMoviePage() {
             router.push('/admin/movies');
             toast.success('Película modificada exitosamente');
         } else {
-            alert('Error al actualizar la película');
+            toast.error('Error al modificar la película');
         }
     }
 
@@ -96,6 +108,7 @@ export default function EditMoviePage() {
             <MoviesForm
                 movie={movie}
                 setMovie={setMovie}
+                errors={errors}
                 onSubmit={handleSubmit}
                 buttonText="Guardar cambios"
             />

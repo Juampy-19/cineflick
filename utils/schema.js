@@ -48,3 +48,30 @@ export const productSchema = z.object({
         .string()
         .nonempty('Ingrese un precio')
 });
+
+export const movieSchema = z.object({
+    title: z
+        .string()
+        .nonempty('Ingrese el título'),
+    synopsis: z
+        .string()
+        .nonempty('Ingrese la sinopsis'),
+    duration: z
+        .string()
+        .nonempty('Ingrese la duración'),
+    release_date: z
+        .string()
+        .nonempty('Ingrese la fecha de estreno'),
+    classification_id: z
+        .coerce
+        .string()
+        .nonempty('Seleccione una clasificación'),
+    status_id: z
+        .coerce
+        .string()
+        .nonempty('Seleccióne un estado'),
+    genres: z
+        .coerce
+        .string()
+        .nonempty('Seleccióne uno o más géneros')
+});
