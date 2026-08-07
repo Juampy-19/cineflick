@@ -21,7 +21,6 @@ export default function EditCandyPage() {
         price: ''
     });
     const [errors, setErrors] = useState({});
-    const [serverErrors, setServerErrors] = useState(null);
 
     useEffect(() => {
         if (params?.id) {
@@ -83,8 +82,7 @@ export default function EditCandyPage() {
             router.push('/admin/store');
             toast.success('Producto modificado exitosamente');
         } else {
-            // alert('Error al actualizar el producto');
-            toast.error('Error al actualizar el producto');
+            toast.error('Error al modificar el producto');
         }
     };
 
