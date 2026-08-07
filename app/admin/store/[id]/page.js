@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import ProductForm from "@/app/components/ProductForm";
 import Link from "next/link";
 import toast from "react-hot-toast";
+import { productSchema } from "@/utils/schema";
 
 export default function EditCandyPage() {
     const params = useParams();
@@ -19,6 +20,8 @@ export default function EditCandyPage() {
         type_id: '',
         price: ''
     });
+    const [errors, setErrors] = useState({});
+    const [serverErrors, setServerErrors] = useState(null);
 
     useEffect(() => {
         if (params?.id) {
@@ -50,6 +53,17 @@ export default function EditCandyPage() {
     async function handleSubmit(e) {
         e.preventDefault();
 
+        // Validación del formulario con zod.
+        const result = productSchema.safeParse(store);
+
+        if (!result.success) {
+            const formattedErrors = result.error.flatten().fieldErrors;
+            setErrors(formattedErrors);
+            return
+        };
+
+        setErrors({});
+
         const formData = new FormData();
 
         formData.append('title', store.title);
@@ -69,7 +83,8 @@ export default function EditCandyPage() {
             router.push('/admin/store');
             toast.success('Producto modificado exitosamente');
         } else {
-            alert('Error al actualizar el producto');
+            // alert('Error al actualizar el producto');
+            toast.error('Error al actualizar el producto');
         }
     };
 
@@ -84,6 +99,7 @@ export default function EditCandyPage() {
             <ProductForm
                 product={store}
                 setProduct={setStore}
+                errors={errors}
                 onSubmit={handleSubmit}
                 buttonText="Guardar cambios"
                 typesApiUrl="/api/storeTypes"

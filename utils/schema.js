@@ -32,3 +32,19 @@ export const loginSchema = z.object({
         .nonempty('Ingrese su contraseña')
         .min(8, 'La contraseña debe tener al menos 8 caracteres')
 });
+
+export const productSchema = z.object({
+    title: z
+        .string()
+        .nonempty('Ingrese el nombre del producto'),
+    description: z
+        .string()
+        .nonempty('Ingrese la descripción'),
+    type_id: z
+        .coerce
+        .string()
+        .nonempty('Seleccione el tipo de producto'),
+    price: z
+        .string()
+        .nonempty('Ingrese un precio')
+});

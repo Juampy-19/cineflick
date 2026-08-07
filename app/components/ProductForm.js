@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 
-export default function ProductForm ({product, setProduct, onSubmit, buttonText = 'Guardar', typesApiUrl = '/api/candyTypes'}) {
+export default function ProductForm ({product, setProduct, errors = {}, onSubmit, buttonText = 'Guardar', typesApiUrl = '/api/candyTypes'}) {
     const [types, setTypes] = useState([]);
 
     useEffect(() => {
@@ -33,6 +33,9 @@ export default function ProductForm ({product, setProduct, onSubmit, buttonText 
                             })
                         }
                     />
+                    <div className="flex items-center justify-center mt-2 col-span-2">
+                        {errors.title && <span className="text-red-500">{errors.title[0]}</span>}
+                    </div>
                 </div>
 
                 <div className="grid grid-cols-2 items-center">
@@ -47,6 +50,9 @@ export default function ProductForm ({product, setProduct, onSubmit, buttonText 
                             })
                         }
                     />
+                    <div className="flex items-center justify-center mt-2 col-span-2">
+                        {errors.description && <span className="text-red-500">{errors.description[0]}</span>}
+                    </div>
                 </div>
 
                 <div className="grid grid-cols-2 items-center">
@@ -85,6 +91,9 @@ export default function ProductForm ({product, setProduct, onSubmit, buttonText 
                             </option>
                         ))}
                     </select>
+                    <div className="flex items-center justify-center mt-2 col-span-2">
+                        {errors.type_id && <span className="text-red-500">{errors.type_id[0]}</span>}
+                    </div>
                 </div>
 
                 <div className="grid grid-cols-2 items-center">
@@ -100,6 +109,9 @@ export default function ProductForm ({product, setProduct, onSubmit, buttonText 
                                 })
                             }
                         />
+                        <div className="flex items-center justify-center mt-2 col-span-2">
+                            {errors.price && <span className="text-red-500">{errors.price[0]}</span>}
+                        </div>
                 </div>
 
                 <button type="submit" className="btn m-auto">
