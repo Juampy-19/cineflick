@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import ProductForm from "@/app/components/ProductForm";
 import Link from "next/link";
+import toast from "react-hot-toast";
+import { productSchema } from "@/utils/schema";
 
 export default function CreateCandyPage() {
     const router = useRouter();
@@ -14,9 +16,20 @@ export default function CreateCandyPage() {
         type_id: '',
         price: ''
     });
+    const [errors, setErrors] = useState({});
 
     async function handleSubmit(e) {
         e.preventDefault();
+
+        const result = productSchema.safeParse(candy);
+
+        if (!result.success) {
+            const formattedErrors = result.error.flatten().fieldErrors;
+            setErrors(formattedErrors);
+            return
+        };
+
+        setErrors({});
 
         const formData = new FormData();
 
@@ -35,6 +48,9 @@ export default function CreateCandyPage() {
 
         if (response.ok) {
             router.push('/admin/candy');
+            toast.success('Producto creado correctamenre');
+        } else {
+            toast.error('Error al crear el producto');
         }
     }
 
@@ -45,6 +61,7 @@ export default function CreateCandyPage() {
             <ProductForm
                 product={candy}
                 setProduct={setCandy}
+                errors={errors}
                 onSubmit={handleSubmit}
                 buttonText="Crear producto"
             />
