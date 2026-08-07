@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useSort } from "@/app/hooks/useSort";
 import SortableHeader from "@/app/components/SortableHeader";
+import toast from "react-hot-toast";
 
 export default function AdminCandyPage() {
 
@@ -17,19 +18,34 @@ export default function AdminCandyPage() {
     }, []);
 
     async function loadCandy() {
-        const res = await fetch('/api/candy');
-        const data = await res.json();
+        try {
+            const res = await fetch('/api/candy');
+            const data = res.json();
 
-        setCandy(data);
+            if (!res.ok){
+                toast.error('Error al cargar la tienda');
+                setCandy([]);
+                return
+            }
+
+            setCandy(data);
+        } catch (error) {
+            toast.error('No se pudo conectar con el servidor');
+            setCandy([]);
+        }
     };    
 
     return (
         <div>
             <h1 className="text-center text-3xl font-bold my-2">Administrar Candy</h1>
 
-            <div>
+            <div className="flex items-center justify-center gap-6 p-4">
                 <Link href={'/admin/candy/create'}>
                     <button className="btn">Agregar nuevo producto</button>
+                </Link>
+
+                <Link href={'/admin'}>
+                    <button className="btn">Volver</button>
                 </Link>
             </div>
 

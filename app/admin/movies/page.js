@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useSort } from "@/app/hooks/useSort";
 import SortableHeader from "@/app/components/SortableHeader";
+import toast from "react-hot-toast";
 
 export default function AdminMoviePage() {
 
@@ -16,10 +17,21 @@ export default function AdminMoviePage() {
     }, []);
 
     async function loadMovies() {
-        const res = await fetch('/api/movies');
-        const data = await res.json();
+        try {
+            const res = await fetch('/api/movies');
+            const data = await res.json();
 
-        setMovies(data);
+            if (!res.ok) {
+                toast.error('Error al cargar las películas')
+                setMovies([]);
+                return
+            };
+    
+            setMovies(data);
+        } catch (error){
+            toast.error('No se pudo conectar con el servidor');
+            setMovies([]);
+        }
     };
     
 
@@ -27,9 +39,13 @@ export default function AdminMoviePage() {
         <div>
             <h1 className="text-center text-3xl font-bold my-2">Administrar películas</h1>
 
-            <div>
+            <div className="flex items-center justify-center gap-6 p-4">
                 <Link href={'/admin/movies/create'}>
                     <button className="btn">Agregar nueva película</button>
+                </Link>
+
+                <Link href={'/admin'}>
+                    <button className="btn">Volver</button>
                 </Link>
             </div>
 

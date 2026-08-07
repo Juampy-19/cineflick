@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useSort } from "@/app/hooks/useSort";
 import SortableHeader from "@/app/components/SortableHeader";
+import toast from "react-hot-toast";
 
 export default function AdminStorePage() {
     
@@ -17,19 +18,34 @@ export default function AdminStorePage() {
     }, []);
 
     async function loadStore() {
-        const res = await fetch('/api/store');
-        const data = await res.json();
+        try {
+            const res = await fetch('/api/store');
+            const data = res.json();
 
-        setStore(data);
+            if (!res.ok){
+                toast.error('Error al cargar la tienda');
+                setStore([]);
+                return
+            }
+
+            setStore(data);
+        } catch (error) {
+            toast.error('No se pudo conectar con el servidor');
+            setStore([]);
+        }
     };
 
     return (
         <div>
             <h1 className="text-center text-3xl font-bold my-2">Administrar Store</h1>
 
-            <div>
+            <div className="flex items-center justify-center gap-6 p-4">
                 <Link href={'/admin/store/create'}>
                     <button className="btn">Agregar nuevo producto</button>
+                </Link>
+
+                <Link href={'/admin'}>
+                    <button className="btn">Volver</button>
                 </Link>
             </div>
 
