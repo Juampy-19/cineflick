@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import ProductForm from "@/app/components/ProductForm";
 import Link from "next/link";
 import toast from "react-hot-toast";
+import { productSchema } from "@/utils/schema";
 
 export default function EditCandyPage() {
     const params = useParams();
@@ -19,6 +20,7 @@ export default function EditCandyPage() {
         type_id: '',
         price: ''
     });
+    const [errors, setErrors] = useState({});
 
     useEffect(() => {
         if (params?.id) {
@@ -50,6 +52,16 @@ export default function EditCandyPage() {
     async function handleSubmit(e) {
         e.preventDefault();
 
+        const result = productSchema.safeParse(candy);
+
+        if (!result.success) {
+            const formattedErrors = result.error.flatten().fieldErrors;
+            setErrors(formattedErrors);
+            return
+        };
+
+        setErrors({});
+
         const formData = new FormData();
 
         formData.append('title', candy.title);
@@ -69,7 +81,7 @@ export default function EditCandyPage() {
             router.push('/admin/candy');
             toast.success('Producto modificado exitosamente');
         } else {
-            alert('Error al actualizar el producto');
+            toast.error('Error al modificar el producto');
         }
     };
 
@@ -84,6 +96,7 @@ export default function EditCandyPage() {
             <ProductForm
                 product={candy}
                 setProduct={setCandy}
+                errors={errors}
                 onSubmit={handleSubmit}
                 buttonText="Guardar cambios"
             />
