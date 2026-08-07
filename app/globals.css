@@ -54,7 +54,7 @@ input:focus {
   font-weight: bold;
   padding: 5px;
   border-radius: 8px;
-  width: 10rem;
+  width: 15rem;
   cursor: pointer;
   transition: 0.3s ease-in-out;
 }
