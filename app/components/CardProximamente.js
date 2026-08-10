@@ -23,7 +23,7 @@ export default function Card() {
                 const filtered = movies.filter((m) => m.status_id === 3);
                 setProximamente(filtered);
             } catch (error) {
-                console.error(error);
+                // console.error(error);
                 setError(true);
             } finally {
                 setLoading(false);
@@ -71,6 +71,8 @@ export default function Card() {
                 <Image
                     src="/img/error500.png"
                     alt="Imagen de aviso de error"
+                    width={250}
+                    height={300}
                     className="w-1/3"
                 />
             </div>
