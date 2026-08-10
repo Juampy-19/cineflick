@@ -1,21 +1,37 @@
 'use client';
 
 import { useState, useEffect } from "react";
+import Loader from "./Loader";
 
 export default function ProductForm ({product, setProduct, errors = {}, onSubmit, buttonText = 'Guardar', typesApiUrl = '/api/candyTypes'}) {
     const [types, setTypes] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         async function loadData() {
-            const typesRes = await fetch(typesApiUrl);
-
-            const typesData = await typesRes.json();
-
-            setTypes(typesData);
+            try {
+                const typesRes = await fetch(typesApiUrl);
+    
+                const typesData = await typesRes.json();
+    
+                setTypes(typesData);
+            } catch (error) {
+                console.error('Error al cargar el formulario');
+            } finally {
+                setLoading(false);
+            }
         }
 
         loadData();
     }, [typesApiUrl]);
+
+    if (loading) {
+        return (
+        <div className="flex justify-center items-center py-12">
+            <Loader />
+        </div>
+        );
+    }
 
     return (
         <div className="flex justify-center">

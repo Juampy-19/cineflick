@@ -6,10 +6,12 @@ import Image from "next/image";
 import { useSort } from "@/app/hooks/useSort";
 import SortableHeader from "@/app/components/SortableHeader";
 import toast from "react-hot-toast";
+import Loader from "@/app/components/Loader";
 
 export default function AdminMoviePage() {
 
     const [movies, setMovies] = useState([]);
+    const [loading, setLoading] = useState(true);
     const { sortedData: sortedMovies, handleSort, getSortIcon, getHeaderClass } = useSort(movies, 'id', 'desc');
 
     useEffect(() => {
@@ -26,14 +28,15 @@ export default function AdminMoviePage() {
                 setMovies([]);
                 return
             };
-    
+
             setMovies(data);
-        } catch (error){
+        } catch (error) {
             toast.error('No se pudo conectar con el servidor');
             setMovies([]);
+        } finally {
+            setLoading(false);
         }
     };
-    
 
     return (
         <div>
@@ -49,92 +52,98 @@ export default function AdminMoviePage() {
                 </Link>
             </div>
 
-            <table className="w-full my-6">
-                <thead>
-                    <tr className="border-b">
-                        <th className="text-center text-xl p-3">
-                            Poster
-                        </th>
+            {loading ? (
+                <div className="flex justify-center items-center py-12">
+                    <Loader />
+                </div>
+            ) : (
+                <table className="w-full my-6">
+                    <thead>
+                        <tr className="border-b">
+                            <th className="text-center text-xl p-3">
+                                Poster
+                            </th>
 
-                        <SortableHeader
-                            column='id'
-                            label='Id'
-                            handleSort={handleSort}
-                            getSortIcon={getSortIcon}
-                            getHeaderClass={getHeaderClass}
-                        />
+                            <SortableHeader
+                                column='id'
+                                label='Id'
+                                handleSort={handleSort}
+                                getSortIcon={getSortIcon}
+                                getHeaderClass={getHeaderClass}
+                            />
 
-                        <SortableHeader
-                            column='title'
-                            label='Titulo'
-                            handleSort={handleSort}
-                            getSortIcon={getSortIcon}
-                            getHeaderClass={getHeaderClass}
-                        />
+                            <SortableHeader
+                                column='title'
+                                label='Titulo'
+                                handleSort={handleSort}
+                                getSortIcon={getSortIcon}
+                                getHeaderClass={getHeaderClass}
+                            />
 
-                        <SortableHeader
-                            column='status'
-                            label='Estado'
-                            handleSort={handleSort}
-                            getSortIcon={getSortIcon}
-                            getHeaderClass={getHeaderClass}
-                        />
-                        
-                        <th className="text-center text-xl p-3">
-                            Acciones
-                        </th>
-                    </tr>
-                </thead>
+                            <SortableHeader
+                                column='status'
+                                label='Estado'
+                                handleSort={handleSort}
+                                getSortIcon={getSortIcon}
+                                getHeaderClass={getHeaderClass}
+                            />
 
-                <tbody>
-                    {sortedMovies.map((movie) => (
-                        <tr
-                            key={movie.id}
-                            className="border-b"
-                        >
-                            <td className="p-3 flex justify-center">
-                                {movie.poster_url ? (
-                                    <Image
-                                        src={movie.poster_url}
-                                        alt='Sin imagen'
-                                        width={60}
-                                        height={90}
-                                    />
-                                ) : (
-                                    <Image
-                                        src='/img/Placeholder_view_vector.svg (1).png'
-                                        alt="Sin imagen"
-                                        width={60}
-                                        height={90}
-                                    />
-                                )}
-                            </td>
-
-                            <td className="p-3 text-center text-lg">
-                                {movie.id}
-                            </td>
-
-                            <td className="p-3 text-lg">
-                                {movie.title}
-                            </td>
-
-                            <td className="p-3 text-center text-lg">
-                                {movie.status}
-                            </td>
-
-                            <td className="p-3">
-                                <div className="flex gap-2 justify-center">
-                                    <Link
-                                        href={`/admin/movies/${movie.id}`}
-                                    >
-                                        <button className="btn">Editar</button>
-                                    </Link>
-                                </div>
-                            </td>
+                            <th className="text-center text-xl p-3">
+                                Acciones
+                            </th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+
+                    <tbody>
+                        {sortedMovies.map((movie) => (
+                            <tr
+                                key={movie.id}
+                                className="border-b"
+                            >
+                                <td className="p-3 flex justify-center">
+                                    {movie.poster_url ? (
+                                        <Image
+                                            src={movie.poster_url}
+                                            alt='Sin imagen'
+                                            width={60}
+                                            height={90}
+                                        />
+                                    ) : (
+                                        <Image
+                                            src='/img/Placeholder_view_vector.svg (1).png'
+                                            alt="Sin imagen"
+                                            width={60}
+                                            height={90}
+                                        />
+                                    )}
+                                </td>
+
+                                <td className="p-3 text-center text-lg">
+                                    {movie.id}
+                                </td>
+
+                                <td className="p-3 text-lg">
+                                    {movie.title}
+                                </td>
+
+                                <td className="p-3 text-center text-lg">
+                                    {movie.status}
+                                </td>
+
+                                <td className="p-3">
+                                    <div className="flex gap-2 justify-center">
+                                        <Link
+                                            href={`/admin/movies/${movie.id}`}
+                                        >
+                                            <button className="btn">Editar</button>
+                                        </Link>
+                                    </div>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            )}
         </div>
     )
 };

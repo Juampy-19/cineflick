@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import MoviesForm from "@/app/components/MoviesForm";
 import toast from "react-hot-toast";
 import { movieSchema } from "@/utils/schema";
+import Link from "next/link";
 
 export default function CreateMoviePage() {
     const router = useRouter();
@@ -70,6 +71,10 @@ export default function CreateMoviePage() {
                 onSubmit={handleSubmit}
                 buttonText="Crear película"
             />
+
+            <Link href={'/admin/movies'} className="m-auto">
+                <button className="btn">Volver</button>
+            </Link>
         </div>
     );
 }

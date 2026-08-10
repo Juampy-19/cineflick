@@ -12,7 +12,6 @@ export default function EditMoviePage() {
     const params = useParams();
     const router = useRouter();
 
-    const [loading, setLoading] = useState(true);
     const [movie, setMovie] = useState({
         title: '',
         synopsis: '',
@@ -53,8 +52,6 @@ export default function EditMoviePage() {
             poster: null,
             poster_url: data.poster_url
         });
-
-        setLoading(false);
     }
 
     async function handleSubmit(e) {
@@ -95,10 +92,6 @@ export default function EditMoviePage() {
         } else {
             toast.error('Error al modificar la película');
         }
-    }
-
-    if (loading) {
-        return <h2>Cargando ...</h2>;
     }
 
     return (

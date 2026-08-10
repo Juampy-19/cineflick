@@ -1,29 +1,45 @@
 'use client';
 
 import { useEffect, useState } from "react";
+import Loader from "./Loader";
 
 export default function MoviesForm({ movie, setMovie, errors = {}, onSubmit, buttonText = 'Guardar' }) {
     const [classifications, setClassifications] = useState([]);
     const [status, setStatus] = useState([]);
     const [genres, setGenres] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         async function loadData() {
-            const classificationsRes = await fetch('/api/classifications');
-            const statusRes = await fetch('/api/status');
-            const genresRes = await fetch('/api/genres');
-
-            const classificationsData = await classificationsRes.json();
-            const statusData = await statusRes.json();
-            const genresData = await genresRes.json();
-
-            setClassifications(classificationsData);
-            setStatus(statusData);
-            setGenres(genresData);
+            try {
+                const classificationsRes = await fetch('/api/classifications');
+                const statusRes = await fetch('/api/status');
+                const genresRes = await fetch('/api/genres');
+    
+                const classificationsData = await classificationsRes.json();
+                const statusData = await statusRes.json();
+                const genresData = await genresRes.json();
+    
+                setClassifications(classificationsData);
+                setStatus(statusData);
+                setGenres(genresData);
+            } catch (error) {
+                console.error('Error al cargar el formulario');
+            } finally {
+                setLoading(false);
+            }
         }
 
         loadData();
     }, []);
+
+    if (loading) {
+        return (
+            <div className="flex justify-center items-center py-12">
+                <Loader />
+            </div>
+        )
+    }
 
     return (
         <div className="flex justify-center">

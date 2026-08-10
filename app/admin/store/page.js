@@ -6,10 +6,12 @@ import Image from "next/image";
 import { useSort } from "@/app/hooks/useSort";
 import SortableHeader from "@/app/components/SortableHeader";
 import toast from "react-hot-toast";
+import Loader from "@/app/components/Loader";
 
 export default function AdminStorePage() {
-    
+
     const [store, setStore] = useState([]);
+    const [loading, setLoading] = useState(true);
     const { sortedData: sortedStore, handleSort, getSortIcon, getHeaderClass } = useSort(store, 'id', 'desc');
 
 
@@ -20,9 +22,9 @@ export default function AdminStorePage() {
     async function loadStore() {
         try {
             const res = await fetch('/api/store');
-            const data = res.json();
+            const data = await res.json();
 
-            if (!res.ok){
+            if (!res.ok) {
                 toast.error('Error al cargar la tienda');
                 setStore([]);
                 return
@@ -32,6 +34,8 @@ export default function AdminStorePage() {
         } catch (error) {
             toast.error('No se pudo conectar con el servidor');
             setStore([]);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -49,87 +53,93 @@ export default function AdminStorePage() {
                 </Link>
             </div>
 
-            <table className="w-full my-6">
-                <thead>
-                    <tr className="border-b">
-                        <th className="text-center text-xl p-3">
-                            Imagen
-                        </th>
+            {loading ? (
+                <div className="flex justify-center items-center py-12">
+                    <Loader />
+                </div>
+            ) : (
+                <table className="w-full my-6">
+                    <thead>
+                        <tr className="border-b">
+                            <th className="text-center text-xl p-3">
+                                Imagen
+                            </th>
 
-                        <SortableHeader
-                            column='id'
-                            label='Id'
-                            handleSort={handleSort}    
-                            getSortIcon={getSortIcon}
-                            getHeaderClass={getHeaderClass}
-                        />
+                            <SortableHeader
+                                column='id'
+                                label='Id'
+                                handleSort={handleSort}
+                                getSortIcon={getSortIcon}
+                                getHeaderClass={getHeaderClass}
+                            />
 
-                        <SortableHeader
-                            column='name'
-                            label='Producto'
-                            handleSort={handleSort}
-                            getSortIcon={getSortIcon}
-                            getHeaderClass={getHeaderClass}
-                        />
+                            <SortableHeader
+                                column='name'
+                                label='Producto'
+                                handleSort={handleSort}
+                                getSortIcon={getSortIcon}
+                                getHeaderClass={getHeaderClass}
+                            />
 
-                        <SortableHeader
-                            column='type_id'
-                            label='Tipo'
-                            handleSort={handleSort}
-                            getSortIcon={getSortIcon}
-                            getHeaderClass={getHeaderClass}
-                        />
+                            <SortableHeader
+                                column='type_id'
+                                label='Tipo'
+                                handleSort={handleSort}
+                                getSortIcon={getSortIcon}
+                                getHeaderClass={getHeaderClass}
+                            />
 
-                        <th className="text-center text-xl p-3">
-                            Acciones
-                        </th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {sortedStore.map((store) => (
-                        <tr key={store.id} className="border-b">
-                            <td className="p-3 flex justify-center">
-                                {store.img ? (
-                                    <Image
-                                        src={store.img}
-                                        alt="Imagen del producto"
-                                        width={60}
-                                        height={90}
-                                    />
-                                ) : (
-                                    <Image
-                                        src='/img/Placeholder_view_vector.svg (1).png'
-                                        alt="Sin imagen"
-                                        width={60}
-                                        height={90}
-                                    />
-                                )}
-                            </td>
-
-                            <td className="p-3 text-center text-lg">
-                                {store.id}
-                            </td>
-
-                            <td className="p-3 text-center text-lg">
-                                {store.title}
-                            </td>
-
-                            <td className="p-3 text-center text-lg">
-                                {store.name}
-                            </td>
-
-                            <td className="p-3">
-                                <div className="flex gap-2 justify-center">
-                                    <Link href={`/admin/store/${store.id}`}>
-                                        <button className="btn">Editar</button>
-                                    </Link>
-                                </div>
-                            </td>
+                            <th className="text-center text-xl p-3">
+                                Acciones
+                            </th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+
+                    <tbody>
+                        {sortedStore.map((store) => (
+                            <tr key={store.id} className="border-b">
+                                <td className="p-3 flex justify-center">
+                                    {store.img ? (
+                                        <Image
+                                            src={store.img}
+                                            alt="Imagen del producto"
+                                            width={60}
+                                            height={90}
+                                        />
+                                    ) : (
+                                        <Image
+                                            src='/img/Placeholder_view_vector.svg (1).png'
+                                            alt="Sin imagen"
+                                            width={60}
+                                            height={90}
+                                        />
+                                    )}
+                                </td>
+
+                                <td className="p-3 text-center text-lg">
+                                    {store.id}
+                                </td>
+
+                                <td className="p-3 text-center text-lg">
+                                    {store.title}
+                                </td>
+
+                                <td className="p-3 text-center text-lg">
+                                    {store.name}
+                                </td>
+
+                                <td className="p-3">
+                                    <div className="flex gap-2 justify-center">
+                                        <Link href={`/admin/store/${store.id}`}>
+                                            <button className="btn">Editar</button>
+                                        </Link>
+                                    </div>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            )}
         </div>
     )
 }

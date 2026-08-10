@@ -11,7 +11,6 @@ export default function EditCandyPage() {
     const params = useParams();
     const router = useRouter();
 
-    const [loading, setLoading] = useState(true);
     const [store, setStore] = useState({
         title: '',
         description: '',
@@ -45,8 +44,6 @@ export default function EditCandyPage() {
             type_id: data.type_id,
             price: data.price
         });
-
-        setLoading(false);
     };
 
     async function handleSubmit(e) {
@@ -84,10 +81,6 @@ export default function EditCandyPage() {
         } else {
             toast.error('Error al modificar el producto');
         }
-    };
-
-    if (loading) {
-        return <h2>Cargando...</h2>;
     };
 
     return (
