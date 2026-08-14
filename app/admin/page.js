@@ -18,6 +18,10 @@ export default async function AdminPage() {
                 <Link href={'/admin/store'}>
                     <button className="btn">Store</button>
                 </Link>
+
+                <Link href={'/admin/showtimes'}>
+                    <button className="btn">Funciónes</button>
+                </Link>
             </section>
         </div>
     )
