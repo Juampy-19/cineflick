@@ -69,9 +69,33 @@ export const movieSchema = z.object({
     status_id: z
         .coerce
         .string()
-        .nonempty('Seleccióne un estado'),
+        .nonempty('Seleccione un estado'),
     genres: z
         .coerce
         .string()
-        .nonempty('Seleccióne uno o más géneros')
+        .nonempty('Seleccione uno o más géneros')
+});
+
+export const showtimesSchema = z.object({
+    movie_id: z
+        .coerce
+        .string()
+        .nonempty('Seleccione una película'),
+    room_id: z
+        .coerce
+        .string()
+        .nonempty('Seleccione una sala'),
+    hour: z
+        .string()
+        .nonempty('Seleccione la fecha y hora'),
+    days: z
+        .coerce
+        .number()
+        .min(1, 'Debe ser al menos 1 día')
+        .max(30, 'Máximo 30 días')
+        .optional()
+        .default(1),
+    price: z
+        .string()
+        .nonempty('Ingrese un precio')
 });
