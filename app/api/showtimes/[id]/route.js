@@ -86,3 +86,40 @@ export async function PUT(req, context) {
         connection.release();
     }
 }
+
+export async function DELETE(req, context) {
+    const { id } = await context.params;
+    const connection = await pool.getConnection();
+
+    try {
+        await connection.beginTransaction();
+
+        const [result] = await connection.query(
+            'DELETE FROM showtimes WHERE id = ?', [id]
+        );
+
+        if (result.affectedRows === 0) {
+            await connection.rollback();
+            return Response.json(
+                { error: 'Función no encontrada' },
+                { status: 404 }
+            );
+        }
+
+        await connection.commit();
+
+        return Response.json(
+            { message: 'Función eliminada correctamente' },
+            { status: 200 }
+        );
+    } catch (error) {
+        await connection.rollback();
+        console.error(error);
+        return Response.json(
+            { error: error.message },
+            { status: 500 }
+        );
+    } finally {
+        connection.release();
+    }
+}

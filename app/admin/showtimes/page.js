@@ -37,6 +37,28 @@ export default function AdminShowtimesPage() {
         }
     };
 
+    async function handleDelete(id) {
+        const confirmDelete = window.confirm('¿Está seguro que desea eliminar esta función?');
+        if (!confirmDelete) return;
+
+        try {
+            const res = await fetch(`/api/showtimes/${id}`, {
+                method: 'DELETE'
+            });
+
+            const data = await res.json();
+
+            if (res.ok) {
+                toast.success('Función eliminada correctamente');
+                setShowtimes((prev) => prev.filter((item) => item.id !== id));
+            } else {
+                toast.error('Error al eliminar la función');
+            }
+        } catch (error) {
+            toast.error('Error al conectar con el servidor');
+        }
+    }
+
     return (
         <div>
             <h1 className="text-center text-3xl font-bold my-2">Administrar funciónes</h1>
@@ -91,6 +113,14 @@ export default function AdminShowtimesPage() {
                                 getHeaderClass={getHeaderClass}
                             />
 
+                            <SortableHeader
+                                column='price'
+                                label='Precio'
+                                handleSort={handleSort}
+                                getSortIcon={getSortIcon}
+                                getHeaderClass={getHeaderClass}
+                            />
+
                             <th className="text-center text-xl p-3">
                                 Acciones
                             </th>
@@ -119,6 +149,10 @@ export default function AdminShowtimesPage() {
                                     {formatDateTime(showtime.hour)}
                                 </td>
 
+                                <td className="p-3 text-lg text-center">
+                                    {showtime.price}
+                                </td>
+
                                 <td className="p-3">
                                     <div className="flex gap-2 justify-center">
                                         <Link
@@ -126,6 +160,13 @@ export default function AdminShowtimesPage() {
                                         >
                                             <button className="btn">Editar</button>
                                         </Link>
+
+                                        <button
+                                            onClick={() => handleDelete(showtime.id)}
+                                            className="btnDelete"
+                                        >
+                                            Eliminar
+                                        </button>
                                     </div>
                                 </td>
                             </tr>

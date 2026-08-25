@@ -8,6 +8,8 @@
   --transparent-green: rgba(103, 192, 144, 0.5);
   --teal: rgb(38, 102, 127);
   --navy: rgb(18, 65, 112);
+  --red: rgb(231, 24, 11);
+  --dark-red: rgb(159, 7, 18);
 }
 
 html {
@@ -63,8 +65,22 @@ input:focus {
   background: var(--green);
 }
 
+.btnDelete {
+  background: var(--red);
+  color: var(--background);
+  font-weight: bold;
+  padding: 5px;
+  border-radius: 8px;
+  width: 8rem;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+
+.btnDelete:hover {
+  background: var(--dark-red);
+}
+
 /* Loader */
-/* From Uiverse.io by Nawsome */ 
 .wheel-and-hamster {
   --dur: 1s;
   position: relative;
