@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Loader from "./Loader";
 
-export default function ShowtimesForm({ showtime, setShowtime, errors = {}, onSubmit, buttonText = 'Guardar' }) {
+export default function ShowtimesForm({ showtime, setShowtime, errors = {}, onSubmit, buttonText = 'Guardar', isEditing = false }) {
     const [loading, setLoading] = useState(true);
     const [movies, setMovies] = useState([]);
     const [rooms, setRooms] = useState([]);
@@ -112,25 +112,27 @@ export default function ShowtimesForm({ showtime, setShowtime, errors = {}, onSu
                     </div>
                 </div>
 
-                <div className="grid grid-cols-2 items-center">
-                    <label className="text-center text-lg font-bold">Días de repetición</label>
-                    <input
-                        type="number"
-                        min='1'
-                        max='30'
-                        value={showtime.days}
-                        onChange={(e) =>
-                            setShowtime({
-                                ...showtime,
-                                days: e.target.value
-                            })
-                        }
-                        className="input border p-2 rounded"
-                    />
-                    <div className="flex items-center justify-center mt-2 col-span-2">
-                        {errors.days && <span className="text-red-500">{errors.days[0]}</span>}
+                {!isEditing && (
+                    <div className="grid grid-cols-2 items-center">
+                        <label className="text-center text-lg font-bold">Días de repetición</label>
+                        <input
+                            type="number"
+                            min='1'
+                            max='30'
+                            value={showtime.days}
+                            onChange={(e) =>
+                                setShowtime({
+                                    ...showtime,
+                                    days: e.target.value
+                                })
+                            }
+                            className="input border p-2 rounded"
+                        />
+                        <div className="flex items-center justify-center mt-2 col-span-2">
+                            {errors.days && <span className="text-red-500">{errors.days[0]}</span>}
+                        </div>
                     </div>
-                </div>
+                )}
 
                 <div className="grid grid-cols-2 items-center">
                     <label className="text-center text-lg font-bold">Precio</label>

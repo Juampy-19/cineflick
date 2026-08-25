@@ -7,6 +7,8 @@ export async function GET(req, context) {
         const [rows] = await pool.query(`
             SELECT
                 sh.id,
+                sh.movie_id,
+                sh.room_id,
                 sh.hour,
                 sh.price,
                 r.number AS room,
@@ -30,5 +32,57 @@ export async function GET(req, context) {
         });
     } catch (error) {
         return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+    }
+}
+
+export async function PUT(req, context) {
+    const { id } = await context.params;
+    const connection = await pool.getConnection();
+
+    try {
+        const data = await req.formData();
+
+        const movie_id = data.get('movie_id');
+        const room_id = data.get('room_id');
+        const hour = data.get('hour');
+        const price = data.get('price');
+
+        await connection.beginTransaction();
+
+        await connection.query(
+            `
+            UPDATE showtimes
+            SET
+                movie_id = ?,
+                room_id = ?,
+                hour = ?,
+                price = ?
+            WHERE id = ?
+            `,
+            [
+                movie_id,
+                room_id,
+                hour,
+                price,
+                id
+            ]
+        );
+
+        await connection.commit();
+
+        return Response.json(
+            { message: 'Función actualizada correctamente' },
+            { status: 200 }
+        );
+    } catch (error) {
+        await connection.rollback();
+        console.error(error);
+
+        return Response.json(
+            { error: error.message },
+            { status: 500 }
+        );
+    } finally {
+        connection.release();
     }
 }
