@@ -1,5 +1,21 @@
 import { pool } from "@/db/connection";
 
+function parseDurationMinutes(durationStr) {
+    if (!durationStr) return 120;
+    const str = String(durationStr).trim().toLocaleLowerCase();
+
+    if (str.includes('h')) {
+        const hoursMatch = str.match(/(\d+)\s*h/);
+        const minsMatch = str.match(/(\d+)\s*m/);
+        const hours = hoursMatch ? parseInt(hoursMatch[1], 10) : 0;
+        const mins = minsMatch ? parseInt(minsMatch[1], 10) : 0;
+        return (hours * 60) + mins
+    }
+
+    const parsed = parseInt(str, 10);
+    return isNaN(parsed) || parsed <= 0 ? 120 : parsed;
+}
+
 export async function GET() {
     try {
         const [rows] = await pool.query(
@@ -41,6 +57,31 @@ export async function POST(req) {
 
         await connection.beginTransaction();
 
+        // Obtener la duración de la película.
+        const [[newMovie]] = await connection.query(
+            'SELECT duration FROM movies WHERE id = ?', [movie_id]
+        );
+
+        if (!newMovie) {
+            await connection.rollback();
+            return Response.json(
+                { error: 'Película no encontrada'},
+                { status: 400 }
+            );
+        }
+
+        const newDurationMinutes = parseDurationMinutes(newMovie.duration);
+
+        // Obtener las funciones exixtentes en la misma sala.
+        const [existingShowtimes] = await connection.query(
+            `
+                SELECT s.id, s.hour, m.duration
+                FROM showtimes s
+                JOIN movies m ON s.movie_id = m.id
+                WHERE s.room_id = ?
+            `, [room_id]
+        );
+
         const startDate = new Date(hour);
 
         for (let i = 0; i < days; i++) {
@@ -57,6 +98,27 @@ export async function POST(req) {
 
             const formattedHour = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 
+            // Calcular inicio y fin de la nueva función.
+            const newStart = new Date(formattedHour).getTime();
+            const newEnd = newStart + (newDurationMinutes * 60 * 1000);
+
+            // Comprobar solapamiento de horarios.
+            const hasOverlap = existingShowtimes.some((existing) => {
+                const existingStart = new Date(existing.hour).getTime();
+                const existingDuration = parseDurationMinutes(existing.duration);
+                const existingEnd = existingStart + (existingDuration * 60 * 1000);
+                return newStart < existingEnd && newEnd > existingStart;
+            });
+
+            if (hasOverlap) {
+                await connection.rollback();
+                return Response.json(
+                    { error: `Existe una función que se solapa en esta sala el día ${day}/${month}/${year}` },
+                    { status: 400 }
+                );
+            };
+
+            // Se inserta la función si no hay solapamiento.
             await connection.query(
                 `
                     INSERT INTO showtimes

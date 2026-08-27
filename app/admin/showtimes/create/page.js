@@ -44,11 +44,13 @@ export default function CreateShowtimePage() {
             body: formData
         });
 
+        const data = await response.json();
+
         if (response.ok) {
             router.push('/admin/showtimes');
             toast.success('Función creada exitosamente');
         } else {
-            toast.error('Error al crear la función');
+            toast.error(data.error || 'Error al crear la función');
         }
     }
 

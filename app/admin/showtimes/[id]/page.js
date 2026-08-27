@@ -79,11 +79,13 @@ export default function EditShowtimePage() {
             body: formData
         });
 
+        const data = await response.json();
+
         if (response.ok) {
             router.push('/admin/showtimes');
             toast.success('Función modificada con exito');
         } else {
-            toast.error('Error al modificar la fnución');
+            toast.error(data.error || 'Error al modificar la fnución');
         }
     }
 
