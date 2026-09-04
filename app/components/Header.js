@@ -10,28 +10,41 @@ import { useState, useEffect } from "react";
 
 export default function Header() {
     const pathname = usePathname();
-    const { data: session } = useSession();
+    const { data: session, status } = useSession();
     const [open, setOpen] = useState(false);
-    const isAdmin = session?.user?.rol === 'admin';
+    const [mounted, setMounted] = useState(false);
 
-    const linkClass = (path) => `md:hover:text-[var(--green)] transition-colors duration-300 ${pathname === path ? 'border-b-2 border-[var(--green)]' : ''}`;
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     useEffect(() => {
         setOpen(false);
     }, [pathname]);
 
+    const isLoggedIn = mounted && status === 'authenticated' && !!session?.user;
+    const isAdmin = mounted && session?.user?.rol === 'admin';
+
+    const linkClass = (path) => `md:hover:text-[var(--green)] transition-colors duration-300 ${pathname === path ? 'border-b-2 border-[var(--green)]' : ''}`;
+
     const userLinks = [
         { href: '/', label: 'Inicio' },
-        { href: 'mis-compras', label: 'Mis compras'},
-        { href:'/store', label: 'Store' },
+        ...(isLoggedIn && !isAdmin ? [{ href: '/mis-compras', label: 'Mis compras' }] : []),
+        { href: '/store', label: 'Store' },
         { href: '/candy', label: 'Candy' }
     ];
 
     const adminLinks = [
         { href: '/admin', label: 'Dashboard' },
         { href: '/admin/movies', label: 'Películas' },
-        { href: '/admin/showtimes', label: 'Funciónes' }
+        { href: '/admin/showtimes', label: 'Funciones' }
     ];
+
+    const currentLinks = isAdmin ? adminLinks : userLinks;
+
+    const handleSignOut = async () => {
+        await signOut({ callbackUrl: '/' });
+    };
 
     return (
         <header>
@@ -72,7 +85,7 @@ export default function Header() {
                         `}
                         >
                             <div className="p-4">
-                                {session?.user ? (
+                                {isLoggedIn ? (
                                     <span className="text-[var(--green)]">Hola {session.user.name}</span>
                                 ) : ''}
                             </div>
@@ -83,7 +96,7 @@ export default function Header() {
                             >
                                 <FontAwesomeIcon icon={faBars} />
                             </button>
-                            {(isAdmin ? adminLinks : userLinks).map(link => (
+                            {currentLinks.map(link => (
                                 <Link
                                     key={link.href}
                                     href={link.href}
@@ -94,9 +107,9 @@ export default function Header() {
                             ))}
 
                             <div className='text-2xl'>
-                                {session?.user ? (
+                                {isLoggedIn ? (
                                     <div>
-                                        <span className="cursor-pointer hover:text-[var(--green)] transition-colors duration-500" onClick={() => signOut()}>
+                                        <span className="cursor-pointer hover:text-[var(--green)] transition-colors duration-500" onClick={handleSignOut}>
                                             <FontAwesomeIcon icon={faArrowRightFromBracket} />
                                         </span>
                                     </div>
@@ -114,7 +127,7 @@ export default function Header() {
                 </div>
 
                 <div className="hidden md:flex items-center justify-center">
-                    {session?.user ? (
+                    {isLoggedIn ? (
                         <span className="text-[var(--green)] text-xl mb-2 md:mb-0">Hola {session.user.name}</span>
                     ) : ''}
                 </div>
@@ -122,7 +135,7 @@ export default function Header() {
                 <div className="flex items-center w-full md:justify-end">
                     {/* Desktop menu */}
                     <nav className="hidden md:flex md:text-xl flex-row items-center gap-8 mr-10">
-                        {(isAdmin ? adminLinks : userLinks).map(link => (
+                        {currentLinks.map(link => (
                             <Link
                                 key={link.href}
                                 href={link.href}
@@ -133,9 +146,9 @@ export default function Header() {
                         ))}
 
                         <div className='text-2xl'>
-                            {session?.user ? (
+                            {isLoggedIn ? (
                                 <div>
-                                    <span className="cursor-pointer hover:text-[var(--green)] transition-colors duration-500" onClick={() => signOut()}>
+                                    <span className="cursor-pointer hover:text-[var(--green)] transition-colors duration-500" onClick={handleSignOut}>
                                         <FontAwesomeIcon icon={faArrowRightFromBracket} />
                                     </span>
                                 </div>
