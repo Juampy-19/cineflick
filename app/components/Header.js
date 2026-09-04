@@ -22,6 +22,7 @@ export default function Header() {
 
     const userLinks = [
         { href: '/', label: 'Inicio' },
+        { href: 'mis-compras', label: 'Mis compras'},
         { href:'/store', label: 'Store' },
         { href: '/candy', label: 'Candy' }
     ];
