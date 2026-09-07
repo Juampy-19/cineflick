@@ -144,7 +144,7 @@ export default function MisComprasPage() {
                       <div className="space-y-2">
                         <div className="flex items-center justify-between">
                           <span className="bg-red-600/20 text-red-400 border border-red-600/30 text-xs font-semibold px-3 py-1 rounded-full">
-                            {purchase.room_number}
+                            Sala {purchase.room_number}
                           </span>
                           <span className="text-xs text-gray-400">
                             Duración: {purchase.movie_duration || 'N/A'}
@@ -232,7 +232,7 @@ export default function MisComprasPage() {
               </div>
               <div className="flex justify-between border-b border-gray-800/80 pb-2">
                 <span className="text-gray-400">Sala:</span>
-                <span className="font-semibold text-white">{selectedTicket.room_number}</span>
+                <span className="font-semibold text-white">Sala {selectedTicket.room_number}</span>
               </div>
               <div className="flex justify-between border-b border-gray-800/80 pb-2">
                 <span className="text-gray-400">Fecha y Hora:</span>

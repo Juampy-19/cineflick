@@ -22,6 +22,10 @@ export default async function AdminPage() {
                 <Link href={'/admin/showtimes'}>
                     <button className="btn">Funciónes</button>
                 </Link>
+
+                <Link href={'/admin/rooms'}>
+                    <button className="btn">Salas</button>
+                </Link>
             </section>
         </div>
     )

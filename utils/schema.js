@@ -99,3 +99,22 @@ export const showtimesSchema = z.object({
         .string()
         .nonempty('Ingrese un precio')
 });
+
+export const roomsSchema = z.object({
+    number: z
+        .coerce
+        .string()
+        .nonempty('Ingrese el número de la sala'),
+    rows_num: z
+        .coerce
+        .number({
+            invalid_type_error: 'Ingrese un número de filas válido'
+        })
+        .min(1, 'Debe haber al menos 1 fila'),
+    cols_num: z
+        .coerce
+        .number({
+            invalid_type_error: 'Ingrese un número de columnas válido'
+        })
+        .min(1, 'Debe haber al menos 1 columna')
+});
