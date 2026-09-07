@@ -118,7 +118,7 @@ export default function AdminRoomsPage() {
                     <tbody>
                         {sortedRooms.map((room) => (
                             <tr key={room.id} className="border-b">
-                                <td className="p-3 text-lg text-center">Sala {room.id}</td>
+                                <td className="p-3 text-lg text-center">Sala {room.number}</td>
 
                                 <td className="p-3 text-lg text-center">{room.cols_num}</td>
 
