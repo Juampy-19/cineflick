@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import SeatModal from "@/app/components/SeatModal";
+import Link from "next/link";
+import Loader from "@/app/components/Loader";
 
 export default function CompraPageContent({ id, user }) {
     const [showtime, setShowtime] = useState(null);
@@ -28,7 +30,13 @@ export default function CompraPageContent({ id, user }) {
         })
     };
 
-    if (loading) return <p>Cargando...</p>;
+    if (loading) {
+        return (
+            <div className="flex justify-center items-center py-12">
+                <Loader />
+            </div>
+        );
+    };
     if (!showtime) return <p>Función no encontrada</p>;
 
     const handleContinue = () => {
@@ -63,6 +71,9 @@ export default function CompraPageContent({ id, user }) {
                 <button onClick={handleContinue} className="m-auto mt-8 btn">
                     Continuar
                 </button>
+                <Link href={`/pelicula/${showtime.movie_id}`}>
+                    <button className="btn">Volver</button>
+                </Link>
             </div>
 
             {showModal && (
