@@ -1,4 +1,4 @@
-export default function formatDate(isoString) {
+export function formatDate(isoString) {
     if (!isoString) return '';
     const dateObj = new Date(isoString);
 

@@ -5,6 +5,8 @@ import { useRouter, useParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { classificationColor } from "@/utils/helpers";
 import { SkeletonPeliculaPage } from "@/app/components/Skeletons";
+import Image from "next/image";
+import { formatDateTime } from "@/utils/formatDate";
 
 export default function PeliculaPage({ params }) {
     const { id } = use(params);
@@ -37,16 +39,6 @@ export default function PeliculaPage({ params }) {
 
     if (!movie) return <p>Película no encontrada</p>;
 
-    // Función para formatear la fecha.
-    const formatDate = (isoString) => {
-        const date = new Date(isoString);
-        const day = date.getDate().toString().padStart(2, '0');
-        const month = (date.getMonth() + 1).toString().padStart(2, '0');
-        const hours = date.getHours().toString().padStart(2, '0');
-        const minutes = date.getMinutes().toString().padStart(2, '0');
-        return `${day}/${month} - ${hours}:${minutes}`;
-    };
-
     const handleBuy = () => {
         if (!selectedShowtime) {
             alert('Seleccione una función');
@@ -63,10 +55,23 @@ export default function PeliculaPage({ params }) {
     return (
         <div className="flex flex-col mb-10 md:flex-row mx-15 border-2 border-[var(--green)] rounded-xl shadow-lg bg-[var(--teal)]">
             <div className="md:w-100 md:h-130 overflow-hidden">
-                <img src={movie.poster_url}
-                    alt="Poster de la película"
-                    className="w-full h-full rounded-xl"
-                />
+                {movie.poster_url ? (
+                    <Image
+                        src={movie.poster_url}
+                        alt="Poster de la película"
+                        width={250}
+                        height={300}
+                        className="w-full h-full rounded-xl"
+                    />
+                ) : (
+                    <Image
+                        src='/img/Placeholder_view_vector.svg (1).png'
+                        alt="Imagen alternativa"
+                        width={250}
+                        height={300}
+                        className="w-full h-full rounded-xl"
+                    />
+                )}
             </div>
             <div className="flex p-4 flex-col w-full lg:h-130 justify-between">
                 <h1 className="text-xl lg:text-2xl font-bold mb-5 text-center">{movie.title}</h1>
@@ -81,7 +86,7 @@ export default function PeliculaPage({ params }) {
                             >
                                 <option value=''>Seleccióne una función</option>
                                 {movie.showtimes.map((show) => (
-                                    <option key={show.id} value={show.id}>{formatDate(show.hour)}</option>
+                                    <option key={show.id} value={show.id}>{formatDateTime(show.hour)}</option>
                                 ))}
                             </select>
                             <button onClick={handleBuy} className="btn">
