@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { loginSchema } from '@/utils/schema';
 import toast from 'react-hot-toast';
 import Modal from '../components/Modal';
-import { signIn } from 'next-auth/react';
+import { signIn, getSession } from 'next-auth/react';
 
 export default function LoginPage() {
     const router = useRouter();
@@ -41,15 +41,6 @@ export default function LoginPage() {
 
         setErrors({});
 
-        // Enviar al backend.
-        // const res = await fetch('/api/login', {
-        //     method: 'POST',
-        //     headers: { "Content-type": "application/json" },
-        //     body: JSON.stringify(formData)
-        // });
-        
-        // const data = await res.json();
-
         const res = await signIn('credentials', {
             redirect: false,
             email: formData.email,
@@ -57,10 +48,15 @@ export default function LoginPage() {
         });
 
         if (res.ok) {
-            router.push('/');
-            toast.success('Inicio de sesión exitoso')
+            const session = await getSession();
+            toast.success('Inicio de sesión exitoso');
+
+            if (session?.user.rol === 'admin') {
+                router.push('/admin');
+            } else {
+                router.push('/');
+            }
         } else {
-            // setServerError(res.error || 'Error al iniciar sesión');
             switch (res.error) {
                 case 'USER_NOT_FOUND':
                     setServerError('El email no está registrado');
