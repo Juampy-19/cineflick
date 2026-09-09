@@ -16,7 +16,7 @@ export async function GET(req, context) {
             INNER JOIN users u ON t.user_id = u.id
             INNER JOIN showtimes s ON t.showtime_id = s.id
             INNER JOIN movies m ON s.movie_id = m.id
-            WHERE t.showtime_id = ?
+            WHERE t.showtime_id = ? AND (t.status != 'cancelled' OR t.status IS NULL)
         `, [id]);
 
         const occupied = rows
@@ -28,9 +28,9 @@ export async function GET(req, context) {
                 showtime_hour: r.showtime_hour,
                 seat_number: r.seat_number
             }))
-            .filter(seat => seat !== null)
+            // .filter(seat => seat !== null)
 
-        return Response.json(occupied)
+        return Response.json(occupied);
     } catch (error) {
         console.error('Error al obtener las butacas ocupadas:', error);
         return Response.json(
