@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import SeatModal from "@/app/components/SeatModal";
 import Link from "next/link";
 import Loader from "@/app/components/Loader";
+import { formatDateTime } from "@/utils/formatDate";
 
 export default function CompraPageContent({ id, user }) {
     const [showtime, setShowtime] = useState(null);
@@ -22,13 +23,6 @@ export default function CompraPageContent({ id, user }) {
         }
         fetchShowtime();
     }, [id]);
-
-    const formatDate = (isoString) => {
-        const date = new Date(isoString);
-        return date.toLocaleDateString('es-AR', {
-            day: '2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit'
-        })
-    };
 
     if (loading) {
         return (
@@ -52,7 +46,7 @@ export default function CompraPageContent({ id, user }) {
             <div className="flex flex-col text-center gap-2 mt-10">
                 <h1 className="text-2xl">{showtime.movie_title}</h1>
                 <p className="text-lg">Sala {showtime.room}</p>
-                <p className="text-lg">{formatDate(showtime.hour)}</p>
+                <p className="text-lg">{formatDateTime(showtime.hour)}</p>
                 <p className="text-lg">${showtime.price}</p>
 
                 <div>
