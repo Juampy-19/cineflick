@@ -1,18 +1,8 @@
 import { pool } from "@/db/connection";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { withAdmin } from "@/utils/auth";
 
-export async function POST(req) {
+export const POST = withAdmin(async (req, session) => {
     try {
-        const session = await getServerSession(authOptions);
-
-        if (!session || session.user.rol !== 'admin') {
-            return Response.json(
-                { error: 'No autorizado'},
-                { status: 401 }
-            );
-        }
-
         const { ticket_id, qr_data } = await req.json();
 
         let targetIds = [];
@@ -143,4 +133,4 @@ export async function POST(req) {
             { status: 500 }
         );
     }
-}
+});

@@ -1,18 +1,8 @@
 import { pool } from "@/db/connection";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../../auth/[...nextauth]/route";
+import { withAdmin } from "@/utils/auth";
 
-export async function GET(req) {
+export const GET = withAdmin(async (req, session) => {
     try {
-        const session = await getServerSession(authOptions);
-
-        if (!session || session.user.rol !== 'admin') {
-            return Response.json(
-                { error: 'No autorizado' },
-                { status: 401 }
-            );
-        }
-
         const { searchParams } = new URL(req.url);
         const search = searchParams.get('search') || '';
         const status = searchParams.get('status') || '';
@@ -60,10 +50,10 @@ export async function GET(req) {
         const [rows] = await pool.query(query, params);
         return Response.json(rows);
     } catch (error) {
-        console.error('Error al obtener tickers admin:', error);
+        console.error('Error al obtener tickets admin:', error);
         return Response.json(
-            { error: error,message },
+            { error: error.message },
             { status: 500 }
-        )
+        );
     }
-}
+});
