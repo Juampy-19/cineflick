@@ -35,13 +35,18 @@ export const GET = withAdmin(async (req, session) => {
         const params = [];
 
         if (search) {
-            query += ' AND (u.name LIKE ? OR u.lastname LIKE ? OR u.email LIKE ? OR t.id = ?';
+            query += ' AND (u.name LIKE ? OR u.lastname LIKE ? OR u.email LIKE ? OR t.id = ?)';
             const term = `%${search}%`;
             params.push(term, term, term, isNaN(search) ? -1 : Number(search));
         }
 
-        if (date) {
+        if (status) {
             query += ' AND t.status = ?';
+            params.push(status);
+        }
+
+        if (date) {
+            query += ' AND DATE(s.hour) = ?';
             params.push(date);
         }
 
