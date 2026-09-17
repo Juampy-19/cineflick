@@ -308,16 +308,16 @@ export default function AdminPage() {
                                     <Image
                                         src={movie.poster_url}
                                         alt={movie.title}
-                                        width={12}
-                                        height={16}
+                                        width={120}
+                                        height={160}
                                         className="w-12 h-16 object-cover rounded-md shadow"
                                     />
                                 ) : (
                                     <Image
                                         src='/img/Placeholder_view_vector.svg (1).png'
                                         alt={movie.title}
-                                        width={12}
-                                        height={16}
+                                        width={120}
+                                        height={160}
                                         className="w-12 h-16 object-cover rounded-md shadow"
                                     />
                                 )}
@@ -353,21 +353,21 @@ export default function AdminPage() {
                                 key={index}
                                 className="flex items-center justify-between bg-gray-800/60 p-3 rounded-xl border border-gray-700/60 hover:bg-gray-900/50 transition"
                             >
-                                <div className="flex item-center gap-3">
+                                <div className="flex items-center gap-3">
                                     {item.img ? (
                                         <Image
                                             src={item.img}
                                             alt={item.title}
-                                            width={10}
-                                            height={10}
+                                            width={100}
+                                            height={100}
                                             className="w-10 h-10 object-cover rounded-lg"
                                         />
                                     ) : (
                                         <Image
                                             src='/img/Placeholder_view_vector.svg (1).png'
                                             alt={item.title}
-                                            width={10}
-                                            height={10}
+                                            width={100}
+                                            height={100}
                                             className="w-10 h-10 object-cover rounded-lg"
                                         />
                                     )}
@@ -402,16 +402,16 @@ export default function AdminPage() {
                                         <Image
                                             src={item.img}
                                             alt={item.title}
-                                            width={10}
-                                            height={10}
+                                            width={100}
+                                            height={100}
                                             className="w-10 h-10 object-cover rounded-lg"
                                         />
                                     ) : (
                                         <Image
                                             src='/img/Placeholder_view_vector.svg (1).png'
                                             alt={item.title}
-                                            width={10}
-                                            height={10}
+                                            width={100}
+                                            height={100}
                                             className="w-10 h-10 object-cover rounded-lg"
                                         />
                                     )}
@@ -419,7 +419,7 @@ export default function AdminPage() {
                                     <div>
                                         <h4 className="font-semibold text-sm text-white">{item.title}</h4>
 
-                                        <span className="text-xs texts-gray-400">${item.price || item.total || 0}</span>
+                                        <span className="text-xs text-gray-400">${item.price || item.total || 0}</span>
                                     </div>
                                 </div>
 
