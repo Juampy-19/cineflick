@@ -67,7 +67,7 @@ export const GET = withAdmin(async (req) => {
                     SELECT
                         SUM(CASE WHEN DATE(created_at) = CURRENT_DATE THEN total_price ELSE 0 END) AS daily,
                         SUM(CASE WHEN created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY) THEN total_price ELSE 0 END) AS weekly,
-                        SUN(CASE WHEN created_at >= DATE_SUB(NOW(), INTERVAL 30 DAY) THEN total_price ELSE 0 END) AS monthly
+                        SUM(CASE WHEN created_at >= DATE_SUB(NOW(), INTERVAL 30 DAY) THEN total_price ELSE 0 END) AS monthly
                     FROM store_sales
                 `
             );
@@ -129,7 +129,7 @@ export const GET = withAdmin(async (req) => {
                     m.title,
                     m.poster_url,
                     COUNT(t.id) AS tickets_sold,
-                    COALESCE(SUM(s.price), 0) AS total_revenue
+                    COALESCE(SUM(CASE WHEN t.id IS NOT NULL THEN s.price ELSE 0 END), 0) AS total_revenue
                 FROM movies m
                 INNER JOIN showtimes s ON s.movie_id = m.id
                 LEFT JOIN tickets t ON t.showtime_id = s.id AND t.status != 'cancelled'
@@ -145,7 +145,7 @@ export const GET = withAdmin(async (req) => {
         );
 
         const [[{ total_showtimes }]] = await pool.query(
-            'SELECT COUNT(*) AS total_showtimes FROM showtimes'
+            'SELECT COUNT(*) AS total_showtimes FROM showtimes WHERE hour >= NOW()'
         );
         
         const [[{ total_rooms }]] = await pool.query(
