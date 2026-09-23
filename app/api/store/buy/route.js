@@ -12,7 +12,7 @@ export async function POST(req) {
             );
         }
 
-        const { store_id, quantity = 1 } = await  res.json();
+        const { store_id, quantity = 1 } = await req.json();
 
         if (!store_id || quantity <= 0) {
             return Response.json(
@@ -48,8 +48,9 @@ export async function POST(req) {
         return Response.json(
             {
                 success: true,
-                message: `¡Compra de ${quantity} X ${product.title} realizada con exito por $${totalPrice}!`
-            }. totalPrice
+                message: `¡Compra de ${quantity} X ${product.title} realizada con exito por $${totalPrice}!`,
+                totalPrice
+            }
         );
     } catch (error) {
         console.error('Error en venta de store:', error);

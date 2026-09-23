@@ -33,7 +33,7 @@ export default function CardCandy({ items, loading }) {
                 toast.success(data.message || '¡Compra realizada con exito!');
                 setSelectedItem(null);
             } else {
-                toast.error(data.error || 'Error al procesar la compra');
+                toast.error('Error al procesar la compra');
             }
         } catch (error) {
             toast.error('Error al conectar con el servidor');
@@ -105,14 +105,14 @@ export default function CardCandy({ items, loading }) {
                             <div className='flex items-center gap-2'>
                                 <button
                                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                                    className='bg-gray-800 text-white px-3 py-1 rounded font-bold'
+                                    className='bg-gray-800 text-white px-3 py-1 rounded font-bold cursor-pointer'
                                 >-</button>
 
                                 <span className='font-extrabold text-lg px-2'>{quantity}</span>
 
                                 <button
                                     onClick={() => setQuantity(quantity + 1)}
-                                    className='bg-gray-800 text-white px-3 py-1 rounded font-bold'
+                                    className='bg-gray-800 text-white px-3 py-1 rounded font-bold cursor-pointer'
                                 >+</button>
                             </div>
 
@@ -124,7 +124,7 @@ export default function CardCandy({ items, loading }) {
                         <button
                             onClick={handleConfirmPurchase}
                             disabled={buying}
-                            className='w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl transition'
+                            className='w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl cursor-pointer transition'
                         >
                             {buying ? 'Procesando...' : '✅ Confirmar compra'}
                         </button>
