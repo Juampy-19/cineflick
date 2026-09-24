@@ -17,7 +17,8 @@ export default function EditCandyPage() {
         image: null,
         img: '',
         type_id: '',
-        price: ''
+        price: '',
+        stock: ''
     });
     const [errors, setErrors] = useState({});
 
@@ -42,7 +43,8 @@ export default function EditCandyPage() {
             image: null,
             img: data.img,
             type_id: data.type_id,
-            price: data.price
+            price: data.price,
+            stock: data.stock
         });
     };
 
@@ -65,6 +67,7 @@ export default function EditCandyPage() {
         formData.append('description', candy.description);
         formData.append('type_id', candy.type_id);
         formData.append('price', candy.price);
+        formData.append('stock', candy.stock);
         if (candy.image) {
             formData.append('image', candy.image);
         }

@@ -23,7 +23,7 @@ export async function POST(req) {
 
         // Obtener precio actual del producto.
         const [candies] = await pool.query(
-            'SELECT price, title FROM candy WHERE id = ?', [candy_id]
+            'SELECT price, title, stock FROM candy WHERE id = ?', [candy_id]
         );
 
         if (candies.length === 0) {
@@ -34,6 +34,15 @@ export async function POST(req) {
         }
 
         const candy = candies[0];
+
+        // Validar que exista stock suficiente.
+        if (candy.stock < quantity || candy.stock <= 0) {
+            return Response.json(
+                { error: 'Stock insuficiente' },
+                { status: 400 }
+            );
+        }
+
         const totalPrice = Number(candy.price) * Number(quantity);
 
         // Registrar la venta en la DB.
@@ -45,11 +54,17 @@ export async function POST(req) {
             `, [session.user.id, candy_id, quantity, totalPrice]
         );
 
+        // Descontar la compra del stock.
+        await pool.query(
+            'UPDATE candy SET stock = stock - ? WHERE id = ?', [quantity, candy_id]
+        );
+
         return Response.json(
             {
                 success: true,
                 message: `¡Compra de ${quantity} X ${candy.title} realizada con exito por $${totalPrice}!`,
-                totalPrice
+                totalPrice,
+                newStock: candy.stock - quantity
             }
         );
     } catch (error) {

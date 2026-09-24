@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import CardCandy from "../components/CardCandy";
 import Navbar from "../components/Navbar";
+import Image from "next/image";
 
 export default function CandyPage() {
     const [loading, setLoading] = useState(true);
@@ -28,6 +29,18 @@ export default function CandyPage() {
         fetchCandy();
     }, []);
 
+    const handlePurchaseSuccess = (candyId, quantityBought, newStock) => {
+        setCandy(prevCandy =>
+            prevCandy.map(item => {
+                if (item.id === candyId) {
+                    const updatedStock = typeof newStock === 'number' ? newStock : Math.max(0, item.stock - quantityBought);
+                    return { ...item, stock: updatedStock };
+                }
+                return item;
+            })
+        );
+    };
+
     const combos = candy.filter(c => c.type_id === 1);
     const popCorn = candy.filter(c => c.type_id === 2);
     const drinks = candy.filter(c => c.type_id === 3);
@@ -49,7 +62,12 @@ export default function CandyPage() {
         return (
             <div className="w-1/2 flex flex-col justify-center items-center p-4 m-auto mb-6 mt-6 border-2 border-[var(--green)] rounded-xl bg-[var(--teal)]">
                 <p>Error en el servidor</p>
-                <img src="/img/error500.png" />
+                <Image
+                    src="/img/error500.png"
+                    alt="Imagen de error"
+                    width={200}
+                    height={250}    
+                />
             </div>
         )
     }
@@ -60,32 +78,32 @@ export default function CandyPage() {
 
             <section id="combos" className="scroll-mt-36">
                 <h3 className="text-xl text-center">Combos</h3>
-                <CardCandy items={combos} loading={loading} />
+                <CardCandy items={combos} loading={loading} onSuccess={handlePurchaseSuccess} />
             </section>
 
             <section id="popCorn" className="scroll-mt-36">
                 <h3 className="text-xl text-center">Pochoclos</h3>
-                <CardCandy items={popCorn} loading={loading}/>
+                <CardCandy items={popCorn} loading={loading} onSuccess={handlePurchaseSuccess} />
             </section>
 
             <section id="drinks" className="scroll-mt-36">
                 <h3 className="text-xl text-center">Bebidas</h3>
-                <CardCandy items={drinks} loading={loading}/>
+                <CardCandy items={drinks} loading={loading} onSuccess={handlePurchaseSuccess} />
             </section>
 
             <section  id="snacks" className="scroll-mt-36">
                 <h3 className="text-xl text-center">Snacks</h3>
-                <CardCandy items={snacks} loading={loading}/>
+                <CardCandy items={snacks} loading={loading} onSuccess={handlePurchaseSuccess} />
             </section>
 
             <section id="candies" className="scroll-mt-36">
                 <h3 className="text-xl text-center">Golosinas</h3>
-                <CardCandy items={candies} loading={loading}/>
+                <CardCandy items={candies} loading={loading} onSuccess={handlePurchaseSuccess} />
             </section>
 
             <section id="coffeeIceCream" className="scroll-mt-36">
                 <h3 className="text-xl text-center">Café y helado</h3>
-                <CardCandy items={coffeeIceCream} loading={loading}/>
+                <CardCandy items={coffeeIceCream} loading={loading} onSuccess={handlePurchaseSuccess} />
             </section>
         </main>
     )

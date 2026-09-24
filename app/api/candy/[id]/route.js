@@ -43,6 +43,7 @@ export async function PUT(request, context) {
         const image = data.get('image');
         const type_id = data.get('type_id');
         const price = data.get('price');
+        const stock = data.get('stock');
 
         await connection.beginTransaction();
 
@@ -89,7 +90,8 @@ export async function PUT(request, context) {
                     description = ?,
                     img = ?,
                     type_id = ?,
-                    price = ?
+                    price = ?,
+                    stock = ?
                 WHERE id = ?
             `,
             [
@@ -98,6 +100,7 @@ export async function PUT(request, context) {
                 img,
                 type_id,
                 price,
+                stock,
                 id
             ]
         );

@@ -6,7 +6,7 @@ import { SkeletonCardCandy } from './Skeletons';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
 
-export default function CardCandy({ items, loading }) {
+export default function CardCandy({ items, loading, onSuccess }) {
     const [selectedItem, setSelectedItem] = useState(null);
     const [quantity, setQuantity] = useState(1);
     const [buying, setBuying] = useState(false);
@@ -31,9 +31,12 @@ export default function CardCandy({ items, loading }) {
             const data = await res.json();
             if (res.ok && data.success) {
                 toast.success(data.message || '¡Compra realizada con exito!');
+                if (onSuccess) {
+                    onSuccess(selectedItem.id, quantity, data.newStock);
+                }
                 setSelectedItem(null);
             } else {
-                toast.error('Error al procesar la compra');
+                toast.error(data.error || 'Error al procesar la compra');
             }
         } catch (error) {
             toast.error('Error al conectar con el servidor');
@@ -80,12 +83,25 @@ export default function CardCandy({ items, loading }) {
 
                     <p className='mb-2 mt-auto text-center text-[var(--green)]'>${item.price}</p>
 
-                    <button
-                        onClick={() => handleOpenBuy(item)}
-                        className='bg-red-700 text-white font-bold py-2 px-3 rounded-lg text-sm w-full cursor-pointer transition shadow'
-                    >
-                        🛒 Comprar
-                    </button>
+                    <p className='text-xs text-center mb-2 font-semibold text-gray-300'>
+                        {item.stock > 0 ? `Stock: ${item.stock}` : <span className='bg-red-800/80 py-1 px-3 rounded-full border border-red-400 text-red-400 font-bold'>Sin stock</span>}
+                    </p>
+
+                    {item.stock > 0 ? (
+                        <button
+                            onClick={() => handleOpenBuy(item)}
+                            className='bg-red-700 text-white font-bold py-2 px-3 rounded-lg text-sm w-full cursor-pointer transition shadow'
+                        >
+                            🛒 Comprar
+                        </button>
+                    ) : (
+                        <button
+                            disabled
+                            className='bg-gray-600 text-gray-300 font-bold py-2 px-3 rounded-lg text-sm w-full cursor-not-allowed opacity-75'
+                        >
+                            ❌ No disponible
+                        </button>
+                    )}
                 </div>
             ))}
 
@@ -97,7 +113,7 @@ export default function CardCandy({ items, loading }) {
                 <div className='space-y-4 text-white'>
                     <p className='text-sm text-gray-300'>{selectedItem?.description}</p>
 
-                    <div className='bg-[var(--navy)] p-4 rounded-xl border corder-[var(--green)] flex flex-col items-center gap-3'>
+                    <div className='bg-[var(--navy)] p-4 rounded-xl border border-[var(--green)] flex flex-col items-center gap-3'>
                         <div className='flex items-center gap-4'>
                             <span className='text-sm font-semibold'>
                                 Cantidad:
@@ -111,8 +127,13 @@ export default function CardCandy({ items, loading }) {
                                 <span className='font-extrabold text-lg px-2'>{quantity}</span>
 
                                 <button
-                                    onClick={() => setQuantity(quantity + 1)}
-                                    className='bg-gray-800 text-white px-3 py-1 rounded font-bold cursor-pointer'
+                                    onClick={() => setQuantity(Math.min(selectedItem?.stock ?? 1, quantity + 1))}
+                                    disabled={!selectedItem || quantity >= selectedItem.stock}
+                                    className={`px-3 py-1 rounded font-bold 
+                                        ${(selectedItem && quantity >= selectedItem.stock)
+                                            ? 'bg-gray-700 text-gray-500 cursor-not-allowed'
+                                            : 'bg-gray-800 text-white cursor-pointer'
+                                        }`}
                                 >+</button>
                             </div>
 

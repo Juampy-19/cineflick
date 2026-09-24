@@ -46,7 +46,11 @@ export const productSchema = z.object({
         .nonempty('Seleccione el tipo de producto'),
     price: z
         .string()
-        .nonempty('Ingrese un precio')
+        .nonempty('Ingrese un precio'),
+    stock: z
+        .coerce
+        .number({ invalid_type_error: 'Ingrese un número válido' })
+        .min(0, 'El stock no puede ser negativo')
 });
 
 export const movieSchema = z.object({

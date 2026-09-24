@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Loader from "./Loader";
 
-export default function ProductForm ({product, setProduct, errors = {}, onSubmit, buttonText = 'Guardar', typesApiUrl = '/api/candyTypes'}) {
+export default function ProductForm({ product, setProduct, errors = {}, onSubmit, buttonText = 'Guardar', typesApiUrl = '/api/candyTypes' }) {
     const [types, setTypes] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -11,9 +11,9 @@ export default function ProductForm ({product, setProduct, errors = {}, onSubmit
         async function loadData() {
             try {
                 const typesRes = await fetch(typesApiUrl);
-    
+
                 const typesData = await typesRes.json();
-    
+
                 setTypes(typesData);
             } catch (error) {
                 console.error('Error al cargar el formulario');
@@ -27,15 +27,15 @@ export default function ProductForm ({product, setProduct, errors = {}, onSubmit
 
     if (loading) {
         return (
-        <div className="flex justify-center items-center py-12">
-            <Loader />
-        </div>
+            <div className="flex justify-center items-center py-12">
+                <Loader />
+            </div>
         );
     }
 
     return (
         <div className="flex justify-center">
-            <form  onSubmit={onSubmit} className="flex flex-col gap-4 w-1/2">
+            <form onSubmit={onSubmit} className="flex flex-col gap-4 w-1/2">
                 <div className="grid grid-cols-2 items-center">
                     <label className="text-center text-lg font-bold">Producto</label>
                     <input
@@ -113,27 +113,45 @@ export default function ProductForm ({product, setProduct, errors = {}, onSubmit
                 </div>
 
                 <div className="grid grid-cols-2 items-center">
-                        <label className="text-center text-lg font-bold">Precio</label>
-                        <input
-                            type='number'
-                            placeholder='Precio'
-                            value={product.price}
-                            onChange={(e) =>
-                                setProduct({
-                                    ...product,
-                                    price: e.target.value
-                                })
-                            }
-                        />
-                        <div className="flex items-center justify-center mt-2 col-span-2">
-                            {errors.price && <span className="text-red-500">{errors.price[0]}</span>}
-                        </div>
+                    <label className="text-center text-lg font-bold">Precio</label>
+                    <input
+                        type='number'
+                        placeholder='Precio'
+                        value={product.price}
+                        onChange={(e) =>
+                            setProduct({
+                                ...product,
+                                price: e.target.value
+                            })
+                        }
+                    />
+                    <div className="flex items-center justify-center mt-2 col-span-2">
+                        {errors.price && <span className="text-red-500">{errors.price[0]}</span>}
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-2 items-center">
+                    <label className="text-center text-lg font-bold">Stock disponible</label>
+                    <input
+                        type='number'
+                        placeholder='Stock disponible'
+                        value={product.stock ?? ''}
+                        onChange={(e) =>
+                            setProduct({
+                                ...product,
+                                stock: e.target.value
+                            })
+                        }
+                    />
+                    <div className="flex items-center justify-center mt-2 col-span-2">
+                        {errors.stock && <span className="text-red-500">{errors.stock[0]}</span>}
+                    </div>
                 </div>
 
                 <button type="submit" className="btn m-auto">
                     {buttonText}
                 </button>
-                
+
             </form>
         </div>
     )
