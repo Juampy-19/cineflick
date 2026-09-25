@@ -6,7 +6,7 @@ import { SkeletonCardStore } from "./Skeletons";
 import Image from "next/image";
 import toast from "react-hot-toast";
 
-export default function CardStore({ products, loading }) {
+export default function CardStore({ products, loading, onSuccess }) {
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [quantity, setQuantity] = useState(1);
     const [buying, setBuying] = useState(false);
@@ -33,9 +33,12 @@ export default function CardStore({ products, loading }) {
             const data = await res.json();
             if (res.ok && data.success) {
                 toast.success(data.message || '¡Compra realizada con exito!');
+                if (onSuccess) {
+                    onSuccess(selectedProduct.id, quantity, data.newStock);
+                }
                 setSelectedProduct(null);
             } else {
-                toast.error('Error al  procesar la compra');
+                toast.error(data.error || 'Error al  procesar la compra');
             }
         } catch (error) {
             toast.error('Error al conectar con el servidor');
@@ -78,15 +81,28 @@ export default function CardStore({ products, loading }) {
                         )}
                     </div>
                     <h3 className="text-center p-2 h-[48px] mb-10 md:mb-5">{product.title}</h3>
-                    {/* <span className="text-sm p-2">{product.description}</span> */}
+                    
                     <p className="text-center p-2 text-[var(--green)] mb-2 mt-auto">${product.price}</p>
 
-                    <button
-                        onClick={() => handleOpenBuy(product)}
-                        className="mt-2 bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-3 rounded-lg text-sm w-full cursor-pointer transition shadow"
-                    >
-                        🛒 Comprar
-                    </button>
+                    <p className='text-xs text-center mb-2 font-semibold text-gray-300'>
+                        {product.stock > 0 ? `Stock: ${product.stock}` : <span className='bg-red-800/80 py-1 px-3 rounded-full border border-red-400 text-red-400 font-bold'>Sin stock</span>}
+                    </p>
+
+                    {product.stock > 0 ? (
+                        <button
+                            onClick={() => handleOpenBuy(product)}
+                            className="mt-2 bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-3 rounded-lg text-sm w-full cursor-pointer transition shadow"
+                        >
+                            🛒 Comprar
+                        </button>
+                    ) : (
+                        <button
+                            disabled
+                            className='bg-gray-600 text-gray-300 font-bold py-2 px-3 rounded-lg text-sm w-full cursor-not-allowed opacity-75'
+                        >
+                            ❌ No disponible
+                        </button>
+                    )}
                 </div>
             ))}
 
@@ -109,8 +125,13 @@ export default function CardStore({ products, loading }) {
                                     <span className="font-extrabold text-lg px-2">{quantity}</span>
 
                                     <button
-                                        onClick={() => setQuantity(quantity + 1)}
-                                        className="bg-gray-800 text-white p-3 py-1 rounded font-bold cursor-pointer"
+                                        onClick={() => setQuantity(Math.min(selectedProduct?.stock ?? 1, quantity + 1))}
+                                        disabled={!selectedProduct || quantity >= selectedProduct.stock}
+                                        className={`px-3 py-1 rounded font-bold 
+                                        ${(selectedProduct && quantity >= selectedProduct.stock)
+                                            ? 'bg-gray-700 text-gray-500 cursor-not-allowed'
+                                            : 'bg-gray-800 text-white cursor-pointer'
+                                        }`}
                                     >+</button>
                                 </div>
 

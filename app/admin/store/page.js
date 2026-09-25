@@ -89,6 +89,14 @@ export default function AdminStorePage() {
                                 getHeaderClass={getHeaderClass}
                             />
 
+                            <SortableHeader
+                                column='stock'
+                                label='Stock'
+                                handleSort={handleSort}
+                                getSortIcon={getSortIcon}
+                                getHeaderClass={getHeaderClass}
+                            />
+
                             <th className="text-center text-xl p-3">
                                 Acciones
                             </th>
@@ -126,6 +134,10 @@ export default function AdminStorePage() {
 
                                 <td className="p-3 text-center text-lg">
                                     {store.name}
+                                </td>
+
+                                <td className="p-3 text-center text-lg">
+                                    {store.stock}
                                 </td>
 
                                 <td className="p-3">

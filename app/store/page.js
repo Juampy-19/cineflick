@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import CardStore from "../components/CardStore";
 import Navbar from "../components/Navbar";
+import Image from "next/image";
 
 export default function StorePage() {
     const [loading, setLoading] = useState(true);
@@ -28,12 +29,29 @@ export default function StorePage() {
         fetchStore();
     }, []);
 
+    const handlePurchaseSuccess = (storeId, quantityBought, newStock) => {
+        setStore(prevStore =>
+            prevStore.map(product => {
+                if (product.id === storeId) {
+                    const updatedStock = typeof newStock === 'number' ? newStock : Math.max(0, product.stock - quantityBought);
+                    return { ...product, stock: updatedStock };
+                }
+                return product;
+            })
+        );
+    };
+
     // Error en el servidor.
     if (error) {
         return (
             <div className="w-1/2 flex flex-col justify-center items-center p-4 m-auto mb-6 mt-6 border-2 border-[var(--green)] rounded-xl bg-[var(--teal)]">
                 <p>Error en el servidor</p>
-                <img src="/img/error500.png" />
+                <Image
+                    src="/img/error500.png"
+                    alt="Imagen de error"
+                    width={200}
+                    height={250}    
+                />
             </div>
         )
     }
@@ -56,22 +74,22 @@ export default function StorePage() {
 
             <section id="nuevo" className="scroll-mt-36">
                 <h3 className="text-xl text-center">Nuevo</h3>
-                <CardStore products={nuevo} loading={loading} />
+                <CardStore products={nuevo} loading={loading} onSuccess={handlePurchaseSuccess} />
             </section>
 
             <section id="tazas" className="scroll-mt-36">
                 <h3 className="text-xl text-center">Tazas</h3>
-                <CardStore products={tazas} loading={loading} />
+                <CardStore products={tazas} loading={loading} onSuccess={handlePurchaseSuccess} />
             </section>
 
             <section id="disney" className="scroll-mt-36">
                 <h3 className="text-xl text-center">Disney</h3>
-                <CardStore products={disney} loading={loading} />
+                <CardStore products={disney} loading={loading} onSuccess={handlePurchaseSuccess} />
             </section>
 
             <section id="pochocleras" className="scroll-mt-36">
                 <h3 className="text-xl text-center">Pochocleras</h3>
-                <CardStore products={pochocleras} loading={loading} />
+                <CardStore products={pochocleras} loading={loading} onSuccess={handlePurchaseSuccess} />
             </section>
         </main>
     )

@@ -32,6 +32,7 @@ export async function POST(request) {
         const image = data.get('image');
         const type_id = data.get('type_id');
         const price = data.get('price');
+        const stock = data.get('stock');
 
         let img = null;
 
@@ -64,16 +65,18 @@ export async function POST(request) {
                     description,
                     img,
                     type_id,
-                    price
+                    price,
+                    stock
                 )
-                VALUES (?, ?, ?, ?, ?)
+                VALUES (?, ?, ?, ?, ?, ?)
             `,
             [
                 title,
                 description,
                 img,
                 type_id,
-                price
+                price,
+                stock
             ]
         );
 

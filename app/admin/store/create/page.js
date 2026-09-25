@@ -14,7 +14,8 @@ export default function CreateCandyPage() {
         description: '',
         image: null,
         type_id: '',
-        price: ''
+        price: '',
+        stock: ''
     });
     const [errors, setErrors] = useState({});
 
@@ -37,6 +38,7 @@ export default function CreateCandyPage() {
         formData.append('description', store.description);
         formData.append('type_id', store.type_id);
         formData.append('price', store.price);
+        formData.append('stock', store.stock);
         if (store.image) {
             formData.append('image', store.image);
         }

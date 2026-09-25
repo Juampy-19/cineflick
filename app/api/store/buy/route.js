@@ -34,6 +34,15 @@ export async function POST(req) {
         }
 
         const product = items[0];
+
+        // Validar que exista stock suficiente.
+        if (product.stock < quantity || product.stock <= 0) {
+            return Response.json(
+                { error: 'Stock insuficiente' },
+                { status: 400 }
+            );
+        }
+
         const totalPrice = Number(product.price) * Number(quantity);
 
         // Registrar la venta en la DB.
@@ -45,11 +54,17 @@ export async function POST(req) {
             `, [session.user.id, store_id, quantity, totalPrice]
         );
 
+        // Descontar la compra del stock.
+        await pool.query(
+            'UPDATE store SET stock = stock - ? WHERE id = ?', [quantity, store_id]
+        );
+
         return Response.json(
             {
                 success: true,
                 message: `¡Compra de ${quantity} X ${product.title} realizada con exito por $${totalPrice}!`,
-                totalPrice
+                totalPrice,
+                newStock: store_id.stock - quantity
             }
         );
     } catch (error) {
