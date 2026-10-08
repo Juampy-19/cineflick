@@ -33,6 +33,10 @@ export const authOptions = {
                     if (!passwordMatch) {
                         throw new Error('INVALID_PASSWORD');
                     }
+
+                    if (user.is_blocked) {
+                        throw new Error('ACCOUNT_BLOCKED');
+                    }
     
                     // Guardar en la sesión
                     // return { id: user.id, name: user.name, email: user.email };
@@ -45,7 +49,8 @@ export const authOptions = {
                 } catch (error) {
                     if (
                         error.message === 'USER_NOT_FOUND' ||
-                        error.message === 'INVALID_PASSWORD'
+                        error.message === 'INVALID_PASSWORD' ||
+                        error.message === 'ACCOUNT_BLOCKED'
                     ) {
                         throw error;
                     }
